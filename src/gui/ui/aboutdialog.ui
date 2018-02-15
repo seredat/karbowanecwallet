@@ -41,7 +41,7 @@
       <enum>QFormLayout::WrapLongRows</enum>
      </property>
      <item row="0" column="0">
-      <widget class="QLabel" name="KRBcoin">
+      <widget class="QLabel" name="ELYAcoin">
        <property name="enabled">
         <bool>true</bool>
        </property>
