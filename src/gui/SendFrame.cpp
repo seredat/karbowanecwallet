@@ -179,16 +179,16 @@ void SendFrame::openUriClicked() {
 }
 
 void SendFrame::parsePaymentRequest(QString _request) {
-    if(_request.startsWith("karbowanec://", Qt::CaseInsensitive))
+    if(_request.startsWith("elyacoin://", Qt::CaseInsensitive))
     {
-       _request.replace(0, 13, "karbowanec:");
+       _request.replace(0, 13, "elyacoin:");
     }
-    if(!_request.startsWith("karbowanec:", Qt::CaseInsensitive)) {
-      QCoreApplication::postEvent(&MainWindow::instance(), new ShowMessageEvent(tr("Payment request should start with karbowanec:"), QtCriticalMsg));
+    if(!_request.startsWith("elyacoin:", Qt::CaseInsensitive)) {
+      QCoreApplication::postEvent(&MainWindow::instance(), new ShowMessageEvent(tr("Payment request should start with elyacoin:"), QtCriticalMsg));
       return;
     }
 
-    if(_request.startsWith("karbowanec:", Qt::CaseInsensitive))
+    if(_request.startsWith("elyacoin:", Qt::CaseInsensitive))
     {
       _request.remove(0, 11);
     }

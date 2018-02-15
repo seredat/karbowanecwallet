@@ -66,7 +66,7 @@ void Updater::checkForUpdate()
     {
         connect(manager, SIGNAL(finished(QNetworkReply*)),
                 this, SLOT(replyFinished(QNetworkReply*)));
-        manager->get(QNetworkRequest(QUrl(KRBCOIN_UPDATE_URL)));
+        manager->get(QNetworkRequest(QUrl(ELYACOIN_UPDATE_URL)));
     }
 }
 
@@ -88,7 +88,7 @@ void Updater::replyFinished (QNetworkReply *reply)
          if (ourVersion < remoteVersion) {
 
              if (QMessageBox::warning(nullptr, QObject::tr("New version available"), QObject::tr("There is update available.\nDo you want to go to download page?"), QMessageBox::Ok, QMessageBox::Cancel) == QMessageBox::Ok) {
-                 QString link = "http://karbowanec.com/#downloads";
+                 QString link = "http://elyacoin.com/#downloads";
                  QDesktopServices::openUrl(QUrl(link));
              }
 
