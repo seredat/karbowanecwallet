@@ -269,7 +269,7 @@ void SendFrame::sendClicked() {
       QString connection = Settings::instance().getConnection();
       if(connection.compare("remote") == 0) {
           if (!SendFrame::remote_node_fee_address.isEmpty()) {
-            cRYPToNote::WalletLegacyTransfer walletTransfer;
+            CryptoNote::WalletLegacyTransfer walletTransfer;
             walletTransfer.address = SendFrame::remote_node_fee_address.toStdString();
             walletTransfer.amount = remote_node_fee;
             walletTransfers.push_back(walletTransfer);
