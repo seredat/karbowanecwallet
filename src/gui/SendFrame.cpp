@@ -255,6 +255,7 @@ void SendFrame::sendClicked() {
         }
       }
 
+/*
       // Dev donation
       if (m_ui->donateCheckBox->isChecked()) {
           CryptoNote::WalletLegacyTransfer walletTransfer;
@@ -262,12 +263,13 @@ void SendFrame::sendClicked() {
           walletTransfer.amount = CurrencyAdapter::instance().parseAmount(m_ui->m_donateSpin->cleanText());
           walletTransfers.push_back(walletTransfer);
       }
+*/
 
       // Remote node fee
       QString connection = Settings::instance().getConnection();
       if(connection.compare("remote") == 0) {
           if (!SendFrame::remote_node_fee_address.isEmpty()) {
-            CryptoNote::WalletLegacyTransfer walletTransfer;
+            cRYPToNote::WalletLegacyTransfer walletTransfer;
             walletTransfer.address = SendFrame::remote_node_fee_address.toStdString();
             walletTransfer.amount = remote_node_fee;
             walletTransfers.push_back(walletTransfer);
