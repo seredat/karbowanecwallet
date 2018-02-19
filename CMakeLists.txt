@@ -269,7 +269,7 @@ qt5_use_modules(${PROJECT_NAME} Widgets Gui Network)
 set(CPACK_PACKAGE_NAME ${CN_PROJECT_NAME})
 set(CPACK_PACKAGE_VERSION ${CN_VERSION})
 set(CPACK_PACKAGE_VENDOR "Elyacoin-project")
-set(CPACK_PACKAGE_CONTACT "http://elyacoin.com")
+set(CPACK_PACKAGE_CONTACT "http://elya.io")
 set(CPACK_STRIP_FILES ON)
 if (APPLE)
     set(CPACK_GENERATOR DragNDrop)
@@ -280,7 +280,7 @@ elseif (UNIX)
 
     install(PROGRAMS build/${PROJECT_NAME} DESTINATION bin
     PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
-    install(FILES src/elyacoinwalletwallet.desktop DESTINATION share/applications)
+    install(FILES src/elyacoinwallet.desktop DESTINATION share/applications)
     install(FILES src/images/elyacoinz.png DESTINATION share/pixmaps RENAME elyacoin.png)
     install(FILES copyright DESTINATION share/doc/elyacoinwallet)
 

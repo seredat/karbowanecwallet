@@ -89,7 +89,7 @@ void Settings::load() {
   }
 
   QStringList defaultPoolList;
-  defaultPoolList << "pool.elyacoin.com:3333" << "pool2.elyacoin.com:5555";
+  defaultPoolList << "pool.elya.io:3333" << "pool2.elya.io:5555";
   if (!m_settings.contains(OPTION_MINING_POOLS)) {
     setMiningPoolList(QStringList() << defaultPoolList);
   } else {
@@ -103,7 +103,7 @@ void Settings::load() {
   }
 
   QStringList defaultNodesList;
-  defaultNodesList << "node.elyacoin.com:32348" << "node.elyacoin.mypool.online:32348";
+  defaultNodesList << "node.elya.io:57778" << "node2.elya.io:57778";
   if (!m_settings.contains(OPTION_RPCNODES)) {
     setRpcNodesList(QStringList() << defaultNodesList);
   } else {

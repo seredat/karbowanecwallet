@@ -10,7 +10,7 @@
 #include <QNetworkReply>
 #include <QUrl>
 
-const static QString ELYACOIN_UPDATE_URL = "http://elyacoin.com/download/update.txt";
+const static QString ELYACOIN_UPDATE_URL = "https://elya.io/download/update.txt";
 
 class Updater : public QObject
 {
