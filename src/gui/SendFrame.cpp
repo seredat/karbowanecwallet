@@ -90,7 +90,7 @@ void SendFrame::clearAllClicked() {
   addRecipientClicked();
   amountValueChange();
   m_ui->m_paymentIdEdit->clear();
-  m_ui->m_mixinSlider->setValue(5);
+  m_ui->m_mixinSlider->setValue(1);
   m_ui->m_feeSpin->setValue(m_ui->m_feeSpin->minimum());
 }
 
