@@ -103,7 +103,7 @@ void Settings::load() {
   }
 
   QStringList defaultNodesList;
-  defaultNodesList << "node.elya.io:57778" << "node2.elya.io:57778";
+  defaultNodesList << "seed1.elya.io:57778" << "seed2.elya.io:57778";
   if (!m_settings.contains(OPTION_RPCNODES)) {
     setRpcNodesList(QStringList() << defaultNodesList);
   } else {
