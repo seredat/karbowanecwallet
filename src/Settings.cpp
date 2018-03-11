@@ -89,7 +89,7 @@ void Settings::load() {
   }
 
   QStringList defaultPoolList;
-  defaultPoolList << "pool.elya.io:3333" << "pool2.elya.io:5555";
+  defaultPoolList << "geo.elya.freshpool.org:3000";
   if (!m_settings.contains(OPTION_MINING_POOLS)) {
     setMiningPoolList(QStringList() << defaultPoolList);
   } else {
