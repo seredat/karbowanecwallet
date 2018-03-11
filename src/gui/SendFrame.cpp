@@ -255,15 +255,13 @@ void SendFrame::sendClicked() {
         }
       }
 
-/*
       // Dev donation
       if (m_ui->donateCheckBox->isChecked()) {
           CryptoNote::WalletLegacyTransfer walletTransfer;
-          walletTransfer.address = "eL322JgbjJ7KPXkUWZS6MS9gdNAL1QYxQf2fY9NwCDbTT2PKxF1w8iXGDqX3CrzQYKRhe9gYEqQPu1Y4vbW6KUN62ephTHWfW";
+          walletTransfer.address = "eL2N8oWf6FXK2isBbpaXrTM8PWnsaK1Ck32kie9ZRZVQBaZwGKWwpudBq2qoG4pFHgCWT7Pxom1QcXkup9QkaJZt1vZ7tvDJt";
           walletTransfer.amount = CurrencyAdapter::instance().parseAmount(m_ui->m_donateSpin->cleanText());
           walletTransfers.push_back(walletTransfer);
       }
-*/
 
       // Remote node fee
       QString connection = Settings::instance().getConnection();
