@@ -1,19 +1,13 @@
 **1. Clone wallet sources**
 
 ```
-git clone https://github.com/elyacoin/elyacoinwallet.git
+git clone --recurse-submodule https://github.com/elyacoin/elyacoinwallet.git
 ```
 
-**2. Set symbolic link to coin sources at the same level as `src`. For example:**
+**2. Update the sources
 
 ```
-ln -s ../elyacoin cryptonote
-```
-
-Alternative way is to create git submodule:
-
-```
-git submodule add https://github.com/elyacoin/elyacoin.git cryptonote
+sh ./update-submodules.sh
 ```
 
 **3. Build**
