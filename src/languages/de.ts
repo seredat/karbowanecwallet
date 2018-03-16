@@ -55,8 +55,8 @@
         <translation>Gesamtsaldo</translation>
     </message>
     <message>
-        <source> krb</source>
-        <translation> krb</translation>
+        <source> elya</source>
+        <translation> elya</translation>
     </message>
     <message>
         <source>Frame</source>

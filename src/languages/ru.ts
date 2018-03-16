@@ -55,7 +55,7 @@
         <translation>Баланс счета</translation>
     </message>
     <message>
-        <source> krb</source>
+        <source> elya</source>
         <translation> крб.</translation>
     </message>
     <message>
