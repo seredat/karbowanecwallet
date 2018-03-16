@@ -875,8 +875,8 @@ Por favor, espera...</translation>
 <context>
     <name>PaymentServer</name>
     <message>
-        <source>Cannot start karbowanec: click-to-pay handler</source>
-        <translation>No se puede iniciar karbowanec: controlador de clic para pagar</translation>
+        <source>Cannot start elya: click-to-pay handler</source>
+        <translation>No se puede iniciar elya: controlador de clic para pagar</translation>
     </message>
 </context>
 <context>
@@ -1762,8 +1762,8 @@ Are you sure?</source>
         <translation>ID de pago inválido</translation>
     </message>
     <message>
-        <source>Payment request should start with karbowanec:</source>
-        <translation>La solicitud de pago debe comenzar con karbowanec:</translation>
+        <source>Payment request should start with elya:</source>
+        <translation>La solicitud de pago debe comenzar con elya:</translation>
     </message>
     <message>
         <source>Insufficient balance</source>

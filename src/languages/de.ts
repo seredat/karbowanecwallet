@@ -872,7 +872,7 @@ Bitte warten...</translation>
 <context>
     <name>PaymentServer</name>
     <message>
-        <source>Cannot start karbowanec: click-to-pay handler</source>
+        <source>Cannot start elya: click-to-pay handler</source>
         <translation>Karbowanec konnte nicht gestartet werden: klicken um handler zu bezahlen</translation>
     </message>
 </context>
@@ -1762,7 +1762,7 @@ Bist du sicher?</translation>
         <translation>Falsche Payment ID</translation>
     </message>
     <message>
-        <source>Payment request should start with karbowanec:</source>
+        <source>Payment request should start with elya:</source>
         <translation>Zahlungsanfrage muss mit Karbowanec beginnen:</translation>
     </message>
     <message>
