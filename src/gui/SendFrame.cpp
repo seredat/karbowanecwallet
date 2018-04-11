@@ -306,7 +306,7 @@ void SendFrame::mixinValueChanged(int _value) {
   m_ui->m_mixinEdit->setText(QString::number(_value));
 }
 
-void SendFrame::sendTransactionCompleted(CryptoNote::TransactionId _id, bool _error, const QString& _errorText) {
+void SendFrame::sendTransactionCompleted(CryptoNote::Transaction _id, bool _error, const QString& _errorText) {
   Q_UNUSED(_id);
   if (_error) {
     QCoreApplication::postEvent(
