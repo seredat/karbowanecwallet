@@ -61,6 +61,8 @@ std::istream& operator>>(std::istream& str, Version::VersionDigit& digit)
 
 void Updater::checkForUpdate()
 {
+    // don't check for updates yet
+    return;
     manager = new QNetworkAccessManager(this);
     if(manager->networkAccessible() == QNetworkAccessManager::Accessible)
     {
