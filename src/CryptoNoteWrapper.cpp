@@ -397,6 +397,14 @@ public:
         }
   }
 
+  CryptoNote::BlockHeaderInfo getLastLocalBlockHeaderInfo() {
+    return m_node.getLastLocalBlockHeaderInfo();
+  }
+
+  uint8_t getCurrentBlockMajorVersion() {
+    return getLastLocalBlockHeaderInfo().majorVersion;
+  }
+
   CryptoNote::IWalletLegacy* createWallet() override {
     return new CryptoNote::WalletLegacy(m_currency, m_node, m_logManager);
   }
@@ -553,6 +561,14 @@ public:
 
   uint64_t getGreyPeerlistSize() {
     return m_nodeServer.getPeerlistManager().get_gray_peers_count();
+  }
+
+  CryptoNote::BlockHeaderInfo getLastLocalBlockHeaderInfo() {
+    return m_node.getLastLocalBlockHeaderInfo();
+  }
+
+  uint8_t getCurrentBlockMajorVersion() {
+    return getLastLocalBlockHeaderInfo().majorVersion;
   }
 
   CryptoNote::IWalletLegacy* createWallet() override {

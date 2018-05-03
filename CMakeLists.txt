@@ -77,18 +77,14 @@ set(CRYPTONOTE_SOURCES
   cryptonote/src/crypto/crypto-ops.c
   cryptonote/src/crypto/crypto.cpp
   cryptonote/src/crypto/groestl.c
-  cryptonote/src/crypto/hash-extra-blake.c
-  cryptonote/src/crypto/hash-extra-groestl.c
-  cryptonote/src/crypto/hash-extra-jh.c
-  cryptonote/src/crypto/hash-extra-skein.c
   cryptonote/src/crypto/hash.c
   cryptonote/src/crypto/jh.c
   cryptonote/src/crypto/keccak.c
-  cryptonote/src/crypto/oaes_lib.c
   cryptonote/src/crypto/random.c
   cryptonote/src/crypto/skein.c
-  cryptonote/src/crypto/slow-hash.c
-  cryptonote/src/crypto/slow-hash.cpp
+  cryptonote/src/crypto/cn_slow_hash_soft.cpp
+  cryptonote/src/crypto/cn_slow_hash_hard_intel.cpp
+  cryptonote/src/crypto/cn_slow_hash_hard_arm.cpp
   cryptonote/src/crypto/tree-hash.c
   cryptonote/src/CryptoNoteCore/BlockchainIndices.cpp
   cryptonote/src/CryptoNoteCore/BlockchainMessages.cpp
@@ -178,6 +174,7 @@ set(CRYPTONOTE_SOURCES
 
 file(GLOB_RECURSE SOURCES src/*.cpp)
 file(GLOB_RECURSE HEADERS src/*.h)
+file(GLOB_RECURSE HEADERS src/*.hpp)
 file(GLOB_RECURSE FORMS src/gui/ui/*.ui)
 file(GLOB_RECURSE Mnemonics cryptonote/src/mnemonics/*)
 
