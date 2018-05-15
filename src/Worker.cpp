@@ -54,7 +54,7 @@ void Worker::run() {
     localJob.blob.replace(39, sizeof(localNonce), reinterpret_cast<char*>(&localNonce), sizeof(localNonce));
     std::memset(&hash, 0, sizeof(hash));
 	cn_pow_hash_v2 ctx;
-    if (NodeAdapter::instance().getCurrentBlockMajorVersion() < CryptoNote::BLOCK_MAJOR_VERSION_4) {
+    if (NodeAdapter::instance().getCurrentBlockMajorVersion() < CryptoNote::BLOCK_MAJOR_VERSION_5) {
       cn_pow_hash_v1 ctx_v1 = cn_pow_hash_v1::make_borrowed(ctx);
       ctx_v1.hash(localJob.blob.data(), localJob.blob.size(), hash.data);
     }
