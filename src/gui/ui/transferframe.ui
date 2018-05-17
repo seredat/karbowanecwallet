@@ -103,11 +103,17 @@
      <property name="locale">
       <locale language="English" country="UnitedStates"/>
      </property>
+     <property name="showGroupSeparator" stdset="0">
+      <bool>true</bool>
+     </property>
      <property name="suffix">
-      <string notr="true"/>
+      <string notr="true"> BFR</string>
      </property>
      <property name="decimals">
       <number>2</number>
+     </property>
+     <property name="minimum">
+      <double>1.000000000000000</double>
      </property>
      <property name="maximum">
       <double>99999999999.000000000000000</double>

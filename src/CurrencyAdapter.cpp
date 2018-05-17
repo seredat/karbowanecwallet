@@ -3,7 +3,7 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <crypto/crypto.h>
+#include <Crypto/crypto.h>
 #include <Common/StringTools.h>
 #include "CurrencyAdapter.h"
 #include "CryptoNoteWalletConfig.h"
@@ -68,7 +68,7 @@ QString CurrencyAdapter::formatAmount(quint64 _amount) const {
   result.insert(dot_pos, ".");
   for (qint32 pos = dot_pos - 3; pos > 0; pos -= 3) {
     if (result[pos - 1].isDigit()) {
-        //result.insert(pos, ',');
+        result.insert(pos, ',');
     }
   }
 

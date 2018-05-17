@@ -52,7 +52,7 @@ m_ui->addressStatusLabel->setText(tr(""));
 void AccountFrame::updateWalletBalance(quint64 _balance) {
   quint64 actualBalance = WalletAdapter::instance().getActualBalance();
   quint64 pendingBalance = WalletAdapter::instance().getPendingBalance();
-  m_ui->totalBalance->setText(CurrencyAdapter::instance().formatAmount(actualBalance + pendingBalance).remove(','));
+  m_ui->totalBalance->setText(CurrencyAdapter::instance().formatAmount(actualBalance + pendingBalance));
 }
 
 void AccountFrame::reset() {
