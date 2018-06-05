@@ -20,9 +20,6 @@ namespace WalletGui {
 
 enum class TransactionType : quint8 {MINED, INPUT, OUTPUT, INOUT, DEPOSIT};
 
-const int TRANSACTIONS_MODEL_COLUMN_COUNT =
-  TransactionsModel::staticMetaObject.enumerator(TransactionsModel::staticMetaObject.indexOfEnumerator("Columns")).keyCount();
-
 namespace {
 
 QPixmap getTransactionIcon(TransactionType _transactionType) {
@@ -73,7 +70,7 @@ Qt::ItemFlags TransactionsModel::flags(const QModelIndex& _index) const {
 }
 
 int TransactionsModel::columnCount(const QModelIndex& _parent) const {
-  return TRANSACTIONS_MODEL_COLUMN_COUNT;
+  return TransactionsModel::staticMetaObject.enumerator(TransactionsModel::staticMetaObject.indexOfEnumerator("Columns")).keyCount();
 }
 
 int TransactionsModel::rowCount(const QModelIndex& _parent) const {

@@ -33,9 +33,6 @@ QDateTime getExpectedTimeForHeight(quint64 _height) {
 
 enum class MessageType : quint8 {INPUT, OUTPUT};
 
-const int DEPOSIT_MODEL_COLUMN_COUNT =
-  DepositModel::staticMetaObject.enumerator(DepositModel::staticMetaObject.indexOfEnumerator("Columns")).keyCount();
-
 DepositModel& DepositModel::instance() {
   static DepositModel inst;
   return inst;
@@ -64,7 +61,7 @@ Qt::ItemFlags DepositModel::flags(const QModelIndex& _index) const {
 }
 
 int DepositModel::columnCount(const QModelIndex& _parent) const {
-  return DEPOSIT_MODEL_COLUMN_COUNT;
+  return DepositModel::staticMetaObject.enumerator(DepositModel::staticMetaObject.indexOfEnumerator("Columns")).keyCount();
 }
 
 int DepositModel::rowCount(const QModelIndex& _parent) const {
