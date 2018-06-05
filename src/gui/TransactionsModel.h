@@ -1,4 +1,6 @@
 // Copyright (c) 2011-2015 The Cryptonote developers
+// Copyright (c) 2015-2016 XDN developers
+// Copyright (c) 2016-2018 The Karbowanec developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -26,7 +28,7 @@ public:
 
   enum Roles{
     ROLE_DATE = Qt::UserRole, ROLE_TYPE, ROLE_HASH, ROLE_ADDRESS, ROLE_AMOUNT, ROLE_PAYMENT_ID, ROLE_ICON,
-    ROLE_TRANSACTION_ID, ROLE_HEIGHT, ROLE_FEE, ROLE_NUMBER_OF_CONFIRMATIONS, ROLE_COLUMN, ROLE_ROW
+    ROLE_TRANSACTION_ID, ROLE_HEIGHT, ROLE_FEE, ROLE_NUMBER_OF_CONFIRMATIONS, ROLE_COLUMN, ROLE_ROW, ROLE_DEPOSIT_ID, ROLE_DEPOSIT_COUNT
   };
 
   static TransactionsModel& instance();
@@ -54,14 +56,15 @@ private:
   QVariant getDecorationRole(const QModelIndex& _index) const;
   QVariant getAlignmentRole(const QModelIndex& _index) const;
   QVariant getToolTipRole(const QModelIndex& _index) const;
-  QVariant getUserRole(const QModelIndex& _index, int _role, CryptoNote::TransactionId _transactionId, CryptoNote::WalletLegacyTransaction& _transaction,
-    CryptoNote::TransferId _transferId, CryptoNote::WalletLegacyTransfer& _transfer) const;
+  QVariant getUserRole(const QModelIndex& _index, int _role, CryptoNote::TransactionId _transactionId, const CryptoNote::WalletLegacyTransaction& _transaction,
+    CryptoNote::TransferId _transferId, const CryptoNote::WalletLegacyTransfer& _transfer, CryptoNote::DepositId _depositId, const CryptoNote::Deposit&  _deposit) const;
 
   void reloadWalletTransactions();
   void appendTransaction(CryptoNote::TransactionId _id, quint32& _row_count);
   void appendTransaction(CryptoNote::TransactionId _id);
   void updateWalletTransaction(CryptoNote::TransactionId _id);
   void localBlockchainUpdated(quint64 _height);
+  void lastKnownHeightUpdated(quint64 _height);
   void reset();
 };
 

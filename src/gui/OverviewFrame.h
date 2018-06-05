@@ -1,4 +1,6 @@
 // Copyright (c) 2011-2015 The Cryptonote developers
+// Copyright (c) 2015-2016 XDN developers
+// Copyright (c) 2018 Karbo developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -30,8 +32,10 @@ private:
   void transactionsInserted(const QModelIndex& _parent, int _first, int _last);
   void transactionsRemoved(const QModelIndex& _parent, int _first, int _last);
   void layoutChanged();
-  void updateActualBalance(quint64 _balance);
-  void updatePendingBalance(quint64 _balance);
+  void actualBalanceUpdated(quint64 _balance);
+  void pendingBalanceUpdated(quint64 _balance);
+  void actualDepositBalanceUpdated(quint64 _balance);
+  void pendingDepositBalanceUpdated(quint64 _balance);
   void reset();
 };
 

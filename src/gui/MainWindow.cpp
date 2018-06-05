@@ -23,6 +23,7 @@
 #include <QPushButton>
 #include "AboutDialog.h"
 #include "AnimatedLabel.h"
+#include "AddressBookModel.h"
 #include "ChangePasswordDialog.h"
 #include "ChangeLanguageDialog.h"
 #include "ConnectionSettings.h"
@@ -108,12 +109,17 @@ void MainWindow::connectToSignals() {
   connect(&WalletAdapter::instance(), &WalletAdapter::walletTransactionCreatedSignal, this, [this]() {
       QApplication::alert(this);
   });
-  
+  connect(&WalletAdapter::instance(), &WalletAdapter::walletSendTransactionCompletedSignal, this, [this](CryptoNote::TransactionId _transactionId, int _error, const QString& _errorString) {
+    if (_error == 0) {
+      m_ui->m_transactionsAction->setChecked(true);
+    }
+  });
   connect(&NodeAdapter::instance(), &NodeAdapter::peerCountUpdatedSignal, this, &MainWindow::peerCountUpdated, Qt::QueuedConnection);
   connect(m_ui->m_exitAction, &QAction::triggered, qApp, &QApplication::quit);
   connect(m_ui->m_accountFrame, &AccountFrame::showQRcodeSignal, this, &MainWindow::onShowQR, Qt::QueuedConnection);
   connect(m_ui->m_sendFrame, &SendFrame::uriOpenSignal, this, &MainWindow::onUriOpenSignal, Qt::QueuedConnection);
   connect(m_connectionStateIconLabel, SIGNAL(clicked()), this, SLOT(showStatusInfo()));
+  connect(m_ui->m_addressBookFrame, &AddressBookFrame::payToSignal, this, &MainWindow::payTo);
 }
 
 void MainWindow::initUi() {
@@ -141,6 +147,7 @@ void MainWindow::initUi() {
   m_ui->m_transactionsFrame->hide();
   m_ui->m_addressBookFrame->hide();
   m_ui->m_miningFrame->hide();
+  m_ui->m_depositsFrame->hide();
 
   m_tabActionGroup->addAction(m_ui->m_overviewAction);
   m_tabActionGroup->addAction(m_ui->m_sendAction);
@@ -148,6 +155,7 @@ void MainWindow::initUi() {
   m_tabActionGroup->addAction(m_ui->m_transactionsAction);
   m_tabActionGroup->addAction(m_ui->m_addressBookAction);
   m_tabActionGroup->addAction(m_ui->m_miningAction);
+  m_tabActionGroup->addAction(m_ui->m_depositsAction);
 
   m_ui->m_overviewAction->toggle();
   encryptedFlagChanged(false);
@@ -870,6 +878,7 @@ void MainWindow::walletClosed() {
   m_ui->m_transactionsFrame->hide();
   m_ui->m_addressBookFrame->hide();
   //m_ui->m_miningFrame->hide();
+  m_ui->m_depositsFrame->hide();
   m_encryptionStateIconLabel->hide();
   m_trackingModeIconLabel->hide();
   m_synchronizationStateIconLabel->hide();
@@ -942,6 +951,11 @@ void MainWindow::createTrayIconMenu()
     trayIconMenu->addSeparator();
     trayIconMenu->addAction(m_ui->m_exitAction);
 #endif
+}
+
+void MainWindow::payTo(const QModelIndex& _index) {
+  m_ui->m_sendFrame->setAddress(_index.data(AddressBookModel::ROLE_ADDRESS).toString());
+  m_ui->m_sendAction->trigger();
 }
 
 #ifdef Q_OS_WIN

@@ -63,7 +63,7 @@
     <property name="spacing">
      <number>0</number>
     </property>
-    <item row="0" column="0" colspan="6">
+    <item row="0" column="0" colspan="7">
      <widget class="WalletGui::AccountFrame" name="m_accountFrame">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -177,6 +177,22 @@
     <item row="1" column="2">
      <widget class="WalletGui::ReceiveFrame" name="m_receiveFrame">
       <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+     </widget>
+    </item>
+	<item row="1" column="6">
+     <widget class="WalletGui::DepositsFrame" name="m_depositsFrame">
+	  <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
@@ -318,6 +334,7 @@
    <addaction name="m_overviewAction"/>
    <addaction name="m_sendAction"/>
    <addaction name="m_receiveAction"/>
+   <addaction name="m_depositsAction"/>
    <addaction name="m_transactionsAction"/>
    <addaction name="m_addressBookAction"/>
    <addaction name="m_miningAction"/>
@@ -520,6 +537,18 @@
     <string>Mining</string>
    </property>
   </action>
+  <action name="m_depositsAction">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../../resources.qrc">
+     <normaloff>:/icons/deposits</normaloff>:/icons/deposits</iconset>
+   </property>
+   <property name="text">
+    <string>Deposits</string>
+   </property>
+  </action>
   <action name="m_resetAction">
    <property name="text">
     <string>Reset wallet</string>
@@ -657,6 +686,12 @@
    <class>WalletGui::ReceiveFrame</class>
    <extends>QFrame</extends>
    <header>gui/ReceiveFrame.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>WalletGui::DepositsFrame</class>
+   <extends>QFrame</extends>
+   <header>gui/DepositsFrame.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
@@ -829,6 +864,22 @@
    <signal>triggered(bool)</signal>
    <receiver>MainWindow</receiver>
    <slot>setCloseToTray(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>459</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_depositsAction</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>m_depositsFrame</receiver>
+   <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>

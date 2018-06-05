@@ -45,7 +45,10 @@ WalletAdapter& WalletAdapter::instance() {
 
 WalletAdapter::WalletAdapter() : QObject(), m_wallet(nullptr), m_mutex(), m_isBackupInProgress(false),
   m_isSynchronized(false), m_newTransactionsNotificationTimer(),
-  m_lastWalletTransactionId(std::numeric_limits<quint64>::max()) {
+  m_lastWalletTransactionId(std::numeric_limits<quint64>::max()),
+  m_sentTransactionId(CryptoNote::WALLET_LEGACY_INVALID_TRANSACTION_ID),
+  m_depositId(CryptoNote::WALLET_LEGACY_INVALID_TRANSACTION_ID),
+  m_depositWithdrawalId(CryptoNote::WALLET_LEGACY_INVALID_TRANSACTION_ID) {
   connect(this, &WalletAdapter::walletInitCompletedSignal, this, &WalletAdapter::onWalletInitCompleted, Qt::QueuedConnection);
   connect(this, &WalletAdapter::walletSendTransactionCompletedSignal, this, &WalletAdapter::onWalletSendTransactionCompleted, Qt::QueuedConnection);
   connect(this, &WalletAdapter::updateBlockStatusTextSignal, this, &WalletAdapter::updateBlockStatusText, Qt::QueuedConnection);
@@ -92,6 +95,22 @@ quint64 WalletAdapter::getPendingBalance() const {
   }
 }
 
+quint64 WalletAdapter::getActualDepositBalance() const {
+  try {
+    return m_wallet == nullptr ? 0 : m_wallet->actualDepositBalance();
+  } catch (std::system_error&) {
+    return 0;
+  }
+}
+
+quint64 WalletAdapter::getPendingDepositBalance() const {
+  try {
+    return m_wallet == nullptr ? 0 : m_wallet->pendingDepositBalance();
+  } catch (std::system_error&) {
+    return 0;
+  }
+}
+
 void WalletAdapter::open(const QString& _password) {
   Q_ASSERT(m_wallet == nullptr);
   Settings::instance().setEncrypted(!_password.isEmpty());
@@ -100,7 +119,7 @@ void WalletAdapter::open(const QString& _password) {
   m_wallet = NodeAdapter::instance().createWallet();
   m_wallet->addObserver(this);
 
-  if (QFile::exists(Settings::instance().getWalletFile())) {  
+  if (QFile::exists(Settings::instance().getWalletFile())) {
     if (Settings::instance().getWalletFile().endsWith(".keys")) {
       if (!importLegacyWallet(_password)) {
         return;
@@ -277,6 +296,16 @@ quint64 WalletAdapter::getTransactionCount() const {
   return 0;
 }
 
+quint64 WalletAdapter::getDepositCount() const {
+  Q_CHECK_PTR(m_wallet);
+  try {
+    return m_wallet->getDepositCount();
+  } catch (std::system_error&) {
+  }
+
+  return 0;
+}
+
 quint64 WalletAdapter::getTransferCount() const {
   Q_CHECK_PTR(m_wallet);
   try {
@@ -287,7 +316,7 @@ quint64 WalletAdapter::getTransferCount() const {
   return 0;
 }
 
-bool WalletAdapter::getTransaction(CryptoNote::TransactionId& _id, CryptoNote::WalletLegacyTransaction& _transaction) {
+bool WalletAdapter::getTransaction(CryptoNote::TransactionId _id, CryptoNote::WalletLegacyTransaction& _transaction) {
   Q_CHECK_PTR(m_wallet);
   try {
     return m_wallet->getTransaction(_id, _transaction);
@@ -297,10 +326,20 @@ bool WalletAdapter::getTransaction(CryptoNote::TransactionId& _id, CryptoNote::W
   return false;
 }
 
-bool WalletAdapter::getTransfer(CryptoNote::TransferId& _id, CryptoNote::WalletLegacyTransfer& _transfer) {
+bool WalletAdapter::getTransfer(CryptoNote::TransferId _id, CryptoNote::WalletLegacyTransfer& _transfer) {
   Q_CHECK_PTR(m_wallet);
   try {
     return m_wallet->getTransfer(_id, _transfer);
+  } catch (std::system_error&) {
+  }
+
+  return false;
+}
+
+bool WalletAdapter::getDeposit(CryptoNote::DepositId _id, CryptoNote::Deposit& _deposit) {
+  Q_CHECK_PTR(m_wallet);
+  try {
+    return m_wallet->getDeposit(_id, _deposit);
   } catch (std::system_error&) {
   }
 
@@ -322,8 +361,30 @@ void WalletAdapter::sendTransaction(const QVector<CryptoNote::WalletLegacyTransf
   Q_CHECK_PTR(m_wallet);
   try {
     lock();
-    m_wallet->sendTransaction(_transfers.toStdVector(), _fee, NodeAdapter::instance().convertPaymentId(_paymentId), _mixin, 0);
+    m_sentTransactionId = m_wallet->sendTransaction(_transfers.toStdVector(), _fee, NodeAdapter::instance().convertPaymentId(_paymentId), _mixin, 0);
     Q_EMIT walletStateChangedSignal(tr("Sending transaction"));
+  } catch (std::system_error&) {
+    unlock();
+  }
+}
+
+void WalletAdapter::deposit(quint32 _term, quint64 _amount, quint64 _fee, quint64 _mixIn) {
+  Q_CHECK_PTR(m_wallet);
+  try {
+    lock();
+    m_depositId = m_wallet->deposit(_term, _amount, _fee, _mixIn);
+    Q_EMIT walletStateChangedSignal(tr("Creating deposit"));
+  } catch (std::system_error&) {
+    unlock();
+  }
+}
+
+void WalletAdapter::withdrawUnlockedDeposits(QVector<CryptoNote::DepositId> _depositIds, quint64 _fee) {
+  Q_CHECK_PTR(m_wallet);
+  try {
+    lock();
+    m_depositWithdrawalId = m_wallet->withdrawDeposits(_depositIds.toStdVector(), _fee);
+    Q_EMIT walletStateChangedSignal(tr("Withdrawing deposit"));
   } catch (std::system_error&) {
     unlock();
   }
@@ -376,6 +437,8 @@ void WalletAdapter::onWalletInitCompleted(int _error, const QString& _errorText)
     Q_EMIT walletActualBalanceUpdatedSignal(m_wallet->actualBalance());
     Q_EMIT walletPendingBalanceUpdatedSignal(m_wallet->pendingBalance());
     Q_EMIT updateWalletAddressSignal(QString::fromStdString(m_wallet->getAddress()));
+    Q_EMIT walletActualDepositBalanceUpdatedSignal(m_wallet->actualDepositBalance());
+    Q_EMIT walletPendingDepositBalanceUpdatedSignal(m_wallet->pendingDepositBalance());
     Q_EMIT reloadWalletTransactionsSignal();
     Q_EMIT walletStateChangedSignal(tr("Ready"));
     QTimer::singleShot(5000, this, SLOT(updateBlockStatusText()));
@@ -437,6 +500,14 @@ void WalletAdapter::pendingBalanceUpdated(uint64_t _pending_balance) {
   Q_EMIT walletPendingBalanceUpdatedSignal(_pending_balance);
 }
 
+void WalletAdapter::actualDepositBalanceUpdated(uint64_t _actualDepositBalance) {
+  Q_EMIT walletActualDepositBalanceUpdatedSignal(_actualDepositBalance);
+}
+
+void WalletAdapter::pendingDepositBalanceUpdated(uint64_t _pendingDepositBalance) {
+  Q_EMIT walletPendingDepositBalanceUpdatedSignal(_pendingDepositBalance);
+}
+
 void WalletAdapter::externalTransactionCreated(CryptoNote::TransactionId _transactionId) {
   if (!m_isSynchronized) {
     m_lastWalletTransactionId = _transactionId;
@@ -446,8 +517,20 @@ void WalletAdapter::externalTransactionCreated(CryptoNote::TransactionId _transa
 }
 
 void WalletAdapter::sendTransactionCompleted(CryptoNote::TransactionId _transaction_id, std::error_code _error) {
+  Q_ASSERT(_transaction_id == m_sentTransactionId || _transaction_id == m_depositId || _transaction_id == m_depositWithdrawalId);
   unlock();
   Q_EMIT walletSendTransactionCompletedSignal(_transaction_id, _error.value(), walletErrorMessage(_error.value()));
+    if (_transaction_id == m_sentTransactionId) {
+      m_sentTransactionId = CryptoNote::WALLET_LEGACY_INVALID_TRANSACTION_ID;
+    } else if (_transaction_id == m_depositId) {
+      Q_EMIT walletCreateDepositCompletedSignal(_transaction_id, _error.value(), QString::fromStdString(_error.message()));
+      m_depositId = CryptoNote::WALLET_LEGACY_INVALID_TRANSACTION_ID;
+    } else if (_transaction_id == m_depositWithdrawalId) {
+      Q_EMIT walletWithdrawDepositCompletedSignal(_transaction_id, _error.value(), QString::fromStdString(_error.message()));
+      m_depositWithdrawalId = CryptoNote::WALLET_LEGACY_INVALID_TRANSACTION_ID;
+    }
+
+
   Q_EMIT updateBlockStatusTextWithDelaySignal();
 }
 
@@ -507,6 +590,10 @@ void WalletAdapter::onWalletSendTransactionCompleted(CryptoNote::TransactionId _
 
 void WalletAdapter::transactionUpdated(CryptoNote::TransactionId _transactionId) {
   Q_EMIT walletTransactionUpdatedSignal(_transactionId);
+}
+
+void WalletAdapter::depositsUpdated(const std::vector<CryptoNote::DepositId>& _depositIds) {
+  Q_EMIT walletDepositsUpdatedSignal(QVector<CryptoNote::DepositId>::fromStdVector(_depositIds));
 }
 
 void WalletAdapter::lock() {

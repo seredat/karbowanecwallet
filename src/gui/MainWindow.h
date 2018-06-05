@@ -84,6 +84,7 @@ private:
   void onUriOpenSignal();
   void adjustForCurrentFile(const QString& filePath);
   void updateRecentActionList();
+  void payTo(const QModelIndex& _index);
 
   Q_SLOT void createWallet();
   Q_SLOT void createNonDeterministicWallet();
