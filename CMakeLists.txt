@@ -254,14 +254,14 @@ set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_DEFINITIONS _GNU_SOURCE
 target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES} ${QTMAIN} ${CRYPTONOTE_LIB} ${QRENCODE_LIB} Mnemonics)
 
 if (APPLE)
-  qt5_use_modules(${PROJECT_NAME} PrintSupport)
+    target_link_libraries(${PROJECT_NAME} Qt5::PrintSupport)
 elseif (UNIX)
   target_link_libraries(${PROJECT_NAME} -lpthread)
 elseif (WIN32)
   target_link_libraries(${PROJECT_NAME} Imm32 Iphlpapi Winmm)
 endif (APPLE)
 
-qt5_use_modules(${PROJECT_NAME} Widgets Gui Network)
+target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::Gui Qt5::Network)
 
 # Installation
 
