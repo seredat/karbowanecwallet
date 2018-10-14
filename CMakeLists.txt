@@ -98,6 +98,7 @@ set(CRYPTONOTE_SOURCES
   cryptonote/src/CryptoNoteCore/CryptoNoteBasic.cpp
   cryptonote/src/CryptoNoteCore/CryptoNoteTools.cpp
   cryptonote/src/CryptoNoteCore/Currency.cpp
+  cryptonote/src/CryptoNoteCore/DepositIndex.cpp
   cryptonote/src/CryptoNoteCore/MinerConfig.cpp
   cryptonote/src/CryptoNoteCore/Transaction.cpp
   cryptonote/src/CryptoNoteCore/Account.cpp

@@ -40,6 +40,8 @@
         <file alias="remote_mode">icons/remote_mode.png</file>
         <file alias="tracking">icons/tracking_mode.png</file>
         <file alias="sweep">icons/broom.png</file>
+        <file alias="deposits">icons/deposits.png</file>
+        <file alias="tx-deposit">icons/tx_deposit.png</file>
     </qresource>
     <qresource prefix="/images">
         <file alias="splash">images/splash.png</file>
