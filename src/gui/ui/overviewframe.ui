@@ -329,6 +329,9 @@
         <property name="text">
          <string>0.00</string>
         </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
        </widget>
       </item>
       <item row="3" column="3">
