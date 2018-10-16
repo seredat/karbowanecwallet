@@ -358,6 +358,10 @@ QVariant TransactionsModel::getToolTipRole(const QModelIndex& _index) const {
 
     if (transactionType == TransactionType::OUTPUT)
       return QString(tr("Outgoing transaction, unconfirmed").arg(numberOfConfirmations));
+
+    if (transactionType == TransactionType::DEPOSIT)
+      return QString(tr("Deposit, unconfirmed").arg(numberOfConfirmations));
+
   } else {
     if (transactionType == TransactionType::INPUT)
       return QString(tr("Incoming transaction, %n confirmation(s)", "", numberOfConfirmations));
@@ -370,6 +374,9 @@ QVariant TransactionsModel::getToolTipRole(const QModelIndex& _index) const {
 
     if (transactionType == TransactionType::OUTPUT)
       return QString(tr("Outgoing transaction, %n confirmation(s)", "", numberOfConfirmations));
+
+    if (transactionType == TransactionType::DEPOSIT)
+      return QString(tr("Deposit, %n confirmation(s)", "", numberOfConfirmations));
   }
   return QVariant();
 }

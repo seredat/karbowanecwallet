@@ -97,13 +97,13 @@ void DepositsFrame::depositClicked() {
     return;
   }
 
-  quint32 term = m_ui->m_timeSpin->value();
-  WalletAdapter::instance().deposit(term, amount, CurrencyAdapter::instance().getMinimumFee(), 0);
+  qint32 term = m_ui->m_timeSpin->value();
+  WalletAdapter::instance().deposit(term, amount, /*CurrencyAdapter::instance().getMinimumFee()*/ 0, 0);
 }
 
 void DepositsFrame::depositParamsChanged() {
   quint64 amount = CurrencyAdapter::instance().parseAmount(m_ui->m_amountSpin->cleanText());
-  quint32 term = m_ui->m_timeSpin->value();
+  qint32 term = m_ui->m_timeSpin->value();
   quint64 interest = CurrencyAdapter::instance().calculateInterest(amount, term);
   qreal rate = DepositModel::calculateRate(amount, interest, term);
   m_ui->m_interestLabel->setText(QString("+ %1 %2 (%3 %)").arg(CurrencyAdapter::instance().formatAmount(interest)).
@@ -135,7 +135,7 @@ void DepositsFrame::withdrawClicked() {
     depositIds.append(index.row());
   }
 
-  WalletAdapter::instance().withdrawUnlockedDeposits(depositIds, CurrencyAdapter::instance().getMinimumFee());
+  WalletAdapter::instance().withdrawUnlockedDeposits(depositIds, /*CurrencyAdapter::instance().getMinimumFee()*/ 0);
 }
 
 }
