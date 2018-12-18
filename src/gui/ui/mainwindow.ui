@@ -251,11 +251,11 @@
     <addaction name="m_encryptWalletAction"/>
     <addaction name="m_changePasswordAction"/>
     <addaction name="m_sweepUnmixableAction"/>
+    <addaction name="m_proofBalanceAction"/>
     <addaction name="separator"/>
     <addaction name="m_showMnemonicSeedAction"/>
     <addaction name="m_showPrivateKey"/>
     <addaction name="m_exportTrackingKeyAction"/>
-    <addaction name="m_proofBalanceAction"/>
     <addaction name="separator"/>
     <addaction name="m_restoreFromMnemonicSeedAction"/>
     <addaction name="m_importKeyAction"/>
