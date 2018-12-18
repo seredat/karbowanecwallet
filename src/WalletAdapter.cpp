@@ -719,4 +719,13 @@ QString WalletAdapter::getReserveProof(const quint64 &_reserve, const QString &_
   }
 }
 
+size_t WalletAdapter::getUnlockedOutputsCount() {
+  Q_CHECK_PTR(m_wallet);
+  try {
+    return m_wallet->getUnlockedOutputsCount();
+  } catch (std::system_error&) {
+    return 0;
+  }
+}
+
 }
