@@ -83,6 +83,7 @@ set(CRYPTONOTE_SOURCES
   cryptonote/src/crypto/hash-extra-jh.c
   cryptonote/src/crypto/hash-extra-skein.c
   cryptonote/src/crypto/hash.c
+  cryptonote/src/crypto/rainforest.c
   cryptonote/src/crypto/jh.c
   cryptonote/src/crypto/keccak.c
   cryptonote/src/crypto/oaes_lib.c
