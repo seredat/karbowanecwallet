@@ -66,7 +66,7 @@ void MiningFrame::timerEvent(QTimerEvent* _event) {
     if (hashRate == 0) {
       return;
     }
-    m_ui->m_poolLabel->setText(tr("Mining in pool. Hashrate: %1 H/s").arg(hashRate));
+    m_ui->m_poolLabel->setText(tr("Mining in pool. Hashrate: %1 kH/s").arg(hashRate / 1000));
     return;
   }
 
@@ -75,7 +75,7 @@ void MiningFrame::timerEvent(QTimerEvent* _event) {
     if (soloHashRate == 0) {
       return;
     }
-    m_ui->m_soloLabel->setText(tr("Mining solo. Hashrate: %1 H/s").arg(soloHashRate));
+    m_ui->m_soloLabel->setText(tr("Mining solo. Hashrate: %1 kH/s").arg(soloHashRate / 1000));
     return;
   }
 
