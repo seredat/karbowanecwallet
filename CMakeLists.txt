@@ -91,6 +91,13 @@ set(CRYPTONOTE_SOURCES
   cryptonote/src/crypto/slow-hash.c
   cryptonote/src/crypto/slow-hash.cpp
   cryptonote/src/crypto/tree-hash.c
+  cryptonote/src/crypto/argon2/argon2.c
+  cryptonote/src/crypto/argon2/blake2b.c
+  cryptonote/src/crypto/argon2/core.c
+  cryptonote/src/crypto/argon2/encoding.c
+  cryptonote/src/crypto/argon2/opt.c
+  cryptonote/src/crypto/argon2/ref.c
+  cryptonote/src/crypto/argon2/thread.c
   cryptonote/src/CryptoNoteCore/BlockchainIndices.cpp
   cryptonote/src/CryptoNoteCore/BlockchainMessages.cpp
   cryptonote/src/CryptoNoteCore/BlockIndex.cpp
