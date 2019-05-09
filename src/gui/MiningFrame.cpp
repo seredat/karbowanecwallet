@@ -60,7 +60,8 @@ void MiningFrame::timerEvent(QTimerEvent* _event) {
     if (soloHashRate == 0) {
       return;
     }
-    m_ui->m_soloLabel->setText(tr("Mining solo. Hashrate: %1 kH/s").arg(soloHashRate / 1000));
+    double kHashRate = soloHashRate / 1000.0;
+    m_ui->m_soloLabel->setText(tr("Mining solo. Hashrate: %1 kH/s").arg(kHashRate));
     return;
   }
 
