@@ -16,9 +16,6 @@ class MiningFrame;
 
 namespace WalletGui {
 
-class Miner;
-class PoolModel;
-
 class MiningFrame : public QFrame {
   Q_OBJECT
 
@@ -31,20 +28,15 @@ protected:
 
 private:
   QScopedPointer<Ui::MiningFrame> m_ui;
-  Miner* m_miner;
-  PoolModel* m_poolModel;
   int m_hashRateTimerId;
   int m_soloHashRateTimerId;
   QString m_walletAddress;
 
   void initCpuCoreList();
-  void startMining();
-  void stopMining();
   void startSolo();
   void stopSolo();
 
   bool m_wallet_closed = false;
-  bool m_pool_mining = false;
   bool m_solo_mining = false;
   bool m_sychronized = false;
 
@@ -53,10 +45,6 @@ private:
   bool isSoloRunning() const;
   quint32 getHashRate() const;
 
-  Q_SLOT void addPoolClicked();
-  Q_SLOT void removePoolClicked();
-  Q_SLOT void currentPoolChanged();
-  Q_SLOT void startStopClicked(QAbstractButton* _button);
   Q_SLOT void startStopSoloClicked(QAbstractButton* _button);
   Q_SLOT void enableSolo();
   Q_SLOT void setMiningThreads();
