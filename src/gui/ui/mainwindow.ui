@@ -208,7 +208,7 @@
      <x>0</x>
      <y>0</y>
      <width>980</width>
-     <height>19</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -631,7 +631,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Start pool mining automatically</string>
+    <string>Start mining automatically</string>
    </property>
   </action>
   <action name="m_sweepUnmixableAction">

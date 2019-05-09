@@ -45,6 +45,12 @@ void MiningFrame::enableSolo() {
   m_sychronized = true;
   if (!m_solo_mining) {
     m_ui->m_startSolo->setEnabled(true);
+    if(Settings::instance().isMiningOnLaunchEnabled() && m_sychronized) {
+      if (!m_solo_mining) {
+        startSolo();
+        m_ui->m_startSolo->setChecked(true);
+      }
+    }
   }
 }
 
@@ -93,15 +99,16 @@ void MiningFrame::walletOpened() {
   m_walletAddress = WalletAdapter::instance().getAddress();
 
   if(Settings::instance().isMiningOnLaunchEnabled() && m_sychronized) {
-    startSolo();
-    m_ui->m_startSolo->setChecked(true);
+    if (!m_solo_mining) {
+      startSolo();
+      m_ui->m_startSolo->setChecked(true);
+    }
   }
 }
 
 void MiningFrame::walletClosed() {
   // allow mining after wallet is closed to it's address
   // but mining can't be started if there's no open wallet
-  // stopMining();
   // stopSolo();
   m_wallet_closed = true;
   m_ui->m_startSolo->setEnabled(false);
