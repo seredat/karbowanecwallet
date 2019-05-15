@@ -28,7 +28,6 @@ protected:
 
 private:
   QScopedPointer<Ui::MiningFrame> m_ui;
-  int m_hashRateTimerId;
   int m_soloHashRateTimerId;
   QString m_walletAddress;
 
