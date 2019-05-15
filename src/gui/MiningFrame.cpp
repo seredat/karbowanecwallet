@@ -53,6 +53,8 @@ MiningFrame::MiningFrame(QWidget* _parent) : QFrame(_parent), m_ui(new Ui::Minin
   m_ui->m_hashRateChart->xAxis2->setTickLabels(false);
   m_ui->m_hashRateChart->yAxis2->setTickLabels(false);
 
+  m_ui->m_hashRateChart->setBackground(QBrush(QRgb(0xeef5fc)));
+
   addPoint(QDateTime::currentDateTime().toTime_t(), 0);
   plot();
 
