@@ -163,7 +163,7 @@ void MiningFrame::startSolo() {
   NodeAdapter::instance().startSoloMining(m_walletAddress, m_ui->m_cpuCombo->currentData().toUInt());
   m_ui->m_soloLabel->setText(tr("Starting solo mining..."));
   m_soloHashRateTimerId = startTimer(HASHRATE_TIMER_INTERVAL);
-
+  addPoint(QDateTime::currentDateTime().toTime_t(), 0);
   m_ui->m_startSolo->setEnabled(false);
   m_ui->m_stopSolo->setEnabled(true);
   m_solo_mining = true;
@@ -174,6 +174,7 @@ void MiningFrame::stopSolo() {
   killTimer(m_soloHashRateTimerId);
   m_soloHashRateTimerId = -1;
   NodeAdapter::instance().stopSoloMining();
+  addPoint(QDateTime::currentDateTime().toTime_t(), 0);
   m_ui->m_soloLabel->setText(tr("Stopped"));
   }
 }
@@ -182,8 +183,8 @@ void MiningFrame::startStopSoloClicked(QAbstractButton* _button) {
   if (_button == m_ui->m_startSolo && m_ui->m_startSolo->isChecked() && m_wallet_closed != true) {
     startSolo();
   } else if (m_wallet_closed == true && _button == m_ui->m_stopSolo && m_ui->m_stopSolo->isChecked()) {
-      m_ui->m_startSolo->setEnabled(false);
-      stopSolo();
+    m_ui->m_startSolo->setEnabled(false);
+    stopSolo();
   } else if (_button == m_ui->m_stopSolo && m_ui->m_stopSolo->isChecked()) {
     stopSolo();
   }
