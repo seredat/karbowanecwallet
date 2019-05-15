@@ -7,6 +7,7 @@
 #pragma once
 
 #include <QFrame>
+#include "qcustomplot.h"
 
 class QAbstractButton;
 
@@ -23,6 +24,9 @@ public:
   MiningFrame(QWidget* _parent);
   ~MiningFrame();
 
+  void addPoint(double x, double y);
+  void plot();
+
 protected:
   void timerEvent(QTimerEvent* _event) Q_DECL_OVERRIDE;
 
@@ -30,6 +34,7 @@ private:
   QScopedPointer<Ui::MiningFrame> m_ui;
   int m_soloHashRateTimerId;
   QString m_walletAddress;
+  QVector<double> m_hX, m_hY;
 
   void initCpuCoreList();
   void startSolo();
@@ -43,6 +48,7 @@ private:
   void walletClosed();
   bool isSoloRunning() const;
   quint32 getHashRate() const;
+  double m_maxHr = 0.5;
 
   Q_SLOT void startStopSoloClicked(QAbstractButton* _button);
   Q_SLOT void enableSolo();

@@ -18,11 +18,10 @@ include_directories(${CMAKE_BINARY_DIR}
     cryptonote/external
     cryptonote/include
     cryptonote/src
-    libqrencode)
+    libqrencode
+    qcustomplot)
 
-find_package(Qt5Gui REQUIRED)
-find_package(Qt5Widgets REQUIRED)
-find_package(Qt5Network REQUIRED)
+find_package(Qt5 REQUIRED COMPONENTS Core Gui Widgets Network PrintSupport)
 
 set(Boost_USE_STATIC_LIBS ON)
 if(WIN32)
@@ -191,6 +190,7 @@ file(GLOB_RECURSE SOURCES src/*.cpp)
 file(GLOB_RECURSE HEADERS src/*.h)
 file(GLOB_RECURSE FORMS src/gui/ui/*.ui)
 file(GLOB_RECURSE Mnemonics cryptonote/src/Mnemonics/*)
+file(GLOB_RECURSE QCustomPlot qcustomplot/*)
 
 set(QRC src/resources.qrc)
 
@@ -255,6 +255,7 @@ set(CRYPTONOTE_SOURCES ${CRYPTONOTE_SOURCES} ${PLATFORM_SOURCES})
 
 add_library(${CRYPTONOTE_LIB} STATIC ${CRYPTONOTE_SOURCES})
 add_library(Mnemonics ${Mnemonics})
+add_library(QCustomPlot ${QCustomPlot})
 set_target_properties(${CRYPTONOTE_LIB} PROPERTIES COMPILE_DEFINITIONS _GNU_SOURCE)
 
 if (APPLE OR ${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
@@ -264,11 +265,13 @@ target_link_libraries(${CRYPTONOTE_LIB} ${Boost_LIBRARIES})
 endif ()
 set_target_properties(Mnemonics PROPERTIES COMPILE_DEFINITIONS _GNU_SOURCE)
 target_link_libraries(Mnemonics ${Boost_LIBRARIES})
+set_target_properties(QCustomPlot PROPERTIES COMPILE_DEFINITIONS _GNU_SOURCE)
+target_link_libraries(QCustomPlot Qt5::Core Qt5::PrintSupport)
 
 #add_executable(${PROJECT_NAME} ${BUILD_PLATFORM} ${BUILD_RESOURCES} ${SOURCES} ${HEADERS} ${UIS} ${RCC} ${QM} ${TRANSLATIONS})
 add_executable(${PROJECT_NAME} ${BUILD_PLATFORM} ${BUILD_RESOURCES} ${SOURCES} ${HEADERS} ${UIS} ${RCC})
 set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_DEFINITIONS _GNU_SOURCE)
-target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES} ${QTMAIN} ${CRYPTONOTE_LIB} ${QRENCODE_LIB} Mnemonics)
+target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES} ${QTMAIN} ${CRYPTONOTE_LIB} ${QRENCODE_LIB} Mnemonics QCustomPlot)
 
 if (APPLE)
   target_link_libraries(${PROJECT_NAME} Qt5::PrintSupport)
@@ -278,7 +281,7 @@ elseif (WIN32)
   target_link_libraries(${PROJECT_NAME} Imm32 Iphlpapi Winmm)
 endif (APPLE)
 
-qt5_use_modules(${PROJECT_NAME} Widgets Gui Network)
+qt5_use_modules(${PROJECT_NAME} Core Widgets Gui Network PrintSupport)
 
 # Installation
 

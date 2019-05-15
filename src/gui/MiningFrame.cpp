@@ -32,6 +32,30 @@ MiningFrame::MiningFrame(QWidget* _parent) : QFrame(_parent), m_ui(new Ui::Minin
 
   m_ui->m_startSolo->setEnabled(false);
 
+  m_ui->m_hashRateChart->addGraph();
+  m_ui->m_hashRateChart->graph(0)->setScatterStyle(QCPScatterStyle::ssDot);
+  m_ui->m_hashRateChart->graph(0)->setLineStyle(QCPGraph::lsLine);
+  m_ui->m_hashRateChart->graph()->setPen(QPen(QRgb(0x34496d)));
+  m_ui->m_hashRateChart->graph()->setBrush(QBrush(QRgb(0xcbdef7)));
+
+  QSharedPointer<QCPAxisTickerDateTime> dateTicker(new QCPAxisTickerDateTime);
+  dateTicker->setDateTimeFormat("hh:mm:ss");
+  m_ui->m_hashRateChart->xAxis->setTicker(dateTicker);
+
+  m_ui->m_hashRateChart->yAxis->setRange(0, m_maxHr);
+  m_ui->m_hashRateChart->yAxis->setLabel("Hashrate");
+
+  // make top and right axes visible but without ticks and labels
+  m_ui->m_hashRateChart->xAxis2->setVisible(true);
+  m_ui->m_hashRateChart->yAxis2->setVisible(true);
+  m_ui->m_hashRateChart->xAxis2->setTicks(false);
+  m_ui->m_hashRateChart->yAxis2->setTicks(false);
+  m_ui->m_hashRateChart->xAxis2->setTickLabels(false);
+  m_ui->m_hashRateChart->yAxis2->setTickLabels(false);
+
+  addPoint(QDateTime::currentDateTime().toTime_t(), 0);
+  plot();
+
   connect(&WalletAdapter::instance(), &WalletAdapter::walletCloseCompletedSignal, this, &MiningFrame::walletClosed, Qt::QueuedConnection);
   connect(&WalletAdapter::instance(), &WalletAdapter::walletInitCompletedSignal, this, &MiningFrame::walletOpened, Qt::QueuedConnection);
   connect(&WalletAdapter::instance(), &WalletAdapter::walletSynchronizationCompletedSignal, this, &MiningFrame::enableSolo, Qt::QueuedConnection);
@@ -39,6 +63,22 @@ MiningFrame::MiningFrame(QWidget* _parent) : QFrame(_parent), m_ui(new Ui::Minin
 
 MiningFrame::~MiningFrame() {
   stopSolo();
+}
+
+void MiningFrame::addPoint(double x, double y)
+{
+  m_hX.append(x);
+  m_hY.append(y);
+}
+
+void MiningFrame::plot()
+{
+  m_maxHr = std::max<double>(m_maxHr, m_hY.at(m_hY.size()-1));
+  m_ui->m_hashRateChart->graph(0)->setData(m_hX, m_hY);
+  m_ui->m_hashRateChart->xAxis->setRange(m_hX.at(0), m_hX.at(m_hX.size()-1));
+  m_ui->m_hashRateChart->yAxis->setRange(m_hY.at(0), m_maxHr);
+  m_ui->m_hashRateChart->replot();
+  m_ui->m_hashRateChart->update();
 }
 
 void MiningFrame::enableSolo() {
@@ -62,6 +102,9 @@ void MiningFrame::timerEvent(QTimerEvent* _event) {
     }
     double kHashRate = soloHashRate / 1000.0;
     m_ui->m_soloLabel->setText(tr("Mining solo. Hashrate: %1 kH/s").arg(kHashRate));
+    addPoint(QDateTime::currentDateTime().toTime_t(), kHashRate);
+    plot();
+
     return;
   }
 
