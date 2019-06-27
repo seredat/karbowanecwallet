@@ -13,8 +13,6 @@ set(CRYPTONOTE_LIB cryptonote)
 
 include_directories(${CMAKE_BINARY_DIR}
     src
-    cryptonote/external/argon2/include
-    cryptonote/external/argon2
     cryptonote/external
     cryptonote/include
     cryptonote/src
@@ -73,6 +71,10 @@ set(CRYPTONOTE_SOURCES
   cryptonote/src/Common/StringOutputStream.cpp
   cryptonote/src/Common/StringView.cpp
   cryptonote/src/Common/VectorOutputStream.cpp
+  cryptonote/src/crypto/balloon_b.c
+  cryptonote/src/crypto/balloon_g.c
+  cryptonote/src/crypto/balloon_j.c
+  cryptonote/src/crypto/balloon_s.c
   cryptonote/src/crypto/blake256.c
   cryptonote/src/crypto/chacha8.c
   cryptonote/src/crypto/crypto-ops-data.c
@@ -92,13 +94,6 @@ set(CRYPTONOTE_SOURCES
   cryptonote/src/crypto/slow-hash.c
   cryptonote/src/crypto/slow-hash.cpp
   cryptonote/src/crypto/tree-hash.c
-  cryptonote/external/argon2/argon2.c
-  cryptonote/external/argon2/blake2b.c
-  cryptonote/external/argon2/core.c
-  cryptonote/external/argon2/encoding.c
-  cryptonote/external/argon2/opt.c
-  cryptonote/external/argon2/ref.c
-  cryptonote/external/argon2/thread.c
   cryptonote/src/CryptoNoteCore/BlockchainIndices.cpp
   cryptonote/src/CryptoNoteCore/BlockchainMessages.cpp
   cryptonote/src/CryptoNoteCore/BlockIndex.cpp
