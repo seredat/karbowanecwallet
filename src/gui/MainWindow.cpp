@@ -135,7 +135,7 @@ void MainWindow::connectToSignals() {
 }
 
 void MainWindow::setMainWindowTitle() {
-  setWindowTitle(QString(tr("Karbo TESTNET Wallet %1")).arg(Settings::instance().getVersion()));
+  setWindowTitle(QString(tr("Karbo Wallet %1")).arg(Settings::instance().getVersion()));
 }
 void MainWindow::initUi() {
   setMainWindowTitle();
@@ -238,7 +238,6 @@ void MainWindow::scrollToTransaction(const QModelIndex& _index) {
 
 void MainWindow::quit() {
   if (!m_isAboutToQuit) {
-    //NodeAdapter::instance().stopSoloMining();
     ExitWidget* exitWidget = new ExitWidget(nullptr);
     exitWidget->show();
     m_isAboutToQuit = true;
@@ -985,7 +984,7 @@ void MainWindow::walletOpened(bool _error, const QString& _error_text) {
       action->setEnabled(true);
     }
 
-    setWindowTitle(QString(tr("%1 - Karbo TESTNET Wallet %2")).arg(Settings::instance().getWalletFile()).arg(Settings::instance().getVersion()));
+    setWindowTitle(QString(tr("%1 - Karbo Wallet %2")).arg(Settings::instance().getWalletFile()).arg(Settings::instance().getVersion()));
 
     m_ui->m_overviewAction->trigger();
     accountWidget->setVisible(true);
@@ -1027,13 +1026,12 @@ void MainWindow::walletClosed() {
   m_ui->m_sendFrame->hide();
   m_ui->m_transactionsFrame->hide();
   m_ui->m_addressBookFrame->hide();
-  //m_ui->m_miningFrame->hide();
   m_ui->m_noWalletFrame->show();
   m_encryptionStateIconLabel->hide();
   m_trackingModeIconLabel->hide();
   m_synchronizationStateIconLabel->hide();
 
-  setWindowTitle(QString(tr("Karbo TESTNET Wallet %2")).arg(Settings::instance().getVersion()));
+  setWindowTitle(QString(tr("Karbo Wallet %2")).arg(Settings::instance().getVersion()));
 
   QList<QAction*> tabActions = m_tabActionGroup->actions();
   Q_FOREACH(auto action, tabActions) {
