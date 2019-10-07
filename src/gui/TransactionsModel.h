@@ -11,7 +11,7 @@
 
 namespace WalletGui {
 
-enum class TransactionType : quint8 {MINED, INPUT, OUTPUT, INOUT};
+enum class TransactionType : quint8 {MINED, INPUT, OUTPUT, INOUT, FUSION};
 
 typedef QPair<CryptoNote::TransactionId, CryptoNote::TransferId> TransactionTransferId;
 
@@ -22,7 +22,7 @@ class TransactionsModel : public QAbstractItemModel {
 
 public:
   enum Columns{
-    COLUMN_STATE = 0, COLUMN_DATE, COLUMN_AMOUNT, COLUMN_ADDRESS, COLUMN_PAYMENT_ID, COLUMN_HASH, COLUMN_FEE,
+    COLUMN_STATE = 0, COLUMN_DATE, COLUMN_AMOUNT, COLUMN_FEE, COLUMN_ADDRESS, COLUMN_PAYMENT_ID, COLUMN_HASH,
     COLUMN_HEIGHT, COLUMN_TYPE, COLUMN_SECRET_KEY
   };
 

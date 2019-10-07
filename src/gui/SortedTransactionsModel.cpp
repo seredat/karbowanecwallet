@@ -39,7 +39,7 @@ bool SortedTransactionsModel::filterAcceptsRow(int _row, const QModelIndex &_par
 
   int txType = _index.data(TransactionsModel::ROLE_TYPE).value<quint8>();
 
-  if(selectedtxtype != 4) {
+  if(selectedtxtype != -1) {
     if(txType != selectedtxtype)
       return false;
   }

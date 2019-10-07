@@ -38,7 +38,7 @@ private:
   QDateTime dateFrom = MIN_DATE;
   QDateTime dateTo = MAX_DATE;
   QString searchstring;
-  int selectedtxtype = 4;
+  int selectedtxtype = -1;
 
 };
 
