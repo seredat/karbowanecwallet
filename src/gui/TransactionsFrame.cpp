@@ -1,6 +1,6 @@
 // Copyright (c) 2011-2015 The Cryptonote developers
 // Copyright (c) 2011-2013 The Bitcoin developers
-// Copyright (c) 2016-2017 The Karbowanec developers
+// Copyright (c) 2016-2019 The Karbowanec developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -356,6 +356,12 @@ void TransactionsFrame::walletClosed() {
   m_ui->m_selectedAmount->setText("");
   m_ui->m_selectedAmount->hide();
   m_ui->m_selectedAmountLabel->hide();
+}
+
+void TransactionsFrame::reloadTransactions() {
+  //m_transactionsModel->reloadWalletTransactions();
+  //m_ui->m_transactionsView->model()->reloadWalletTransactions();
+  resetFilterClicked();
 }
 
 }
