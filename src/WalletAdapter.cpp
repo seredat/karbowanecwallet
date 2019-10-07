@@ -392,45 +392,7 @@ void WalletAdapter::sendFusionTransaction(const std::list<CryptoNote::Transactio
 
 bool WalletAdapter::isFusionTransaction(const CryptoNote::WalletLegacyTransaction& walletTx) const {
   Q_CHECK_PTR(m_wallet);
-  if (walletTx.fee != 0) {
-    return false;
-  }
-
-  uint64_t inputsSum = 0;
-  uint64_t outputsSum = 0;
-  std::vector<uint64_t> outputsAmounts;
-  std::vector<uint64_t> inputsAmounts;
-
-  CryptoNote::TransactionInformation txInfo;
-
-  for (const CryptoNote::TransactionOutputInformation& output :
-       m_wallet->getTransactionOutputs(walletTx.hash, CryptoNote::ITransfersContainer::Flags::IncludeTypeKey
-                                       | CryptoNote::ITransfersContainer::Flags::IncludeStateAll)) {
-    if (outputsAmounts.size() <= output.outputInTransaction) {
-        outputsAmounts.resize(output.outputInTransaction + 1, 0);
-    }
-
-    assert(output.amount != 0);
-    assert(outputsAmounts[output.outputInTransaction] == 0);
-    outputsAmounts[output.outputInTransaction] = output.amount;
-    outputsSum += output.amount;
-  }
-
-  for (const CryptoNote::TransactionOutputInformation& input :
-       m_wallet->getTransactionInputs(walletTx.hash, CryptoNote::ITransfersContainer::Flags::IncludeTypeKey)) {
-    inputsSum += input.amount;
-    inputsAmounts.push_back(input.amount);
-  }
-
-  if (!m_wallet->getTransactionInformation(walletTx.hash, txInfo)) {
-    return false;
-  }
-
-  if (outputsSum != inputsSum || outputsSum != txInfo.totalAmountOut || inputsSum != txInfo.totalAmountIn) {
-    return false;
-  }
-
-  return CurrencyAdapter::instance().getCurrency().isFusionTransaction(inputsAmounts, outputsAmounts, 0, txInfo.blockHeight); //size = 0 here because can't get real size of tx in wallet.
+  return m_wallet->isFusionTransaction(walletTx);
 }
 
 bool WalletAdapter::changePassword(const QString& _oldPassword, const QString& _newPassword) {
