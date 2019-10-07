@@ -33,7 +33,7 @@ QPixmap getTransactionIcon(TransactionType _transactionType) {
   case TransactionType::INOUT:
     return QPixmap(":icons/tx-inout");
   case TransactionType::FUSION:
-    return QPixmap(":icons/tx-inout");
+    return QPixmap(":icons/tx-fusion");
   default:
     break;
   }
