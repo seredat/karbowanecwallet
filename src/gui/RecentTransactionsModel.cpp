@@ -33,5 +33,4 @@ bool RecentTransactionsModel::filterAcceptsRow(int _sourceRow, const QModelIndex
   return _sourceRow < 6;
 }
 
-
 }

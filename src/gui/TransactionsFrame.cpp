@@ -359,8 +359,6 @@ void TransactionsFrame::walletClosed() {
 }
 
 void TransactionsFrame::reloadTransactions() {
-  //m_transactionsModel->reloadWalletTransactions();
-  //m_ui->m_transactionsView->model()->reloadWalletTransactions();
   resetFilterClicked();
 }
 
