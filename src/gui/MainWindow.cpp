@@ -943,6 +943,7 @@ void MainWindow::setHideFusionTransactions(bool _on) {
   Settings::instance().setSkipFusionTransactions(_on);
   m_ui->m_hideFusionTransactions->setChecked(Settings::instance().skipFusionTransactions());
   m_ui->m_transactionsFrame->reloadTransactions();
+  m_ui->m_overviewFrame->reloadTransactions();
 }
 
 void MainWindow::about() {
