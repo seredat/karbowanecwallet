@@ -30,10 +30,10 @@ QPixmap getTransactionIcon(TransactionType _transactionType) {
     return QPixmap(":icons/tx-input");
   case TransactionType::OUTPUT:
     return QPixmap(":icons/tx-output");
-  case TransactionType::INOUT:
-    return QPixmap(":icons/tx-inout");
   case TransactionType::FUSION:
     return QPixmap(":icons/tx-fusion");
+  case TransactionType::INOUT:
+    return QPixmap(":icons/tx-inout");
   default:
     break;
   }
