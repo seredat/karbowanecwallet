@@ -2078,7 +2078,7 @@ QToolBar#accountToolBar, #m_accountFrame {
 	padding: 0;
 	spacing: 0px;
 	min-height: 100px;
-	height: 100px;
+	
 }
 
 #m_accountFrame QLabel,
@@ -2087,6 +2087,15 @@ QToolBar#accountToolBar, #m_accountFrame {
 	border: 0;
 	padding: 0;
 	margin: 0;
+}
+
+QToolBar#accountToolBar {
+	height: 101px;
+	/*border-bottom: 1px solid #148CD2;*/
+}
+
+#m_accountFrame {
+	height: 100px;
 }
 
 QToolBar#toolBar {
@@ -2104,13 +2113,12 @@ QToolBar#toolBar QToolButton{
 	text-align: left;
 	text-transform: uppercase;
 	font-size: 11px;
-	border: none;
 	padding: 10px 5px 10px 5px;
 	margin: 0;
 	spacing:0px;
 	width: 200px;
 	color: #ffffff;
-	border: none;
+	border: 1px solid transparent;
 	border-radius: 0;
 	min-width: 200px;
 }
@@ -2121,6 +2129,7 @@ QToolBar#toolBar QToolButton:pressed {
 
 QToolBar#toolBar QToolButton:checked {
 	background-color: #19232D;
+	border-left: 1px solid #148CD2;
 }
 
 QToolBar#toolBar QToolButton:hover {
@@ -2135,3 +2144,7 @@ QStatusBar#statusBar {
 	background-color: #19232D;
 }
 
+QProgressBar {
+  border: 1px solid transparent;
+  text-align: left;
+}
