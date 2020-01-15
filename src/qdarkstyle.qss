@@ -2099,7 +2099,7 @@ QToolBar#accountToolBar {
 }
 
 QToolBar#toolBar {
-	background-color: #0F1417;
+	background-color: #202A34;
 	width: 200px; 
 	min-width: 200px; 
 	spacing: 0; 
