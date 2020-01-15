@@ -2164,6 +2164,6 @@ QProgressBar {
   max-height: 1px;
 }
 
-#m_recentTransactionsView * {
+#m_recentTransactionsView QFrame {
   background-color: transparent;
 }
