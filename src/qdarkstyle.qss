@@ -2163,3 +2163,7 @@ QProgressBar {
   padding: 0px;
   max-height: 1px;
 }
+
+#m_recentTransactionsView * {
+  background-color: transparent;
+}
