@@ -2094,6 +2094,14 @@ QToolBar#accountToolBar {
 	/*border-bottom: 1px solid #148CD2;*/
 }
 
+#accountToolBar #totalBalance {
+	margin-bottom: 8px;
+}
+
+#accountToolBar #m_ticker {
+	margin-bottom: 6px;
+}
+
 #m_accountFrame {
 	height: 100px;
 }
