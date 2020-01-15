@@ -2067,92 +2067,99 @@ PlotWidget {
 --------------------------------------------------------------------------- */
 
 QToolBar {
-	spacing: 0;
-	padding: 0;
-	margin:	0;
+  spacing: 0;
+  padding: 0;
+  margin:  0;
 }
 
 QToolBar#accountToolBar, #m_accountFrame { 
-	background-color: #32414B;
-	margin: 0;
-	padding: 0;
-	spacing: 0px;
-	min-height: 100px;
-	
+  background-color: #32414B;
+  margin: 0;
+  padding: 0;
+  spacing: 0px;
+  min-height: 100px;
+  
 }
 
 #m_accountFrame QLabel,
 #m_accountFrame QSpacerItem {
-	background-color: #32414B;
-	border: 0;
-	padding: 0;
-	margin: 0;
+  background-color: #32414B;
+  border: 0;
+  padding: 0;
+  margin: 0;
 }
 
 QToolBar#accountToolBar {
-	height: 101px;
-	/*border-bottom: 1px solid #148CD2;*/
+  height: 101px;
+  /*border-bottom: 1px solid #148CD2;*/
 }
 
 #accountToolBar #totalBalance {
-	margin-bottom: 8px;
+  margin-bottom: 8px;
 }
 
 #accountToolBar #m_ticker {
-	margin-bottom: 6px;
+  margin-bottom: 6px;
 }
 
 #m_accountFrame {
-	height: 100px;
+  height: 100px;
 }
 
 QToolBar#toolBar {
-	background-color: #202A34;
-	width: 200px; 
-	min-width: 200px; 
-	spacing: 0; 
-	padding: 0; 
-	margin: 0;
-	border: 0;
+  background-color: #0b1620;
+  width: 200px; 
+  min-width: 200px; 
+  spacing: 0; 
+  padding: 0; 
+  margin: 0;
+  border: 0;
 }
 
 QToolBar#toolBar QToolButton{ 
-	background-color: transparent;
-	text-align: left;
-	text-transform: uppercase;
-	font-size: 11px;
-	padding: 10px 5px 10px 5px;
-	margin: 0;
-	spacing:0px;
-	width: 200px;
-	color: #ffffff;
-	border: 1px solid transparent;
-	border-radius: 0;
-	min-width: 200px;
+  background-color: transparent;
+  text-align: left;
+  text-transform: uppercase;
+  font-size: 11px;
+  padding: 10px 5px 10px 5px;
+  margin: 0;
+  spacing:0px;
+  width: 200px;
+  color: #ffffff;
+  border: 1px solid transparent;
+  border-radius: 0;
+  min-width: 200px;
 }
 
 QToolBar#toolBar QToolButton:pressed {
-	background-color: #232629;
+  background-color: #232629;
 }
 
 QToolBar#toolBar QToolButton:checked {
-	background-color: #19232D;
-	border-left: 1px solid #148CD2;
+  background-color: #19232D;
+  border-left: 1px solid #148CD2;
 }
 
 QToolBar#toolBar QToolButton:hover {
-	background-color: #333E49;
+  background-color: #505F69;
 }
 
 QToolBar#toolBar QToolButton::checked:hover {
-	background-color: #333E49;
+  background-color: #505F69;
 }
 
 QStatusBar#statusBar {
-	background-color: #19232D;
+  background-color: #19232D;
 }
 
 QProgressBar {
   border: 1px solid transparent;
   text-align: left;
+}
+
+#m_overviewFrame #line {
+  background-color: #32414B;
+  border: none;
+  padding: 0px;
+  max-height: 1px;
 }
