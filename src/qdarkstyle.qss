@@ -2168,3 +2168,7 @@ QProgressBar {
 #m_recentTransactionsView QFrame {
   background-color: transparent;
 }
+
+#m_recentTransactionsView #m_amountLabel {
+
+}
