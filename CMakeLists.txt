@@ -215,15 +215,16 @@ set(CRYPTONOTE_SOURCES
   cryptonote/src/BlockchainExplorer/BlockchainExplorerErrors.cpp
 )
 
-file(GLOB_RECURSE SOURCES src/*.cpp)
-file(GLOB_RECURSE HEADERS src/*.h)
-file(GLOB_RECURSE FORMS src/gui/ui/*.ui)
+file(GLOB_RECURSE SOURCES src/*.cpp framelesswindow/*.cpp)
+file(GLOB_RECURSE HEADERS src/*.h framelesswindow/*.h)
+file(GLOB_RECURSE FORMS src/gui/ui/*.ui framelesswindow/*.ui)
 file(GLOB_RECURSE Mnemonics cryptonote/src/Mnemonics/*)
 file(GLOB TRANSLATION_FILES src/languages/*.ts)
 
 set(QRC
-	src/resources.qrc
-	src/qdarkstyle/style.qrc)
+        src/resources.qrc
+        src/framelesswindow.qrc
+        src/qdarkstyle/style.qrc)
 set_source_files_properties(${TRANSLATION_FILES} PROPERTIES OUTPUT_LOCATION "${CMAKE_BINARY_DIR}/languages")
 
 qt5_wrap_ui(UIS ${FORMS})

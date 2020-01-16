@@ -78,7 +78,7 @@ MainWindow& MainWindow::instance() {
   return *m_instance;
 }
 
-MainWindow::MainWindow() : QMainWindow(),
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent /*, Qt::FramelessWindowHint*/),
   m_ui(new Ui::MainWindow), m_trayIcon(nullptr), m_tabActionGroup(new QActionGroup(this)), m_isAboutToQuit(false), paymentServer(0),
   optimizationManager(nullptr), maxRecentFiles(10), trayIconMenu(0), toggleHideAction(0), maxProgressBar(100), m_statusBarText("") {
   m_ui->setupUi(this);

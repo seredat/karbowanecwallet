@@ -14,6 +14,7 @@
 #include <QMainWindow>
 #include <QSystemTrayIcon>
 #include <QTimer>
+#include <QtWidgets>
 #include "CommandLineParser.h"
 #include "PaymentServer.h"
 #include "OptimizationManager.h"
@@ -33,6 +34,7 @@ class MainWindow : public QMainWindow {
 
 public:
   static MainWindow& instance();
+  explicit MainWindow(QWidget *parent = Q_NULLPTR);
   void scrollToTransaction(const QModelIndex& _index);
   void handlePaymentRequest(QString _request);
   void isTrackingMode();
@@ -81,7 +83,7 @@ private:
 
   QString m_statusBarText;
 
-  MainWindow();
+  //MainWindow();
   ~MainWindow();
 
   void connectToSignals();

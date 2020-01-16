@@ -5,6 +5,7 @@
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QLocale>
+
 #include <QTranslator>
 #include <QLockFile>
 #include <QMessageBox>
@@ -27,6 +28,7 @@
 #include "PaymentServer.h"
 #include "TranslatorManager.h"
 #include "LogFileWatcher.h"
+#include "../framelesswindow/framelesswindow.h"
 
 #define DEBUG 1
 
@@ -153,7 +155,11 @@ int main(int argc, char* argv[]) {
     return 0;
   }
 
-  splash->finish(&MainWindow::instance());
+  // create frameless window (and set windowState or title)
+  FramelessWindow framelessWindow;
+  framelessWindow.setWindowIcon(QPixmap(":images/cryptonote"));
+  framelessWindow.setWindowTitle(QString(QObject::tr("%1 - Karbo Wallet %2")).arg(Settings::instance().getWalletFile()).arg(Settings::instance().getVersion()));
+  framelessWindow.setContent(&MainWindow::instance());
 
   if (logWatcher != nullptr) {
     logWatcher->deleteLater();
@@ -166,7 +172,8 @@ int main(int argc, char* argv[]) {
   Updater *d = new Updater();
   d->checkForUpdate();
 
-  MainWindow::instance().show();
+  framelessWindow.show();
+
   WalletAdapter::instance().open("");
 
   QTimer::singleShot(1000, paymentServer, SLOT(uiReady()));
