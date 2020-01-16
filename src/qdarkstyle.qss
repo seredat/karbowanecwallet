@@ -2091,7 +2091,7 @@ QToolBar#accountToolBar, #m_accountFrame {
 
 QToolBar#accountToolBar {
   height: 101px;
-  border-bottom: 1px solid #148CD2;
+  border-bottom: 1px solid #84898E;
 }
 
 #m_accountFrame {
