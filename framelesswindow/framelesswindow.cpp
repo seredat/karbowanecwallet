@@ -54,8 +54,9 @@ FramelessWindow::FramelessWindow(QWidget *parent)
   // window shadow
   QGraphicsDropShadowEffect *windowShadow = new QGraphicsDropShadowEffect;
   windowShadow->setBlurRadius(9.0);
-  windowShadow->setColor(palette().color(QPalette::Highlight));
-  windowShadow->setOffset(0.0);
+  windowShadow->setColor(QColor(36, 36, 36));
+  windowShadow->setYOffset(0.5);
+  windowShadow->setXOffset(0.0);
   ui->windowFrame->setGraphicsEffect(windowShadow);
 
   QObject::connect(qApp, &QGuiApplication::applicationStateChanged, this, &FramelessWindow::on_applicationStateChanged);
@@ -63,6 +64,8 @@ FramelessWindow::FramelessWindow(QWidget *parent)
   QObject::connect(&WalletAdapter::instance(), &WalletAdapter::walletCloseCompletedSignal, this, &FramelessWindow::walletClosed);
 
   setMouseTracking(true);
+
+  styleWindow(true, true);
 
   // important to watch mouse move from all child widgets
   QApplication::instance()->installEventFilter(this);
@@ -133,29 +136,29 @@ void FramelessWindow::styleWindow(bool bActive, bool bNoState) {
       ui->windowTitlebar->setStyleSheet(QStringLiteral(
           "#windowTitlebar{border: 0px none palette(shadow); "
           "border-top-left-radius:0px; border-top-right-radius:0px; "
-          "background-color:palette(shadow); height:20px;}"));
+          "background-color:rgb(25,35,45); height:20px;}"));
       ui->windowFrame->setStyleSheet(QStringLiteral(
           "#windowFrame{border:1px solid palette(highlight); border-radius:0px; "
           "background-color:palette(Window);}"));
-      QGraphicsEffect *oldShadow = ui->windowFrame->graphicsEffect();
+      /*QGraphicsEffect *oldShadow = ui->windowFrame->graphicsEffect();
       if (oldShadow) delete oldShadow;
       QGraphicsDropShadowEffect *windowShadow = new QGraphicsDropShadowEffect;
       windowShadow->setBlurRadius(9.0);
       windowShadow->setColor(palette().color(QPalette::Highlight));
       windowShadow->setOffset(0.0);
-      ui->windowFrame->setGraphicsEffect(windowShadow);
+      ui->windowFrame->setGraphicsEffect(windowShadow);*/
     } else {
       layout()->setMargin(0);
       ui->windowTitlebar->setStyleSheet(QStringLiteral(
           "#windowTitlebar{border: 0px none palette(shadow); "
           "border-top-left-radius:0px; border-top-right-radius:0px; "
-          "background-color:palette(shadow); height:20px;}"));
+          "background-color:rgb(25,35,45); height:20px;}"));
       ui->windowFrame->setStyleSheet(QStringLiteral(
           "#windowFrame{border:1px solid palette(dark); border-radius:0px 0px "
           "0px 0px; background-color:palette(Window);}"));
-      QGraphicsEffect *oldShadow = ui->windowFrame->graphicsEffect();
+      /*QGraphicsEffect *oldShadow = ui->windowFrame->graphicsEffect();
       if (oldShadow) delete oldShadow;
-      ui->windowFrame->setGraphicsEffect(nullptr);
+      ui->windowFrame->setGraphicsEffect(nullptr);*/
     }  // if (bNoState) else maximize
   } else {
     if (bNoState) {
@@ -163,29 +166,30 @@ void FramelessWindow::styleWindow(bool bActive, bool bNoState) {
       ui->windowTitlebar->setStyleSheet(QStringLiteral(
           "#windowTitlebar{border: 0px none palette(shadow); "
           "border-top-left-radius:0px; border-top-right-radius:0px; "
-          "background-color:palette(dark); height:20px;}"));
+          "background-color:rgb(11,22,32); height:20px;}"));
       ui->windowFrame->setStyleSheet(QStringLiteral(
           "#windowFrame{border:1px solid #000000; border-radius:0px; "
           "background-color:palette(Window);}"));
-      QGraphicsEffect *oldShadow = ui->windowFrame->graphicsEffect();
+      /*QGraphicsEffect *oldShadow = ui->windowFrame->graphicsEffect();
       if (oldShadow) delete oldShadow;
       QGraphicsDropShadowEffect *windowShadow = new QGraphicsDropShadowEffect;
       windowShadow->setBlurRadius(9.0);
       windowShadow->setColor(palette().color(QPalette::Shadow));
       windowShadow->setOffset(0.0);
-      ui->windowFrame->setGraphicsEffect(windowShadow);
+      ui->windowFrame->setGraphicsEffect(windowShadow);*/
+      //ui->windowFrame->setGraphicsEffect(nullptr);
     } else {
       layout()->setMargin(0);
       ui->windowTitlebar->setStyleSheet(QStringLiteral(
           "#titlebarWidget{border: 0px none palette(shadow); "
           "border-top-left-radius:0px; border-top-right-radius:0px; "
-          "background-color:palette(dark); height:20px;}"));
+          "background-color:rgb(11,22,32); height:20px;}"));
       ui->windowFrame->setStyleSheet(QStringLiteral(
           "#windowFrame{border:1px solid palette(shadow); border-radius:0px; "
           "background-color:palette(Window);}"));
-      QGraphicsEffect *oldShadow = ui->windowFrame->graphicsEffect();
+      /*QGraphicsEffect *oldShadow = ui->windowFrame->graphicsEffect();
       if (oldShadow) delete oldShadow;
-      ui->windowFrame->setGraphicsEffect(nullptr);
+      ui->windowFrame->setGraphicsEffect(nullptr);*/
     }  // if (bNoState) { else maximize
   }    // if (bActive) { else no focus
 }
