@@ -47,6 +47,9 @@ class FramelessWindow : public QWidget {
   void on_closeButton_clicked();
   void on_windowTitlebar_doubleClicked();
 
+  void walletOpened(bool _error, const QString& _error_text);
+  void walletClosed();
+
  protected:
   virtual void changeEvent(QEvent *event);
   virtual void mouseDoubleClickEvent(QMouseEvent *event);

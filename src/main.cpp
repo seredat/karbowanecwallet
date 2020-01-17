@@ -158,7 +158,7 @@ int main(int argc, char* argv[]) {
   // create frameless window (and set windowState or title)
   FramelessWindow framelessWindow;
   //framelessWindow.setWindowIcon(QPixmap(":images/cryptonote"));
-  framelessWindow.setWindowTitle(QString(QObject::tr("%1 - Karbo Wallet %2")).arg(Settings::instance().getWalletFile()).arg(Settings::instance().getVersion()));
+  framelessWindow.setWindowTitle(QString(QObject::tr("Karbo Wallet %1")).arg(Settings::instance().getVersion()));
   framelessWindow.setContent(&MainWindow::instance());
 
   if (logWatcher != nullptr) {

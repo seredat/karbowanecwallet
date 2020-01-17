@@ -1226,7 +1226,7 @@ void MainWindow::walletClosed() {
   m_trackingModeIconLabel->hide();
   m_synchronizationStateIconLabel->hide();
 
-  setWindowTitle(QString(tr("Karbo Wallet %2")).arg(Settings::instance().getVersion()));
+  setWindowTitle(QString(tr("Karbo Wallet %1")).arg(Settings::instance().getVersion()));
 
   QList<QAction*> tabActions = m_tabActionGroup->actions();
   Q_FOREACH(auto action, tabActions) {

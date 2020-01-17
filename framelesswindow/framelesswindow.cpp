@@ -17,7 +17,12 @@
 #include <QGraphicsDropShadowEffect>
 #include <QScreen>
 
+#include "Settings.h"
+#include "WalletAdapter.h"
+
 #include "ui_framelesswindow.h"
+
+using namespace WalletGui;
 
 FramelessWindow::FramelessWindow(QWidget *parent)
     : QWidget(parent),
@@ -53,8 +58,10 @@ FramelessWindow::FramelessWindow(QWidget *parent)
   windowShadow->setOffset(0.0);
   ui->windowFrame->setGraphicsEffect(windowShadow);
 
-  QObject::connect(qApp, &QGuiApplication::applicationStateChanged, this,
-                   &FramelessWindow::on_applicationStateChanged);
+  QObject::connect(qApp, &QGuiApplication::applicationStateChanged, this, &FramelessWindow::on_applicationStateChanged);
+  QObject::connect(&WalletAdapter::instance(), &WalletAdapter::walletInitCompletedSignal, this, &FramelessWindow::walletOpened);
+  QObject::connect(&WalletAdapter::instance(), &WalletAdapter::walletCloseCompletedSignal, this, &FramelessWindow::walletClosed);
+
   setMouseTracking(true);
 
   // important to watch mouse move from all child widgets
@@ -62,6 +69,14 @@ FramelessWindow::FramelessWindow(QWidget *parent)
 }
 
 FramelessWindow::~FramelessWindow() { delete ui; }
+
+void FramelessWindow::walletOpened(bool _error, const QString& _error_text) {
+  setWindowTitle(QString(QObject::tr("%1 - Karbo Wallet %2")).arg(Settings::instance().getWalletFile()).arg(Settings::instance().getVersion()));
+}
+
+void FramelessWindow::walletClosed() {
+  setWindowTitle(QString(QObject::tr("Karbo Wallet %1")).arg(Settings::instance().getVersion()));
+}
 
 void FramelessWindow::on_restoreButton_clicked() {
   ui->restoreButton->setVisible(false);
