@@ -127,13 +127,17 @@
            </property>
            <property name="styleSheet">
             <string notr="true">#icon {
-  background-color:palette(shadow);
+  background-color:none;
   border:none;
   padding: 0;
   margin: 0;
-  width: 24px;
-  height: 24px;
 }</string>
+           </property>
+           <property name="pixmap">
+            <pixmap resource="../src/resources.qrc">:/images/cryptonote</pixmap>
+           </property>
+           <property name="scaledContents">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -175,7 +179,7 @@
   image:url(:/images/icon_window_minimize.png);
 }
 #minimizeButton:hover{
-  background-color:palette(alternate-base);
+  background-color:rgb(80,95,105);
 }
 #minimizeButton:pressed{
   background-color:palette(highlight);
@@ -198,7 +202,7 @@
   image:url(:/images/icon_window_restore.png);
 }
 #restoreButton:hover{
-  background-color:palette(alternate-base);
+  background-color:rgb(80,95,105);
 }
 #restoreButton:pressed{
   background-color:palette(highlight);
@@ -221,7 +225,7 @@
   image:url(:/images/icon_window_maximize.png);
 }
 #maximizeButton:hover{
-  background-color:palette(alternate-base);
+  background-color:rgb(80,95,105);
 }
 ##maximizeButton:pressed{
   background-color:palette(highlight);
@@ -242,7 +246,7 @@
            </property>
            <property name="styleSheet">
             <string notr="true">#closeButton{
-  background-color:none;
+  background-color:rgb(50,65,75);
   border:none;
   width:16px;
   height:16px;
@@ -251,7 +255,7 @@
   border-top-right-radius: 5px;
 }
 #closeButton:hover{
-  background-color:palette(alternate-base);
+  background-color:rgb(80,95,105);
 }
 ##closeButton:pressed{
   background-color:palette(highlight);
@@ -306,6 +310,8 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../src/resources.qrc"/>
+ </resources>
  <connections/>
 </ui>
