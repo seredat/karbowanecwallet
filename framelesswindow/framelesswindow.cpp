@@ -117,11 +117,11 @@ void FramelessWindow::styleWindow(bool bActive, bool bNoState) {
       layout()->setMargin(15);
       ui->windowTitlebar->setStyleSheet(QStringLiteral(
           "#windowTitlebar{border: 0px none palette(shadow); "
-          "border-top-left-radius:5px; border-top-right-radius:5px; "
+          "border-top-left-radius:0px; border-top-right-radius:0px; "
           "background-color:palette(shadow); height:20px;}"));
       ui->windowFrame->setStyleSheet(QStringLiteral(
-          "#windowFrame{border:1px solid palette(highlight); border-radius:5px "
-          "5px 5px 5px; background-color:palette(Window);}"));
+          "#windowFrame{border:1px solid palette(highlight); border-radius:0px; "
+          "background-color:palette(Window);}"));
       QGraphicsEffect *oldShadow = ui->windowFrame->graphicsEffect();
       if (oldShadow) delete oldShadow;
       QGraphicsDropShadowEffect *windowShadow = new QGraphicsDropShadowEffect;
@@ -147,11 +147,11 @@ void FramelessWindow::styleWindow(bool bActive, bool bNoState) {
       layout()->setMargin(15);
       ui->windowTitlebar->setStyleSheet(QStringLiteral(
           "#windowTitlebar{border: 0px none palette(shadow); "
-          "border-top-left-radius:5px; border-top-right-radius:5px; "
+          "border-top-left-radius:0px; border-top-right-radius:0px; "
           "background-color:palette(dark); height:20px;}"));
       ui->windowFrame->setStyleSheet(QStringLiteral(
-          "#windowFrame{border:1px solid #000000; border-radius:5px 5px 5px "
-          "5px; background-color:palette(Window);}"));
+          "#windowFrame{border:1px solid #000000; border-radius:0px; "
+          "background-color:palette(Window);}"));
       QGraphicsEffect *oldShadow = ui->windowFrame->graphicsEffect();
       if (oldShadow) delete oldShadow;
       QGraphicsDropShadowEffect *windowShadow = new QGraphicsDropShadowEffect;
@@ -166,8 +166,8 @@ void FramelessWindow::styleWindow(bool bActive, bool bNoState) {
           "border-top-left-radius:0px; border-top-right-radius:0px; "
           "background-color:palette(dark); height:20px;}"));
       ui->windowFrame->setStyleSheet(QStringLiteral(
-          "#windowFrame{border:1px solid palette(shadow); border-radius:0px "
-          "0px 0px 0px; background-color:palette(Window);}"));
+          "#windowFrame{border:1px solid palette(shadow); border-radius:0px; "
+          "background-color:palette(Window);}"));
       QGraphicsEffect *oldShadow = ui->windowFrame->graphicsEffect();
       if (oldShadow) delete oldShadow;
       ui->windowFrame->setGraphicsEffect(nullptr);
