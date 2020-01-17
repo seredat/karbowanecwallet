@@ -49,6 +49,7 @@
         <file alias="clock">images/clock.gif</file>
         <file alias="bg.png">images/bg.png</file>
         <file alias="handle.png">images/handle.png</file>
+        <file alias="kk">images/kk.png</file>
     </qresource>
     <qresource prefix="/skin">
         <file>default.qss</file>

@@ -112,13 +112,19 @@
           <widget class="QLabel" name="icon">
            <property name="minimumSize">
             <size>
-             <width>20</width>
+             <width>34</width>
              <height>20</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>20</width>
+             <width>34</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="baseSize">
+            <size>
+             <width>34</width>
              <height>20</height>
             </size>
            </property>
@@ -126,13 +132,22 @@
             <enum>Qt::NoContextMenu</enum>
            </property>
            <property name="styleSheet">
-            <string notr="true">#icon { background-color:none; border:none; }</string>
+            <string notr="true">#icon { background-color:none; border:1px solid transparent; margin: 0; padding: 0; margin-right: 1px; }</string>
            </property>
            <property name="pixmap">
-            <pixmap resource="../src/resources.qrc">:/images/cryptonote</pixmap>
+            <pixmap resource="../src/resources.qrc">:/images/kk</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+           </property>
+           <property name="margin">
+            <number>0</number>
+           </property>
+           <property name="indent">
+            <number>0</number>
            </property>
           </widget>
          </item>

@@ -139,7 +139,7 @@ void FramelessWindow::styleWindow(bool bActive, bool bNoState) {
           "background-color:rgb(25,35,45); height:20px;}"));
       ui->windowFrame->setStyleSheet(QStringLiteral(
           "#windowFrame{border:1px solid palette(highlight); border-radius:0px; "
-          "background-color:palette(Window);}"));
+          "background-color:rgb(25,35,45); height:20px;}"));
       /*QGraphicsEffect *oldShadow = ui->windowFrame->graphicsEffect();
       if (oldShadow) delete oldShadow;
       QGraphicsDropShadowEffect *windowShadow = new QGraphicsDropShadowEffect;
@@ -154,8 +154,8 @@ void FramelessWindow::styleWindow(bool bActive, bool bNoState) {
           "border-top-left-radius:0px; border-top-right-radius:0px; "
           "background-color:rgb(25,35,45); height:20px;}"));
       ui->windowFrame->setStyleSheet(QStringLiteral(
-          "#windowFrame{border:1px solid palette(dark); border-radius:0px 0px "
-          "0px 0px; background-color:palette(Window);}"));
+          "#windowFrame{border:1px solid palette(dark); border-radius:0px; "
+          "background-color:palette(Window);}"));
       /*QGraphicsEffect *oldShadow = ui->windowFrame->graphicsEffect();
       if (oldShadow) delete oldShadow;
       ui->windowFrame->setGraphicsEffect(nullptr);*/
@@ -166,7 +166,7 @@ void FramelessWindow::styleWindow(bool bActive, bool bNoState) {
       ui->windowTitlebar->setStyleSheet(QStringLiteral(
           "#windowTitlebar{border: 0px none palette(shadow); "
           "border-top-left-radius:0px; border-top-right-radius:0px; "
-          "background-color:rgb(11,22,32); height:20px;}"));
+          "background-color:rgb(25,35,45); height:20px;}"));
       ui->windowFrame->setStyleSheet(QStringLiteral(
           "#windowFrame{border:1px solid #000000; border-radius:0px; "
           "background-color:palette(Window);}"));
