@@ -157,6 +157,10 @@ int main(int argc, char* argv[]) {
 
   // create frameless window (and set windowState or title)
   FramelessWindow framelessWindow;
+  // fix font sizes for MacOS
+#ifdef Q_OS_MAC
+  framelessWindow.setStyleSheet("QWidget{font-size:12px}");
+#endif
   //framelessWindow.setWindowIcon(QPixmap(":images/cryptonote"));
   framelessWindow.setWindowTitle(QString(QObject::tr("Karbo Wallet %1")).arg(Settings::instance().getVersion()));
   framelessWindow.setContent(&MainWindow::instance());
