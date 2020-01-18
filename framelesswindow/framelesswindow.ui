@@ -112,27 +112,27 @@
           <widget class="QLabel" name="icon">
            <property name="minimumSize">
             <size>
-             <width>34</width>
-             <height>20</height>
+             <width>44</width>
+             <height>22</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>34</width>
-             <height>20</height>
+             <width>44</width>
+             <height>22</height>
             </size>
            </property>
            <property name="baseSize">
             <size>
-             <width>34</width>
-             <height>20</height>
+             <width>44</width>
+             <height>22</height>
             </size>
            </property>
            <property name="contextMenuPolicy">
             <enum>Qt::NoContextMenu</enum>
            </property>
            <property name="styleSheet">
-            <string notr="true">#icon { background-color:none; border:1px solid transparent; margin: 0; padding: 0; margin-right: 1px; }</string>
+            <string notr="true">#icon { background-color:none; border: none; margin: 0 6px 0 0; padding: 0; }</string>
            </property>
            <property name="pixmap">
             <pixmap resource="../src/resources.qrc">:/images/kk</pixmap>
@@ -160,7 +160,7 @@
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">  padding-left:5px;
+            <string notr="true">  padding-left:2px;
   color:rgb(153,153,153);</string>
            </property>
            <property name="text">
