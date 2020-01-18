@@ -316,7 +316,7 @@
   <customwidget>
    <class>WindowDragger</class>
    <extends>QWidget</extends>
-   <header>windowdragger.h</header>
+   <header>./windowdragger.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
