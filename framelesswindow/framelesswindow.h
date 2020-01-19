@@ -61,7 +61,7 @@ class FramelessWindow : public QWidget {
  private:
   Ui::FramelessWindow *ui;
   QRect m_StartGeometry;
-  const quint8 CONST_DRAG_BORDER_SIZE = 15;
+  const quint8 CONST_DRAG_BORDER_SIZE = 3;
   bool m_bMousePressed;
   bool m_bDragTop;
   bool m_bDragLeft;

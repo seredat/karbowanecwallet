@@ -38,8 +38,8 @@ FramelessWindow::FramelessWindow(QWidget *parent)
 #if defined(Q_OS_WIN)
   setWindowFlags(windowFlags() | Qt::WindowMinimizeButtonHint);
 #endif
-  setAttribute(Qt::WA_NoSystemBackground, true);
-  setAttribute(Qt::WA_TranslucentBackground);
+  //setAttribute(Qt::WA_NoSystemBackground, true);
+  //setAttribute(Qt::WA_TranslucentBackground);
 
   ui->setupUi(this);
   ui->restoreButton->setVisible(false);
@@ -52,12 +52,12 @@ FramelessWindow::FramelessWindow(QWidget *parent)
   ui->titleText->setGraphicsEffect(textShadow);
 
   // window shadow
-  QGraphicsDropShadowEffect *windowShadow = new QGraphicsDropShadowEffect;
+  /*QGraphicsDropShadowEffect *windowShadow = new QGraphicsDropShadowEffect;
   windowShadow->setBlurRadius(9.0);
   windowShadow->setColor(QColor(36, 36, 36));
   windowShadow->setYOffset(0.5);
   windowShadow->setXOffset(0.0);
-  ui->windowFrame->setGraphicsEffect(windowShadow);
+  ui->windowFrame->setGraphicsEffect(windowShadow);*/
 
   QObject::connect(qApp, &QGuiApplication::applicationStateChanged, this, &FramelessWindow::on_applicationStateChanged);
   QObject::connect(&WalletAdapter::instance(), &WalletAdapter::walletInitCompletedSignal, this, &FramelessWindow::walletOpened);
@@ -132,7 +132,7 @@ void FramelessWindow::setWindowIcon(const QIcon &ico) {
 void FramelessWindow::styleWindow(bool bActive, bool bNoState) {
   if (bActive) {
     if (bNoState) {
-      layout()->setMargin(15);
+      layout()->setMargin(0);
       ui->windowTitlebar->setStyleSheet(QStringLiteral(
           "#windowTitlebar{border: 0px none palette(shadow); "
           "border-top-left-radius:0px; border-top-right-radius:0px; "
@@ -162,7 +162,7 @@ void FramelessWindow::styleWindow(bool bActive, bool bNoState) {
     }  // if (bNoState) else maximize
   } else {
     if (bNoState) {
-      layout()->setMargin(15);
+      layout()->setMargin(0);
       ui->windowTitlebar->setStyleSheet(QStringLiteral(
           "#windowTitlebar{border: 0px none palette(shadow); "
           "border-top-left-radius:0px; border-top-right-radius:0px; "
