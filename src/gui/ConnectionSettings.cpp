@@ -3,6 +3,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <iostream>
+#include <QRegExp>
 #include "ui_connectionsettingsdialog.h"
 #include "ConnectionSettings.h"
 #include "CurrencyAdapter.h"
@@ -124,8 +125,11 @@ void ConnectionSettingsDialog::addNodeClicked() {
     nodeSetting.port = dlg.getPort();
     nodeSetting.path = dlg.getPath();
     nodeSetting.ssl = dlg.getEnableSSL();
-    if (nodeSetting.host.isEmpty()) return;
-    m_nodeModel->addNode(nodeSetting);
+    if (QRegExp("^([a-z|A-Z|0-9]|[a-z|A-Z|0-9]-[a-z|A-Z|0-9]|[a-z|A-Z|0-9]\\.)+$").exactMatch(nodeSetting.host) &&
+        (nodeSetting.port > 0 && nodeSetting.port < 65535) &&
+        QRegExp("^(/([\\w|-]+/)+|/)$").exactMatch(nodeSetting.path)) {
+      m_nodeModel->addNode(nodeSetting);
+    }
   }
   updateNodeSelect();
 }
