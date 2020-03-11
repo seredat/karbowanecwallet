@@ -114,6 +114,7 @@ set(CRYPTONOTE_SOURCES
   cryptonote/src/crypto/chacha8.cpp
   cryptonote/src/crypto/crypto-ops-data.c
   cryptonote/src/crypto/crypto-ops.c
+  cryptonote/src/crypto/crypto-util.c
   cryptonote/src/crypto/crypto.cpp
   cryptonote/src/crypto/groestl.c
   cryptonote/src/crypto/hash-extra-blake.c
@@ -265,9 +266,9 @@ elseif (UNIX)
     file(GLOB_RECURSE OBJC_SOURCES src/*.mm)
     set(SOURCES ${SOURCES} ${OBJC_SOURCES})
     set(PLATFORM_DIR OSX)
-    set(MACOSX_BUNDLE_INFO_STRING "Karbowanec GUI wallet")
+    set(MACOSX_BUNDLE_INFO_STRING "Karbowanec GUI Wallet")
     set(MACOSX_BUNDLE_LONG_VERSION_STRING "${VERSION_VERSION}.${VERSION_MINOR}.${VERSION_PATCH}")
-    set(MACOSX_BUNDLE_BUNDLE_NAME "Карбованець")
+    set(MACOSX_BUNDLE_BUNDLE_NAME "Karbo Wallet")
     set(MACOSX_BUNDLE_SHORT_VERSION_STRING "${VERSION_VERSION}.${VERSION_MINOR}.${VERSION_PATCH}")
     set(MACOSX_BUNDLE_BUNDLE_VERSION "$${VERSION_VERSION}.${VERSION_MINOR}.${VERSION_PATCH}")
 
@@ -454,7 +455,7 @@ qt5_use_modules(${PROJECT_NAME} Widgets Gui Network)
 set(CPACK_PACKAGE_NAME ${CN_PROJECT_NAME})
 set(CPACK_PACKAGE_VERSION ${CN_VERSION})
 set(CPACK_PACKAGE_VENDOR "Karbowanec-project")
-set(CPACK_PACKAGE_CONTACT "http://karbowanec.com")
+set(CPACK_PACKAGE_CONTACT "https://karbo.org")
 set(CPACK_STRIP_FILES ON)
 if (APPLE)
     set(CPACK_GENERATOR DragNDrop)
