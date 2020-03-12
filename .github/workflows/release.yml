@@ -43,8 +43,13 @@ jobs:
           cd "$build_folder"
           Start-Process cmake -ArgumentList "-G ""Visual Studio 16 2019"" -A x64",".." -NoNewWindow -Wait
           Start-Process msbuild -ArgumentList "KarbowanecWallet.sln","/p:Configuration=Release" -NoNewWindow -Wait
+          mkdir "$release_folder/$release_name"
+          cp languages/*.qm "$release_folder/$release_name/languages"
           cd "$release_folder"
-          Compress-Archive -Path *.exe -DestinationPath "$release_name.zip"
+          cp KarbowanecWallet.exe "$release_name/"
+          cd "$release_name/"
+          windeployqt --release KarbowanecWallet.exe
+          Compress-Archive -Path "$release_name/" -DestinationPath "$release_name.zip"
           $sha256 = (Get-FileHash "$release_name.zip").Hash
           $asset_path = "./$build_folder/$release_folder/$release_name.zip"
           echo "::set-output name=sha256::${sha256}"
@@ -129,7 +134,7 @@ jobs:
           sudo apt install -y qt5-default qttools5-dev qttools5-dev-tools libboost-all-dev
           build_folder="build/release"
           krb_ver=$(echo "$GITHUB_REF" | sed 's|refs/tags/||')
-          release_name=Karbo-wallet-ubuntu16.04-"$krb_ver"
+          release_name=Karbo-wallet-ubuntu-16.04-"$krb_ver"
           app_name="KarbowanecWallet"
           rm -rf cryptonote
           git clone https://github.com/seredat/karbowanec.git cryptonote
@@ -137,7 +142,8 @@ jobs:
           cd "$build_folder"
           cmake ../..
           make
-          tar -czf "$release_name".tar.gz "$app_name"
+          cpack
+          tar -czf "$release_name".tar.gz *.deb
           sha256=$(shasum -a 256 "$release_name".tar.gz | awk '{print toupper($1)}')
           asset_path="./$build_folder/$release_name".tar.gz
           echo "::set-output name=sha256::${sha256}"

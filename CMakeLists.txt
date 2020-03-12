@@ -464,27 +464,15 @@ if (APPLE)
 elseif (UNIX)
     find_program(RPMBUILD rpmbuild)
 
-    install(PROGRAMS build/${PROJECT_NAME} DESTINATION bin
+    install(PROGRAMS ${CMAKE_BINARY_DIR}/${PROJECT_NAME} DESTINATION bin
     PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
     install(FILES src/karbowanecwallet.desktop DESTINATION share/applications)
     install(FILES src/images/karbowanez.png DESTINATION share/pixmaps RENAME karbowanec.png)
     install(FILES copyright DESTINATION share/doc/karbowanecwallet)
     install(DIRECTORY "${CMAKE_BINARY_DIR}/languages" DESTINATION /opt/karbo/ FILES_MATCHING PATTERN "*.qm")
 
-    if (NOT RPMBUILD)
-        set(CPACK_GENERATOR DEB)
-        set(CPACK_DEBIAN_PACKAGE_NAME ${CPACK_PACKAGE_NAME})
-        set(CPACK_SYSTEM_NAME 64-bit)
-        set(CPACK_DEBIAN_PACKAGE_MAINTAINER "${CPACK_PACKAGE_VENDOR} <krbcoin@ukr.net>")
-        set(CPACK_DEBIAN_PACKAGE_SECTION Office)
-        set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
-        set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "Karbowanec KRB wallet
- Karbowanec is Ukrainian decentralized, privacy oriented peer-to-peer
- cryptocurrency. It is open-source, nobody owns or controls Karbowanec
- and everyone can take part.")
-set(CPACK_PACKAGE_FILE_NAME "${CPACK_DEBIAN_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${VERSION_RELEASE}${CPACK_SYSTEM_NAME}")
-    else()
-        set(CPACK_GENERATOR RPM)
+    if (RPMBUILD)
+        set(CPACK_GENERATOR "RPM;DEB")
         set(CPACK_SYSTEM_NAME x86_64)
         set(CPACK_RPM_PACKAGE_RELEASE ${VERSION_RELEASE})
         set(CPACK_RPM_PACKAGE_LICENSE "MIT")
@@ -495,8 +483,20 @@ set(CPACK_PACKAGE_FILE_NAME "${CPACK_DEBIAN_PACKAGE_NAME}-${CPACK_PACKAGE_VERSIO
  Karbowanec is Ukrainian decentrilized, privacy oriented peer-to-peer
  cryptocurrency. It is open-source, nobody owns or controls Karbowanec
  and everyone can take part.")
-set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${VERSION_RELEASE}${CPACK_SYSTEM_NAME}")
-    endif ()
+    else ()
+		set(CPACK_GENERATOR DEB)
+	endif ()
+	
+	set(CPACK_SYSTEM_NAME 64-bit)
+	set(CPACK_DEBIAN_PACKAGE_MAINTAINER "${CPACK_PACKAGE_VENDOR} <krbcoin@ukr.net>")
+	set(CPACK_DEBIAN_PACKAGE_SECTION Office)
+	set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
+	set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "Karbowanec KRB wallet
+ Karbowanec is Ukrainian decentralized, privacy oriented peer-to-peer
+ cryptocurrency. It is open-source, nobody owns or controls Karbowanec
+ and everyone can take part.")
+
+	set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${VERSION_RELEASE}${CPACK_SYSTEM_NAME}")
 elseif (WIN32)
   install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION .)
   set(CPACK_GENERATOR ZIP)
