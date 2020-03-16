@@ -1,6 +1,6 @@
 // Copyright (c) 2011-2016 The Cryptonote developers
 // Copyright (c) 2015-2016 XDN developers
-// Copyright (c) 2016 Karbowanec developers
+// Copyright (c) 2016-2020 Karbowanec developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -10,6 +10,7 @@
 #include <QNetworkReply>
 #include <QStringList>
 #include <QUrl>
+#include <QDebug>
 
 #include "AddressProvider.h"
 
@@ -44,9 +45,10 @@ void AddressProvider::readyRead() {
   QJsonObject obj = doc.object();
 
   QString address = obj.value("fee_address").toString();
-
+  quint64 _feeAmount = obj.value("fee_amount").isUndefined() ? 0 : static_cast<uint64_t>(obj.value("fee_amount").toDouble());
+  qDebug() << obj.value("fee_amount");
   if (!address.isEmpty()) {
-    Q_EMIT addressFoundSignal(address);
+    Q_EMIT addressFoundSignal(address, _feeAmount);
   }
 }
 

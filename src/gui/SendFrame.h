@@ -38,10 +38,11 @@ private:
   AddressProvider* m_addressProvider;
   SendGlassFrame* m_glassFrame;
 
-  QString remote_node_fee_address;
-  quint64 remote_node_fee;
-  quint64 total_amount;
-  quint64 unmixable_balance;
+  QString m_nodeFeeAddress;
+  quint64 m_nodeFee = 0;
+  quint64 m_flatRateNodeFee = 0;
+  quint64 m_totalAmount = 0;
+  quint64 m_unmixableBalance = 0;
 
   void sendTransactionCompleted(CryptoNote::TransactionId _id, bool _error, const QString& _error_text);
   void walletActualBalanceUpdated(quint64 _balance);
@@ -49,7 +50,7 @@ private:
   void walletSynchronizationInProgress(quint64 _current, quint64 _total);
   void insertPaymentID(QString _paymentid);
   static bool isValidPaymentId(const QByteArray& _paymentIdString);
-  void onAddressFound(const QString& _address);
+  void onNodeFeeAddressFound(const QString& _address, const quint64 _feeAmount);
   double getMinimalFee();
   void reset();
 

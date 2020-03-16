@@ -1,6 +1,6 @@
 // Copyright (c) 2011-2016 The Cryptonote developers
 // Copyright (c) 2015-2016 XDN developers
-// Copyright (c) 2016 Karbowanec developers
+// Copyright (c) 2016-2020 Karbowanec developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -25,7 +25,7 @@ private:
   void readyRead();
 
 Q_SIGNALS:
-  void addressFoundSignal(const QString& _address);
+  void addressFoundSignal(const QString& _address, const quint64 _feeAmount);
 };
 
 }
