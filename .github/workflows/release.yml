@@ -18,12 +18,16 @@ jobs:
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
-          version: '5.12.0'
+          version: '5.14.0'
           host: 'windows'
           target: 'desktop'
-          arch: 'win64_msvc2017_64'
           modules: 'qttools5'
           install-deps: 'true'
+
+      - name: Install NSIS
+        uses: joncloud/makensis-action@v1
+        with:
+          just-include: true
 
       - name: Build
         shell: powershell
@@ -35,7 +39,6 @@ jobs:
           $krb_ver = "${{ github.ref }}" -replace '[refs/tags/]'
           $release_name = "Karbo-wallet-win64-$krb_ver"
           set CMAKE_PREFIX_PATH="$($qt5_cmake)"
-          $release_folder = "Release"
           $qt5_cmake = "${{ env.Qt5_Dir }}/lib/cmake" -replace '[/]', '\\'
           Remove-Item cryptonote -Recurse -ErrorAction Ignore
           git clone https://github.com/seredat/karbowanec cryptonote
@@ -43,13 +46,33 @@ jobs:
           cd "$build_folder"
           Start-Process cmake -ArgumentList "-G ""Visual Studio 16 2019"" -A x64",".." -NoNewWindow -Wait
           Start-Process msbuild -ArgumentList "KarbowanecWallet.sln","/p:Configuration=Release" -NoNewWindow -Wait
+          $build_path = "./$build_folder"
+          echo "::set-output name=build_path::${build_path}"
+          echo "::set-output name=release_name::${release_name}"
+          echo "::set-output name=krb_ver::${krb_ver}"
+  
+      - name: Pack
+        shell: powershell
+        id: pack
+        env:
+          VCINSTALLDIR: 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\'
+        run: |
+          $build_folder = "${{ steps.build.outputs.build_path }}"
+          $release_name = "${{ steps.build.outputs.release_name }}"
+          $release_folder = "Release"
+          cd "$build_folder"
+          $krb_ver = "${{ steps.build.outputs.krb_ver }}"
           mkdir "$release_folder/$release_name"
-          cp languages/*.qm "$release_folder/$release_name/languages"
+          mkdir "$release_folder/$release_name/languages"
+          cp languages/*.qm "$release_folder/$release_name/languages/"
           cd "$release_folder"
           cp KarbowanecWallet.exe "$release_name/"
-          cd "$release_name/"
-          windeployqt --release KarbowanecWallet.exe
-          Compress-Archive -Path "$release_name/" -DestinationPath "$release_name.zip"
+          cp "../../COPYING" "$release_name/COPYING.txt"
+          windeployqt --release KarbowanecWallet.exe --dir "$release_name/"
+          cd ../../
+          makensis WindowsInstall.nsi
+          cd "$build_folder/$release_folder"
+          Compress-Archive -Path "KarbowanecWallet-Setup.exe" -DestinationPath "$release_name.zip"
           $sha256 = (Get-FileHash "$release_name.zip").Hash
           $asset_path = "./$build_folder/$release_folder/$release_name.zip"
           echo "::set-output name=sha256::${sha256}"
@@ -60,11 +83,11 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          files: ${{ steps.build.outputs.asset_path }}
-          name: Karbo Wallet ${{ steps.build.outputs.krb_ver }}
+          files: ${{ steps.pack.outputs.asset_path }}
+          name: Karbo Wallet ${{ steps.pack.outputs.krb_ver }}
           body: |
-            **${{ steps.build.outputs.release_name }}**
-            ${{ steps.build.outputs.sha256 }}
+            **${{ steps.pack.outputs.release_name }}**
+            ${{ steps.pack.outputs.sha256 }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

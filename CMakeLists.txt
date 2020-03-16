@@ -441,7 +441,11 @@ if (WIN32)
 endif ()
 
 if (APPLE)
-  target_link_libraries(${PROJECT_NAME} Qt5::PrintSupport)
+  set_target_properties(${PROJECT_NAME} PROPERTIES
+  MACOSX_BUNDLE TRUE
+  MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist)
+  
+  target_link_libraries(${PROJECT_NAME} Qt5::PrintSupport) 
 elseif (UNIX)
   target_link_libraries(${PROJECT_NAME} -lpthread)
 elseif (WIN32)
@@ -459,8 +463,9 @@ set(CPACK_PACKAGE_CONTACT "https://karbo.org")
 set(CPACK_STRIP_FILES ON)
 if (APPLE)
     set(CPACK_GENERATOR DragNDrop)
-    install(TARGETS ${PROJECT_NAME} BUNDLE DESTINATION .)
-    set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${VERSION_RELEASE}")
+	set(CPACK_BUNDLE_PLIST ${CMAKE_SOURCE_DIR}/Info.plist)
+    set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}")
+	install(TARGETS ${PROJECT_NAME} BUNDLE DESTINATION .)
 elseif (UNIX)
     find_program(RPMBUILD rpmbuild)
 
@@ -474,7 +479,7 @@ elseif (UNIX)
     if (RPMBUILD)
         set(CPACK_GENERATOR "RPM;DEB")
         set(CPACK_SYSTEM_NAME x86_64)
-        set(CPACK_RPM_PACKAGE_RELEASE ${VERSION_RELEASE})
+        set(CPACK_RPM_PACKAGE_RELEASE ${CN_VERSION})
         set(CPACK_RPM_PACKAGE_LICENSE "MIT")
         set(CPACK_RPM_PACKAGE_GROUP Office)
         set(CPACK_RPM_PACKAGE_REQUIRES "qt5-qtbase >= 5.3.2, qt5-qtbase-gui >= 5.3.2")
@@ -496,10 +501,40 @@ elseif (UNIX)
  cryptocurrency. It is open-source, nobody owns or controls Karbowanec
  and everyone can take part.")
 
-	set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${VERSION_RELEASE}${CPACK_SYSTEM_NAME}")
+	set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${CPACK_SYSTEM_NAME}")
 elseif (WIN32)
-  install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION .)
-  set(CPACK_GENERATOR ZIP)
+    set(CMAKE_INSTALL_UCRT_LIBRARIES TRUE)
+    include(InstallRequiredSystemLibraries)
+
+	set (CPACK_PACKAGE_DESCRIPTION_SUMMARY "Karbowanec KRB wallet
+ Karbowanec is Ukrainian decentralized, privacy oriented peer-to-peer
+ cryptocurrency. It is open-source, nobody owns or controls Karbowanec
+ and everyone can take part.")
+    set (CPACK_PACKAGE_VERSION_MAJOR "1")
+    set (CPACK_PACKAGE_VERSION_MINOR "4")
+    set (CPACK_PACKAGE_VERSION_PATCH "1")
+    set (CPACK_PACKAGE_INSTALL_DIRECTORY "Karbowanec")
+
+    # Define components and their display names
+    set (CPACK_COMPONENTS_ALL applications)
+    set (CPACK_COMPONENT_APPLICATIONS_DISPLAY_NAME "Karbo wallet")
+
+    # Human readable component descriptions
+    set (CPACK_COMPONENT_APPLICATIONS_DESCRIPTION
+      "Ukrainian decentralized, privacy oriented peer-to-peer cryptocurrency")
+
+    # Define groups
+    set(CPACK_COMPONENT_APPLICATIONS_GROUP "Runtime")
+
+    set(CPACK_COMPONENT_GROUP_DEVELOPMENT_DESCRIPTION
+       "Ukrainian decentralized, privacy oriented peer-to-peer cryptocurrency")
+
+    # Define NSIS installation types
+    set(CPACK_ALL_INSTALL_TYPES Full)
+    set(CPACK_COMPONENT_APPLICATIONS_INSTALL_TYPES Full)
+
+    #install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION .)
+    set(CPACK_GENERATOR NSIS)
 endif (APPLE)
 
 include(CPack)
