@@ -10,7 +10,6 @@
 #include <QNetworkReply>
 #include <QStringList>
 #include <QUrl>
-#include <QDebug>
 
 #include "AddressProvider.h"
 
@@ -46,7 +45,6 @@ void AddressProvider::readyRead() {
 
   QString address = obj.value("fee_address").toString();
   quint64 _feeAmount = obj.value("fee_amount").isUndefined() ? 0 : static_cast<uint64_t>(obj.value("fee_amount").toDouble());
-  qDebug() << obj.value("fee_amount");
   if (!address.isEmpty()) {
     Q_EMIT addressFoundSignal(address, _feeAmount);
   }
