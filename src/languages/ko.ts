@@ -1568,11 +1568,12 @@ Do you want to go to download page?</source>
     <message>
         <location filename="../gui/ui/sendframe.ui" line="447"/>
         <source>Add Recipient</source>
-        <translation>수취인 추가</message>
+        <translation>수취인 추가</translation>
+	</message>
     <message>
         <location filename="../gui/ui/sendframe.ui" line="458"/>
         <source>Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>많은</translation>
     </message>
     <message>
         <location filename="../gui/ui/sendframe.ui" line="491"/>
@@ -1582,7 +1583,7 @@ Do you want to go to download page?</source>
     <message>
         <location filename="../gui/ui/sendframe.ui" line="494"/>
         <source>Remote mode</source>
-        <translation type="unfinished"></translation>
+        <translation>원격 모드</translation>
     </message>
     <message>
         <source>Remote node mode</source>
