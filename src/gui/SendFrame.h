@@ -19,7 +19,6 @@ namespace Ui {
 namespace WalletGui {
 
 class TransferFrame;
-class AddressProvider;
 
 class SendFrame : public QFrame {
   Q_OBJECT
@@ -35,7 +34,6 @@ public:
 private:
   QScopedPointer<Ui::SendFrame> m_ui;
   QList<TransferFrame*> m_transfers;
-  AddressProvider* m_addressProvider;
   SendGlassFrame* m_glassFrame;
 
   QString m_nodeFeeAddress;

@@ -20,7 +20,6 @@
 #include "WalletAdapter.h"
 #include "WalletEvents.h"
 #include "Settings.h"
-#include "AddressProvider.h"
 #include "OpenUriDialog.h"
 #include "ConfirmSendDialog.h"
 #include "PasswordDialog.h"
@@ -30,7 +29,8 @@
 
 namespace WalletGui {
 
-SendFrame::SendFrame(QWidget* _parent) : QFrame(_parent), m_ui(new Ui::SendFrame), m_addressProvider(new AddressProvider(this)), m_glassFrame(new SendGlassFrame(nullptr)) {
+SendFrame::SendFrame(QWidget* _parent) : QFrame(_parent), m_ui(new Ui::SendFrame), m_glassFrame(new SendGlassFrame(nullptr)),
+  m_nodeFee(0), m_flatRateNodeFee(0) {
   m_ui->setupUi(this);
   m_glassFrame->setObjectName("m_sendGlassFrame");
   clearAllClicked();
@@ -38,7 +38,6 @@ SendFrame::SendFrame(QWidget* _parent) : QFrame(_parent), m_ui(new Ui::SendFrame
   mixinValueChanged(m_ui->m_mixinSlider->value());
   m_ui->m_prioritySlider->setValue(2);
   priorityValueChanged(m_ui->m_prioritySlider->value());
-  m_nodeFee = 0;
   amountValueChange();
 
   connect(&WalletAdapter::instance(), &WalletAdapter::walletSendTransactionCompletedSignal, this, &SendFrame::sendTransactionCompleted,
@@ -79,9 +78,12 @@ SendFrame::SendFrame(QWidget* _parent) : QFrame(_parent), m_ui(new Ui::SendFrame
 
   QString connection = Settings::instance().getConnection();
   if(connection.compare("remote") == 0) {
-    QString remoteNodeUrl = Settings::instance().getCurrentRemoteNode() + "/feeaddress";
-    m_addressProvider->getAddress(remoteNodeUrl);
-    connect(m_addressProvider, &AddressProvider::addressFoundSignal, this, &SendFrame::onNodeFeeAddressFound, Qt::QueuedConnection);
+    m_nodeFeeAddress  = NodeAdapter::instance().getNodeFeeAddress();
+    m_flatRateNodeFee = NodeAdapter::instance().getNodeFeeAmount();
+
+    m_ui->m_remote_label->setText(QString(tr("Node fee: %1 %2")).arg(CurrencyAdapter::instance().formatAmount(m_flatRateNodeFee).remove(QRegExp("0+$"))).arg(CurrencyAdapter::instance().getCurrencyTicker().toUpper()));
+    m_ui->m_remote_label->show();
+    amountValueChange();
   }
   m_ui->m_advancedWidget->hide();
 }
@@ -227,14 +229,6 @@ void SendFrame::amountValueChange() {
 
 void SendFrame::insertPaymentID(QString _paymentid) {
   m_ui->m_paymentIdEdit->setText(_paymentid);
-}
-
-void SendFrame::onNodeFeeAddressFound(const QString& _address, const quint64 _feeAmount) {
-  SendFrame::m_nodeFeeAddress = _address;
-  m_flatRateNodeFee = _feeAmount;
-  m_ui->m_remote_label->setText(QString(tr("Node fee: %1 %2")).arg(CurrencyAdapter::instance().formatAmount(m_flatRateNodeFee).remove(QRegExp("0+$"))).arg(CurrencyAdapter::instance().getCurrencyTicker().toUpper()));
-  m_ui->m_remote_label->show();
-  amountValueChange();
 }
 
 void SendFrame::openUriClicked() {
