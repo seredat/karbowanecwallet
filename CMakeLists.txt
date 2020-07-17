@@ -56,22 +56,6 @@ find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Network REQUIRED)
 find_package(Qt5LinguistTools REQUIRED)
 
-set(Boost_NO_BOOST_CMAKE ON)
-set(Boost_USE_STATIC_LIBS ON)
-if(WIN32)
-  set(Boost_USE_STATIC_RUNTIME OFF)
-else(WIN32)
-  set(Boost_USE_STATIC_RUNTIME ON)
-endif(WIN32)
-
-find_package(Boost REQUIRED COMPONENTS date_time filesystem program_options regex serialization system thread chrono)
-if ((${Boost_MAJOR_VERSION} EQUAL 1) AND (${Boost_MINOR_VERSION} EQUAL 54))
-	message(SEND_ERROR "Boost version 1.54 is unsupported, more details are available here http://goo.gl/RrCFmA")
-endif ()
-
-include_directories(${Boost_INCLUDE_DIRS})
-link_directories(${Boost_LIBRARY_DIRS})
-
 # We have to look for Homebrew OpenSSL a bit differently
 # Borrowed from https://github.com/tarantool/tarantool/commit/6eab201af1843f53a833c8928dc58fceffa08147
 if (APPLE)
@@ -109,6 +93,22 @@ if (OPENSSL_FOUND)
 else ()
     message(STATUS "OpenSSL Found: No... Skipping...")
 endif ()
+
+set(Boost_NO_BOOST_CMAKE ON)
+set(Boost_USE_STATIC_LIBS ON)
+if(WIN32)
+  set(Boost_USE_STATIC_RUNTIME OFF)
+else(WIN32)
+  set(Boost_USE_STATIC_RUNTIME ON)
+endif(WIN32)
+
+find_package(Boost REQUIRED COMPONENTS date_time filesystem program_options regex serialization system thread chrono)
+if ((${Boost_MAJOR_VERSION} EQUAL 1) AND (${Boost_MINOR_VERSION} EQUAL 54))
+	message(SEND_ERROR "Boost version 1.54 is unsupported, more details are available here http://goo.gl/RrCFmA")
+endif ()
+
+include_directories(${Boost_INCLUDE_DIRS})
+link_directories(${Boost_LIBRARY_DIRS})
 
 set(VERSION "")
 include(cn_version.cmake)
