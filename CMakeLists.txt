@@ -103,7 +103,7 @@ if (OPENSSL_FOUND)
         set(OPENSSL_LIBRARIES "${OPENSSL_LIBRARIES};dl")
     endif ()
 
-    include_directories(${OPENSSL_INCLUDE_DIR})
+    include_directories(SYSTEM ${OPENSSL_INCLUDE_DIR})
     message(STATUS "OpenSSL Found: ${OPENSSL_INCLUDE_DIR}")
     message(STATUS "OpenSSL Libraries: ${OPENSSL_LIBRARIES}")
 else ()
