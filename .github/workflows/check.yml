@@ -152,6 +152,7 @@ jobs:
           include: 'v*'
           exclude: '*-rc*'
           commit-ish: 'HEAD~'
+          skip-unshallow: 'true'
 
       - name: Build
         id: build
@@ -207,6 +208,7 @@ jobs:
           include: 'v*'
           exclude: '*-rc*'
           commit-ish: 'HEAD~'
+          skip-unshallow: 'true'
 
       - name: Build
         id: build
@@ -258,6 +260,7 @@ jobs:
           include: 'v*'
           exclude: '*-rc*'
           commit-ish: 'HEAD~'
+          skip-unshallow: 'true'
 
       - name: Build
         id: build
