@@ -11,6 +11,8 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@master
+        with:
+          fetch-depth: 0
 
       - name: Setup MSBuild.exe
         uses: warrenbuckley/Setup-MSBuild@v1
@@ -116,6 +118,8 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@master
+        with:
+          fetch-depth: 0
 
       - name: Setup Xcode
         uses: maxim-lobanov/setup-xcode@1.0
@@ -173,6 +177,8 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@master
+        with:
+          fetch-depth: 0
 
       - name: Build
         id: build
@@ -214,6 +220,8 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@master
+        with:
+          fetch-depth: 0
 
       - name: Build
         id: build

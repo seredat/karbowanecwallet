@@ -14,8 +14,8 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@master
-      - name: Set version env
-        run: echo ::set-env name=RELEASE_VERSION::${GITHUB_REF#refs/tags/*/}	  
+        with:
+          fetch-depth: 0
 
       - name: Setup MSBuild.exe
         uses: warrenbuckley/Setup-MSBuild@v1
@@ -37,6 +37,15 @@ jobs:
         with:
           just-include: true
 
+      - name: Find Tag
+        id: tagger
+        uses: jimschubert/query-tag-action@v1
+        with:
+          include: 'v*'
+          exclude: '*-rc*'
+          commit-ish: 'HEAD~'
+          skip-unshallow: 'true'
+
       - name: Build
         shell: powershell
         id: build
@@ -44,8 +53,7 @@ jobs:
           BOOST_ROOT: ${{ env.BOOST_ROOT }}
         run: |
           $build_folder = "build"
-          git fetch --prune --unshallow
-          $krb_ver = ${{ env.RELEASE_VERSION }}
+          $krb_ver = "${{steps.tagger.outputs.tag}}"
           $release_name = "Karbo-wallet-win64-$krb_ver"
           set CMAKE_PREFIX_PATH="$($qt5_cmake)"
           $qt5_cmake = "${{ env.Qt5_Dir }}/lib/cmake" -replace '[/]', '\\'
@@ -122,6 +130,8 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@master
+        with:
+          fetch-depth: 0
 
       - name: Setup Xcode
         uses: maxim-lobanov/setup-xcode@1.0
@@ -187,6 +197,8 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@master
+        with:
+          fetch-depth: 0
 
       - name: Find Tag
         id: tagger
@@ -236,6 +248,8 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@master
+        with:
+          fetch-depth: 0
 
       - name: Find Tag
         id: tagger
