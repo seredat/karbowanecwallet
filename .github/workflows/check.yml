@@ -37,15 +37,6 @@ jobs:
         with:
           just-include: true
 
-      - name: Find Tag
-        id: tagger
-        uses: jimschubert/query-tag-action@v1
-        with:
-          include: 'v*'
-          exclude: '*-rc*'
-          commit-ish: 'HEAD~'
-          skip-unshallow: 'true'
-
       - name: Build
         shell: powershell
         id: build
@@ -53,7 +44,7 @@ jobs:
           BOOST_ROOT: ${{ env.BOOST_ROOT }}
         run: |
           $build_folder = "build"
-          $krb_ver = "${{steps.tagger.outputs.tag}}"
+          $krb_ver = "${GITHUB_REF#refs/tags/"
           $release_name = "Karbo-wallet-win64-$krb_ver"
           set CMAKE_PREFIX_PATH="$($qt5_cmake)"
           $qt5_cmake = "${{ env.Qt5_Dir }}/lib/cmake" -replace '[/]', '\\'
