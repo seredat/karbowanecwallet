@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <QRegExp>
+#include <QHeaderView>
 #include "ui_connectionsettingsdialog.h"
 #include "ConnectionSettings.h"
 #include "CurrencyAdapter.h"
