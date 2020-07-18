@@ -14,6 +14,8 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@master
+      - name: Set version env
+        run: echo ::set-env name=RELEASE_VERSION::${GITHUB_REF#refs/tags/*/}	  
 
       - name: Setup MSBuild.exe
         uses: warrenbuckley/Setup-MSBuild@v1
@@ -35,14 +37,6 @@ jobs:
         with:
           just-include: true
 
-      - name: Find Tag
-        id: tagger
-        uses: jimschubert/query-tag-action@v1
-        with:
-          include: 'v*'
-          exclude: '*-rc*'
-          commit-ish: 'HEAD~'
-
       - name: Build
         shell: powershell
         id: build
@@ -50,7 +44,8 @@ jobs:
           BOOST_ROOT: ${{ env.BOOST_ROOT }}
         run: |
           $build_folder = "build"
-          $krb_ver = "${{steps.tagger.outputs.tag}}"
+          git fetch --prune --unshallow
+          $krb_ver = ${{ env.RELEASE_VERSION }}
           $release_name = "Karbo-wallet-win64-$krb_ver"
           set CMAKE_PREFIX_PATH="$($qt5_cmake)"
           $qt5_cmake = "${{ env.Qt5_Dir }}/lib/cmake" -replace '[/]', '\\'
@@ -208,7 +203,7 @@ jobs:
           sudo apt install -y qt5-default qttools5-dev qttools5-dev-tools libboost-all-dev
           build_folder="build/release"
           krb_ver="${{ steps.build.outputs.krb_ver }}"
-          release_name=Karbo-wallet-ubuntu-20.04-"$krb_ver"
+          release_name=Karbo-wallet-ubuntu-20.04-"krb_ver"
           app_name="KarbowanecWallet"
           rm -rf cryptonote
           git clone https://github.com/seredat/karbowanec.git cryptonote
@@ -258,7 +253,7 @@ jobs:
           sudo apt install -y qt5-default qttools5-dev qttools5-dev-tools libboost1.62-all-dev
           build_folder="build/release"
           krb_ver="${{ steps.build.outputs.krb_ver }}"
-          release_name=Karbo-wallet-ubuntu-18.04-"$krb_ver"
+          release_name=Karbo-wallet-ubuntu-18.04-"krb_ver"
           app_name="KarbowanecWallet"
           rm -rf cryptonote
           git clone https://github.com/seredat/karbowanec.git cryptonote
