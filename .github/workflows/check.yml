@@ -42,8 +42,7 @@ jobs:
           BOOST_ROOT: ${{ env.BOOST_ROOT }}
         run: |
           $build_folder = "build"
-          $sha = "${{ github.sha }}"
-          $krb_ver = $sha.SubString(0,7)
+          $krb_ver = "${{ github.ref }}" -replace '[refs/tags/]'
           $release_name = "Karbo-wallet-win64-$krb_ver"
           set CMAKE_PREFIX_PATH="$($qt5_cmake)"
           $qt5_cmake = "${{ env.Qt5_Dir }}/lib/cmake" -replace '[/]', '\\'
@@ -137,7 +136,7 @@ jobs:
         id: build
         run: |
           build_folder="build/release"
-          krb_ver=${GITHUB_SHA::7}
+          krb_ver=$(echo ${{ github.ref }} | sed 's|refs/tags/||')
           release_name="Karbo-wallet-macOS-$krb_ver"
           app_name="KarbowanecWallet.app"
           lang_folder="/Contents/Resources/languages"
@@ -184,7 +183,7 @@ jobs:
           sudo apt update -y
           sudo apt install -y qt5-default qttools5-dev qttools5-dev-tools libboost-all-dev
           build_folder="build/release"
-          krb_ver=${GITHUB_SHA::7}
+          krb_ver=$(echo "$GITHUB_REF" | sed 's|refs/tags/||')
           release_name=Karbo-wallet-ubuntu-20.04-"$krb_ver"
           app_name="KarbowanecWallet"
           rm -rf cryptonote
@@ -226,7 +225,7 @@ jobs:
           sudo apt update -y
           sudo apt install -y qt5-default qttools5-dev qttools5-dev-tools libboost1.62-all-dev
           build_folder="build/release"
-          krb_ver=${GITHUB_SHA::7}
+          krb_ver=$(echo "$GITHUB_REF" | sed 's|refs/tags/||')
           release_name=Karbo-wallet-ubuntu-18.04-"$krb_ver"
           app_name="KarbowanecWallet"
           rm -rf cryptonote
