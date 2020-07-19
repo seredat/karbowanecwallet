@@ -43,6 +43,7 @@ jobs:
         env:
           BOOST_ROOT: ${{ env.BOOST_ROOT }}
           GIT_REDIRECT_STDERR: '2>&1'
+          VCINSTALLDIR: 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\'
         run: |
           $build_folder = "build"
           $krb_ver = git describe --tags --abbrev=0
