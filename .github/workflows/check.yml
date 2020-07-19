@@ -45,7 +45,7 @@ jobs:
         run: |
           $build_folder = "build"
           $krb_ver = "${GITHUB_REF#refs/tags/}"
-          $release_name = "Karbo-wallet-win64-$krb_ver"
+          $release_name = "Karbo-wallet-win64-${krb_ver}"
           set CMAKE_PREFIX_PATH="$($qt5_cmake)"
           $qt5_cmake = "${{ env.Qt5_Dir }}/lib/cmake" -replace '[/]', '\\'
           Remove-Item cryptonote -Recurse -ErrorAction Ignore
