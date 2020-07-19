@@ -42,12 +42,12 @@ jobs:
         id: build
         env:
           BOOST_ROOT: ${{ env.BOOST_ROOT }}
+          GIT_REDIRECT_STDERR: '2>&1'
         run: |
           $build_folder = "build"
           $krb_ver = git describe --tags --abbrev=0
           $release_name = "Karbo-wallet-win64-${krb_ver}"
           echo "$release_name"
-          set GIT_REDIRECT_STDERR = "2>&1"
           set CMAKE_PREFIX_PATH="$($qt5_cmake)"
           $qt5_cmake = "${{ env.Qt5_Dir }}/lib/cmake" -replace '[/]', '\\'
           Remove-Item cryptonote -Recurse -ErrorAction Ignore
