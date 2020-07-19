@@ -47,6 +47,7 @@ jobs:
           $build_folder = "build"
           $krb_ver = git describe --tags --abbrev=0
           $release_name = "Karbo-wallet-win64-${krb_ver}"
+          $release_folder = "Release"
           echo "$release_name"
           set CMAKE_PREFIX_PATH="$($qt5_cmake)"
           $qt5_cmake = "${{ env.Qt5_Dir }}/lib/cmake" -replace '[/]', '\\'
@@ -60,6 +61,7 @@ jobs:
           mkdir "$release_folder/$release_name"
           mkdir "$release_folder/$release_name/languages"
           cp languages/*.qm "$release_folder/$release_name/languages/"
+          cd "$release_folder"
           cp KarbowanecWallet.exe "$release_name/"
           cp "../../COPYING" "$release_name/LICENSE.txt"
           windeployqt --release KarbowanecWallet.exe --dir "$release_name/"
