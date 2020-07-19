@@ -45,7 +45,8 @@ jobs:
         run: |
           $build_folder = "build"
           $krb_ver = "${GITHUB_REF#refs/tags/}"
-          $release_name = "Karbo-wallet-win64-${krb_ver}"
+          $release_name = "Karbo-wallet-win64-$krb_ver"
+          echo "$release_name"
           set CMAKE_PREFIX_PATH="$($qt5_cmake)"
           $qt5_cmake = "${{ env.Qt5_Dir }}/lib/cmake" -replace '[/]', '\\'
           Remove-Item cryptonote -Recurse -ErrorAction Ignore
@@ -55,21 +56,6 @@ jobs:
           Start-Process cmake -ArgumentList "-DBOOST_ROOT=""$env:BOOST_ROOT_1_69_0"" -G ""Visual Studio 16 2019"" -A x64",".." -NoNewWindow -Wait
           Start-Process msbuild -ArgumentList "KarbowanecWallet.sln","/p:Configuration=Release" -NoNewWindow -Wait
           $build_path = "./$build_folder"
-          echo "::set-output name=build_path::${build_path}"
-          echo "::set-output name=release_name::${release_name}"
-          echo "::set-output name=krb_ver::${krb_ver}"
-  
-      - name: Pack
-        shell: powershell
-        id: pack
-        env:
-          VCINSTALLDIR: 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\'
-        run: |
-          $build_folder = "${{ steps.build.outputs.build_path }}"
-          $release_name = "${{ steps.build.outputs.release_name }}"
-          $release_folder = "Release"
-          cd "$build_folder"
-          $krb_ver = "${{ steps.build.outputs.krb_ver }}"
           mkdir "$release_folder/$release_name"
           mkdir "$release_folder/$release_name/languages"
           cp languages/*.qm "$release_folder/$release_name/languages/"
@@ -97,22 +83,22 @@ jobs:
       - name: Create Archive Artifact
         uses: actions/upload-artifact@v1.0.0
         with:
-          path: ${{ steps.pack.outputs.asset_path_archive }}
-          name: Karbo Wallet ${{ steps.pack.outputs.krb_ver }}
+          path: ${{ steps.build.outputs.asset_path_archive }}
+          name: Karbo Wallet ${{ steps.build.outputs.krb_ver }}
           body: |
-            **${{ steps.pack.outputs.release_name_archive }}**
-            ${{ steps.pack.outputs.sha256a }}
+            **${{ steps.build.outputs.release_name_archive }}**
+            ${{ steps.build.outputs.sha256a }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create Installer Artifact
         uses: actions/upload-artifact@v1.0.0
         with:
-          path: ${{ steps.pack.outputs.asset_path_install }}
-          name: Karbo Wallet ${{ steps.pack.outputs.krb_ver }}
+          path: ${{ steps.build.outputs.asset_path_install }}
+          name: Karbo Wallet ${{ steps.build.outputs.krb_ver }}
           body: |
-            **${{ steps.pack.outputs.release_name_install }}**
-            ${{ steps.pack.outputs.sha256i }}
+            **${{ steps.build.outputs.release_name_install }}**
+            ${{ steps.build.outputs.sha256i }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
