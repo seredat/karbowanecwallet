@@ -119,7 +119,7 @@ jobs:
         uses: warrenbuckley/Setup-MSBuild@v1
 
       - name: Install OpenSSL
-        run: choco install openssl
+        run: choco install openssl --forcex86
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
