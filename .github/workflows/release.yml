@@ -83,7 +83,7 @@ jobs:
           echo "::set-output name=release_name_archive::${release_name}.zip"
           echo "::set-output name=asset_path_archive::${asset_path_archive}"
           cd ../
-          makensis WindowsInstall.nsi
+          makensis WindowsInstall64.nsi
           cd "$release_folder"
           Compress-Archive -Path "KarbowanecWallet-Setup.exe" -DestinationPath "$release_name-install.zip"
           $sha256i = (Get-FileHash "$release_name-install.zip").Hash
