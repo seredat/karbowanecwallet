@@ -9,8 +9,8 @@ on:
   pull_request:
 
 jobs:
-  build-windows:
-    name: Windows
+  build-windows-64bit:
+    name: Windows 64bit
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@master
@@ -66,6 +66,104 @@ jobs:
           cp KarbowanecWallet.exe "$release_name/"
           cp "C:/Program Files/OpenSSL-Win64/bin/libssl*.dll" "$release_name/"
           cp "C:/Program Files/OpenSSL-Win64/bin/libcrypto*.dll" "$release_name/"
+          cp "../../COPYING" "$release_name/LICENSE.txt"
+          windeployqt --release KarbowanecWallet.exe --dir "$release_name/"
+          Compress-Archive -Path "$release_name/" -DestinationPath "$release_name.zip"
+          $sha256a = (Get-FileHash "$release_name.zip").Hash
+          $asset_path_archive = "./$build_folder/$release_folder/$release_name.zip"
+          echo "::set-output name=sha256a::${sha256a}"
+          echo "::set-output name=release_name_archive::${release_name}.zip"
+          echo "::set-output name=asset_path_archive::${asset_path_archive}"
+          cd ../
+          makensis WindowsInstall.nsi
+          cd "$release_folder"
+          Compress-Archive -Path "KarbowanecWallet-Setup.exe" -DestinationPath "$release_name-install.zip"
+          $sha256i = (Get-FileHash "$release_name-install.zip").Hash
+          $asset_path_install = "./$build_folder/$release_folder/$release_name-install.zip"
+          echo "::set-output name=sha256i::${sha256i}"
+          echo "::set-output name=release_name_install::${release_name}-install.zip"
+          echo "::set-output name=asset_path_install::${asset_path_install}"
+          echo "::set-output name=krb_ver::${krb_ver}"
+
+      - name: Create Archive Artifact
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          path: ${{ steps.build.outputs.asset_path_archive }}
+          name: ${{ steps.build.outputs.release_name_archive }}
+          body: |
+            **${{ steps.build.outputs.release_name_archive }}**
+            ${{ steps.build.outputs.sha256a }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Installer Artifact
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          path: ${{ steps.build.outputs.asset_path_install }}
+          name: ${{ steps.build.outputs.release_name_install }}
+          body: |
+            **${{ steps.build.outputs.release_name_install }}**
+            ${{ steps.build.outputs.sha256i }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build-windows-32bit:
+    name: Windows 32bit
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@master
+        with:
+          fetch-depth: 0
+
+      - name: Setup MSBuild.exe
+        uses: warrenbuckley/Setup-MSBuild@v1
+
+      - name: Install OpenSSL
+        run: choco install openssl
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v2
+        with:
+          version: '5.12.2'
+          host: 'windows'
+          target: 'desktop'
+          modules: 'qttools5'
+          install-deps: 'true'
+
+      - name: Install NSIS
+        uses: joncloud/makensis-action@v1
+        with:
+          just-include: true
+
+      - name: Build
+        shell: powershell
+        id: build
+        env:
+          BOOST_ROOT: ${{ env.BOOST_ROOT }}
+          GIT_REDIRECT_STDERR: '2>&1'
+          VCINSTALLDIR: 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\'
+        run: |
+          $build_folder = "build"
+          $krb_ver = git describe --tags --abbrev=0
+          $release_name = "Karbo-wallet-win32-${krb_ver}"
+          $release_folder = "Release"
+          echo "$release_name"
+          set CMAKE_PREFIX_PATH="$($qt5_cmake)"
+          $qt5_cmake = "${{ env.Qt5_Dir }}/lib/cmake" -replace '[/]', '\\'
+          Remove-Item cryptonote -Recurse -ErrorAction Ignore
+          git clone https://github.com/seredat/karbowanec cryptonote --quiet
+          mkdir "$build_folder"
+          cd "$build_folder"
+          Start-Process cmake -ArgumentList "-DBOOST_ROOT=""$env:BOOST_ROOT_1_69_0"" -G ""Visual Studio 16 2019"" -A Win32",".." -NoNewWindow -Wait
+          Start-Process msbuild -ArgumentList "KarbowanecWallet.sln","/p:Configuration=Release" -NoNewWindow -Wait
+          $build_path = "./$build_folder"
+          mkdir "$release_folder/$release_name"
+          mkdir "$release_folder/$release_name/languages"
+          cp languages/*.qm "$release_folder/$release_name/languages/"
+          cd "$release_folder"
+          cp KarbowanecWallet.exe "$release_name/"
+          cp "C:/Program Files (x86)/OpenSSL-Win32/bin/libssl*.dll" "$release_name/"
+          cp "C:/Program Files (x86)/OpenSSL-Win32/bin/libcrypto*.dll" "$release_name/"
           cp "../../COPYING" "$release_name/LICENSE.txt"
           windeployqt --release KarbowanecWallet.exe --dir "$release_name/"
           Compress-Archive -Path "$release_name/" -DestinationPath "$release_name.zip"

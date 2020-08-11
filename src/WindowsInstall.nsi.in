@@ -1,4 +1,13 @@
-Name "Karbo Wallet (64-bit)"
+# Included files
+!include Sections.nsh
+!include MUI2.nsh
+!include x64.nsh
+
+${If} ${RunningX64}
+    Name "Karbo Wallet 64-bit"
+${Else}
+    Name "Karbo Wallet 32-bit"
+${EndIf}
 
 # General Symbol Definitions
 !define PROJECT_NAME "@WALLET_NAME@"
@@ -30,11 +39,6 @@ OutFile ".\Release\${PROJECT_NAME}-Setup.exe"
 !define MUI_UNWELCOMEFINISHPAGE_BITMAP "..\src\images\nsis-wizard.bmp"
 !define MUI_UNFINISHPAGE_NOAUTOCLOSE
 
-# Included files
-!include Sections.nsh
-!include MUI2.nsh
-!include x64.nsh
-
 # Variables
 Var StartMenuGroup
 
@@ -51,7 +55,12 @@ Var StartMenuGroup
 !insertmacro MUI_LANGUAGE English
 
 # set desktop as install directory
-InstallDir $PROGRAMFILES64\Karbowanec
+${If} ${RunningX64}
+    InstallDir $PROGRAMFILES64\Karbowanec
+${Else}
+    InstallDir $PROGRAMFILES\Karbowanec
+${EndIf}
+
 CRCCheck on
 BrandingText "@CN_CURRENCY_DISPLAY_NAME@ Wallet"
 ShowInstDetails show
@@ -72,7 +81,11 @@ Section -Main SEC0000
 	SetOutPath $INSTDIR
 	SetOverwrite on
 	# specify file to go in output path
-	File /r ".\Release\Karbo-wallet-win64-v.${PROJECT_VERSION}\*"
+	${If} ${RunningX64}
+		File /r ".\Release\Karbo-wallet-win64-v.${PROJECT_VERSION}\*"
+	${Else}
+		File /r ".\Release\Karbo-wallet-win32-v.${PROJECT_VERSION}\*"
+	${EndIf}
 	WriteRegStr HKCU "${REGKEY}\Components" Main 1
 SectionEnd
 
@@ -100,7 +113,11 @@ Section -post SEC0001
     WriteRegStr HKCR "karbowanec\DefaultIcon" "" $INSTDIR\${PROJECT_NAME}.exe
     WriteRegStr HKCR "karbowanec\shell\open\command" "" '"$INSTDIR\${PROJECT_NAME}.exe" "%1"'
 
-	ExecWait '"$INSTDIR\vc_redist.x64.exe"  /passive /norestart'
+	${If} ${RunningX64}
+		ExecWait '"$INSTDIR\vc_redist.x64.exe"  /passive /norestart'
+	${Else}
+		ExecWait '"$INSTDIR\vc_redist.x32.exe"  /passive /norestart'
+	${EndIf}	
 SectionEnd
 
 # Macro for selecting uninstaller sections
@@ -153,8 +170,8 @@ Function .onInit
       ; disable registry redirection (enable access to 64-bit portion of registry)
       SetRegView 64
     ${Else}
-      MessageBox MB_OK|MB_ICONSTOP "Cannot install 64-bit version on a 32-bit system."
-      Abort
+      #MessageBox MB_OK|MB_ICONSTOP "Cannot install 64-bit version on a 32-bit system."
+      #Abort
     ${EndIf}
 FunctionEnd
 
