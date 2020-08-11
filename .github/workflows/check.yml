@@ -118,7 +118,7 @@ jobs:
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.0.1
         with:
-         vs-version: '[14.0)'
+         vs-version: '[14.0,14.3)'
 
       - name: Install OpenSSL
         run: choco install openssl --forcex86
