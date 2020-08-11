@@ -129,6 +129,7 @@ jobs:
           target: 'desktop'
           modules: 'qttools5'
           install-deps: 'true'
+          arch: win32_msvc2015
 
       - name: Install NSIS
         uses: joncloud/makensis-action@v1
