@@ -119,8 +119,13 @@ configure_file(
     @ONLY
 )
 configure_file(
-    "${CMAKE_CURRENT_LIST_DIR}/src/WindowsInstall.nsi.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/WindowsInstall.nsi"
+    "${CMAKE_CURRENT_LIST_DIR}/src/WindowsInstall64.nsi.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/WindowsInstall64.nsi"
+    @ONLY
+)
+configure_file(
+    "${CMAKE_CURRENT_LIST_DIR}/src/WindowsInstall32.nsi.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/WindowsInstall32.nsi"
     @ONLY
 )
 configure_file(
