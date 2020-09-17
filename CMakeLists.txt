@@ -151,7 +151,6 @@ set(CRYPTONOTE_SOURCES
   cryptonote/external/miniupnpc/upnpreplyparse.c
   cryptonote/src/Checkpoints/Checkpoints.cpp
   cryptonote/src/Common/Base58.cpp
-  cryptonote/src/Common/Base64.cpp
   cryptonote/src/Common/CommandLine.cpp
   cryptonote/src/Common/FormatTools.cpp
   cryptonote/src/Common/Util.cpp
