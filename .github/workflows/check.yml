@@ -322,15 +322,17 @@ jobs:
           cd appimage
           chmod +x ./create-appimage.sh
           ./create-appimage.sh
-          mv *.AppImage ../$appimage_name
-          cd ..
+          mv Karbo*.AppImage $appimage_name
           ls -l $appimage_name
+          cd ..
+          asset_path="./appimage/$appimage_name
           echo "::set-output name=artifact_name::${appimage_name}"
+          echo "::set-output name=asset_path::${asset_path}"
 
       - name: Upload To GH Artifacts
         uses: actions/upload-artifact@v2
         with:
           name: ${{ steps.appimage.outputs.artifact_name }}
-          path: ${{ steps.appimage.outputs.artifact_name }}
+          path: ${{ steps.appimage.outputs.asset_path }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
