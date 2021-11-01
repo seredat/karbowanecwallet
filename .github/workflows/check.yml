@@ -309,24 +309,20 @@ jobs:
           sudo apt update -y
           sudo apt install -y qt5-default qttools5-dev qttools5-dev-tools libboost1.62-all-dev
           build_folder="build/release"
-          krb_ver="${{steps.tagger.outputs.tag}}"
-          app_name="KarbowanecWallet"
           mkdir -p "$build_folder"
           cd "$build_folder"
           cmake -D ARCH=default -D CMAKE_BUILD_TYPE=Release -D CMAKE_POSITION_INDEPENDENT_CODE:BOOL=true -D BOOST_IGNORE_SYSTEM_PATHS_DEFAULT=ON -D BOOST_ROOT=/usr ../..
           make
-          echo "::set-output name=krb_version::$krb_ver"
 
       - name: Create AppImage
         id: appimage
         run: |
-          krb_version="${{steps.build.outputs.krb_version}}"
+          krb_version="${{steps.tagger.outputs.tag}}"
           appimage_name=Karbo-wallet-"$krb_version"-x86_64.AppImage
           cd appimage
           chmod +x ./create-appimage.sh
           ./create-appimage.sh
-          mv *.AppImage $appimage_name
-          mv $appimage_name ..
+          mv *.AppImage ../$appimage_name
           cd ..
           ls -l $appimage_name
           echo "::set-output name=artifact_name::${appimage_name}"
