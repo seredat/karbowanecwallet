@@ -322,6 +322,7 @@ jobs:
           krb_version="${{steps.build.outputs.krb_version}}"
           appimage_name=Karbo-wallet-"$krb_version"-x86_64.AppImage
           cd appimage
+          chmod +x ./create-appimage.sh
           ./create-appimage.sh
           mv Karbo-wallet*.AppImage ../$appimage_name
           cd ..
