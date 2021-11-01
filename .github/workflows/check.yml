@@ -325,7 +325,8 @@ jobs:
           cd appimage
           chmod +x ./create-appimage.sh
           ./create-appimage.sh
-          mv *.AppImage ../$appimage_name
+          mv *.AppImage $appimage_name
+          mv $appimage_name ..
           cd ..
           ls -l $appimage_name
           echo "::set-output name=artifact_name::${appimage_name}"
