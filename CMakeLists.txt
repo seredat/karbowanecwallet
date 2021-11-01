@@ -128,6 +128,11 @@ configure_file(
     "${CMAKE_CURRENT_BINARY_DIR}/karbowanecwallet.desktop"
     @ONLY
 )
+configure_file(
+    "${CMAKE_CURRENT_LIST_DIR}/appimage/karbowanecwallet.desktop.in"
+    "${CMAKE_CURRENT_LIST_DIR}/appimage/karbowanecwallet.desktop"
+    @ONLY
+)
 
 add_definitions(-DVERSION=\"${WALLET_VERSION}\")
 add_definitions(-DGIT_REVISION=\"${GIT_REVISION}\")
