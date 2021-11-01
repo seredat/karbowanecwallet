@@ -316,6 +316,7 @@ jobs:
           cmake -D ARCH=default -D CMAKE_BUILD_TYPE=Release -D CMAKE_POSITION_INDEPENDENT_CODE:BOOL=true -D BOOST_IGNORE_SYSTEM_PATHS_DEFAULT=ON -D BOOST_ROOT=/usr ../..
           make
           echo "::set-output name=krb_version::$krb_ver"
+
       - name: Create AppImage
         id: appimage
         run: |
@@ -324,10 +325,11 @@ jobs:
           cd appimage
           chmod +x ./create-appimage.sh
           ./create-appimage.sh
-          mv Karbo-wallet*.AppImage ../$appimage_name
+          mv *.AppImage ../$appimage_name
           cd ..
           ls -l $appimage_name
           echo "::set-output name=artifact_name::${appimage_name}"
+
       - name: Upload To GH Artifacts
         uses: actions/upload-artifact@v2
         with:
