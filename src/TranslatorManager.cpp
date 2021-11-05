@@ -33,7 +33,7 @@ TranslatorManager::TranslatorManager()
 #endif
     // Workaround for AppImage
     if (nullptr != std::getenv("APPIMAGE") && !QDir("m_langPath").exists()) {
-        m_langPath = "usr/share/karbo/languages";
+        m_langPath = "../share/karbo/languages";
     }
 
     QDir dir(m_langPath);
