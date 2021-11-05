@@ -31,11 +31,10 @@ TranslatorManager::TranslatorManager()
 #else
     m_langPath = "/opt/karbo/languages";
 #endif
-#ifdef __linux__
-    if (!QDir("m_langPath").exists()) {
-        m_langPath = "/usr/translations/karbo";
+    // Workaround for AppImage
+    if (nullptr != std::getenv("APPIMAGE") && !QDir("m_langPath").exists()) {
+        m_langPath = "usr/share/karbo/languages";
     }
-#endif
 
     QDir dir(m_langPath);
 
