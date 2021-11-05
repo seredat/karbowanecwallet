@@ -1,3 +1,7 @@
+// Copyright (c) 2016-2021 The Karbowanec developers
+// Distributed under the MIT/X11 software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
 #ifndef TRANSLATORMANAGER_H
 #define TRANSLATORMANAGER_H
 

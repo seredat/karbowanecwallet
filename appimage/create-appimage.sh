@@ -9,7 +9,7 @@ fi
 chmod u+x ./*.AppImage
 mkdir -p usr/share/icons
 mkdir -p usr/lib
-mkdir -p opt/karbo/languages/
+mkdir -p usr/translations/karbo/
 cp ../src/images/karbowanez.png usr/share/icons/karbowanec.png
-cp ../build/release/languages/*.qm opt/karbo/languages/
+cp ../build/release/languages/*.qm usr/translations/karbo/
 ./linuxdeploy-x86_64.AppImage --executable ../build/release/KarbowanecWallet --desktop-file karbowanecwallet.desktop --appdir . --output appimage --plugin qt
