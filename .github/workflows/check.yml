@@ -126,7 +126,8 @@ jobs:
 
       - name: Install other deps
         run: |
-          brew install gcc boost openssl qt5
+          export ARCHFLAGS='-arch arm64'
+          brew install -s --HEAD gcc boost openssl qt5
           brew link boost --force
 
       - name: Find Tag
