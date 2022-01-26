@@ -130,7 +130,7 @@ jobs:
           brew install gcc
 
       - name: Install boost
-        shell: zsh{0}
+        shell: zsh {0}
         run: |
           setopt sh_word_split
           mkdir arm-homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C arm-homebrew 
@@ -141,7 +141,7 @@ jobs:
           arm-brew link boost --force
 
       - name: Install qt5
-        shell: zsh{0}
+        shell: zsh {0}
         run: |
           setopt sh_word_split
           mkdir arm-homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C arm-homebrew 
@@ -151,7 +151,7 @@ jobs:
           arm-brew install $parsed[3]
           
       - name: Install openssl
-        shell: zsh{0}
+        shell: zsh {0}
         run: |
           setopt sh_word_split
           mkdir arm-homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C arm-homebrew 
