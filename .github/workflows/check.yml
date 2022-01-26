@@ -173,6 +173,7 @@ jobs:
         id: build
         shell: zsh {0}
         run: |
+          arch -arm64
           export PATH="/Users/runner/work/karbowanecwallet/karbowanecwallet/arm-homebrew/opt/openssl@3/bin:$PATH"
           export PATH="/Users/runner/work/karbowanecwallet/karbowanecwallet/arm-homebrew/opt/qt@5/bin:$PATH"
           export PKG_CONFIG_PATH="/Users/runner/work/karbowanecwallet/karbowanecwallet/arm-homebrew/opt/qt@5/lib/pkgconfig"
