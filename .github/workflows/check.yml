@@ -132,27 +132,22 @@ jobs:
       - name: Install boost
         run: |
           mkdir arm-homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C arm-homebrew 
-          alias arm-brew='$(pwd)/arm-homebrew/bin/brew'
-          response=$(arm-brew fetch --force --bottle-tag=arm64_big_sur boost | grep "Downloaded to")
+          response=$(~/arm-homebrew/bin/brew fetch --force --bottle-tag=arm64_big_sur boost | grep "Downloaded to")
           parsed=($response)  
-          arm-brew install $parsed[3]
-          arm-brew link boost --force
+          ~/arm-homebrew/bin/brew install $parsed[3]
+          ~/arm-homebrew/bin/brew link boost --force
 
       - name: Install qt5
         run: |
-          mkdir arm-homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C arm-homebrew 
-          alias arm-brew='$(pwd)/arm-homebrew/bin/brew'
-          response=$(arm-brew fetch --force --bottle-tag=arm64_big_sur qt5 | grep "Downloaded to")
+          response=$(~/arm-homebrew/bin/brew fetch --force --bottle-tag=arm64_big_sur qt5 | grep "Downloaded to")
           parsed=($response)  
-          arm-brew install $parsed[3]
+          ~/arm-homebrew/bin/brew install $parsed[3]
           
       - name: Install openssl
         run: |
-          mkdir arm-homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C arm-homebrew 
-          alias arm-brew='$(pwd)/arm-homebrew/bin/brew'
-          response=$(arm-brew fetch --force --bottle-tag=arm64_big_sur openssl | grep "Downloaded to")
+          response=$(~/arm-homebrew/bin/brew fetch --force --bottle-tag=arm64_big_sur openssl | grep "Downloaded to")
           parsed=($response)  
-          arm-brew install $parsed[3]
+          ~/arm-homebrew/bin/brew install $parsed[3]
 
       - name: Find Tag
         id: tagger
