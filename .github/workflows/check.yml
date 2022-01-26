@@ -127,7 +127,7 @@ jobs:
       - name: Install other deps
         run: |
           brew install gcc boost openssl qt5
-          brew link --force boost qt
+          brew link boost --force
 
       - name: Find Tag
         id: tagger
