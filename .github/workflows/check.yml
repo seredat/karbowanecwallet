@@ -141,6 +141,8 @@ jobs:
       - name: Build
         id: build
         run: |
+          export PATH="/usr/local/opt/openssl@3/bin:$PATH"
+          export PATH="/usr/local/opt/qt@5/bin:$PATH"
           build_folder="build/release"
           krb_ver="${{steps.tagger.outputs.tag}}"
           release_name="Karbo-wallet-macOS-$krb_ver"
