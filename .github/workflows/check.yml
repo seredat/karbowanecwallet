@@ -189,7 +189,7 @@ jobs:
           make
           mkdir "$app_name$lang_folder"
           cp languages/*.qm "$app_name$lang_folder"
-          macdeployqt "$app_name"
+          /Users/runner/work/karbowanecwallet/karbowanecwallet/arm-homebrew/opt/qt@5/bin/macdeployqt "$app_name"
           cpack
           mv *.dmg "$release_name".dmg
           sha256=$(shasum -a 256 "$release_name".dmg | awk '{ print toupper($1) }')
