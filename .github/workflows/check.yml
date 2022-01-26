@@ -172,11 +172,11 @@ jobs:
       - name: Build
         id: build
         run: |
-          export PATH="/usr/local/opt/openssl@3/bin:$PATH"
-          export PATH="/usr/local/opt/qt@5/bin:$PATH"
-          export PKG_CONFIG_PATH="/usr/local/opt/qt@5/lib/pkgconfig"
-          export LDFLAGS="-L/usr/local/opt/qt@5/lib"
-          export CPPFLAGS="-I/usr/local/opt/qt@5/include"
+          export PATH="/Users/runner/work/karbowanecwallet/karbowanecwallet/arm-homebrew/opt/openssl@3/bin:$PATH"
+          export PATH="/Users/runner/work/karbowanecwallet/karbowanecwallet/arm-homebrew/opt/qt@5/bin:$PATH"
+          export PKG_CONFIG_PATH="/Users/runner/work/karbowanecwallet/karbowanecwallet/arm-homebrew/opt/qt@5/lib/pkgconfig"
+          export LDFLAGS="-L/Users/runner/work/karbowanecwallet/karbowanecwallet/arm-homebrew/opt/qt@5/lib"
+          export CPPFLAGS="-I/Users/runner/work/karbowanecwallet/karbowanecwallet/arm-homebrew/opt/qt@5/include"
           build_folder="build/release"
           krb_ver="${{steps.tagger.outputs.tag}}"
           release_name="Karbo-wallet-macOS-$krb_ver"
@@ -184,7 +184,7 @@ jobs:
           lang_folder="/Contents/Resources/languages"
           mkdir -p "$build_folder"
           cd "$build_folder"
-          cmake -D ARCH=default -D CMAKE_C_FLAGS="-target arm64e-apple-macos11.0 -mmacosx-version-min=11.0" -D CMAKE_CXX_FLAGS="-target arm64e-apple-macos11.0 -mmacosx-version-min=11.0" -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0 -DCMAKE_OSX_ARCHITECTURES=arm64 -D CMAKE_BUILD_TYPE=Release ../..
+          cmake -D ARCH=default -D CMAKE_C_FLAGS="-target arm64e-apple-macos11.0 -mmacosx-version-min=11.0" -D CMAKE_CXX_FLAGS="-target arm64e-apple-macos11.0 -mmacosx-version-min=11.0" -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0 -DCMAKE_OSX_ARCHITECTURES=arm64 -D CMAKE_BUILD_TYPE=Release -DBOOST_ROOT=/Users/runner/work/karbowanecwallet/karbowanecwallet/arm-homebrew/Cellar/boost/1.76.0 -DBOOST_INCLUDE_DIRS=/Users/runner/work/karbowanecwallet/karbowanecwallet/arm-homebrew/Cellar/boost/1.76.0/include ../..
           make
           mkdir "$app_name$lang_folder"
           cp languages/*.qm "$app_name$lang_folder"
