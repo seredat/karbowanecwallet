@@ -185,7 +185,16 @@ jobs:
           lang_folder="/Contents/Resources/languages"
           mkdir -p "$build_folder"
           cd "$build_folder"
-          cmake -D ARCH=default -D CMAKE_C_FLAGS="-target arm64e-apple-macos11.0 -mmacosx-version-min=11.0" -D CMAKE_CXX_FLAGS="-target arm64e-apple-macos11.0 -mmacosx-version-min=11.0" -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0 -DCMAKE_OSX_ARCHITECTURES=arm64 -D CMAKE_BUILD_TYPE=Release -DBOOST_ROOT=/Users/runner/work/karbowanecwallet/karbowanecwallet/arm-homebrew/Cellar/boost/1.76.0 -DBOOST_INCLUDE_DIRS=/Users/runner/work/karbowanecwallet/karbowanecwallet/arm-homebrew/Cellar/boost/1.76.0/include ../..
+          cmake -D ARCH=default -D CMAKE_C_FLAGS="-target arm64e-apple-macos11.0 -mmacosx-version-min=11.0" \
+          -D CMAKE_CXX_FLAGS="-target arm64e-apple-macos11.0 -mmacosx-version-min=11.0" -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0 \
+          -DCMAKE_OSX_ARCHITECTURES=arm64 -D CMAKE_BUILD_TYPE=Release \
+          -DBOOST_ROOT=/Users/runner/work/karbowanecwallet/karbowanecwallet/arm-homebrew/Cellar/boost/1.76.0 \
+          -DBOOST_INCLUDE_DIRS=/Users/runner/work/karbowanecwallet/karbowanecwallet/arm-homebrew/Cellar/boost/1.76.0/include \
+          -D OPENSSL_ROOT_DIR=/Users/runner/work/karbowanecwallet/karbowanecwallet/arm-homebrew/opt/openssl@3/ \
+          -D OPENSSL_SSL_LIBRARY=/Users/runner/work/karbowanecwallet/karbowanecwallet/arm-homebrew/opt/openssl@3/lib/libssl.so \
+          -D OPENSSL_CRYPTO_LIBRARY=/Users/runner/work/karbowanecwallet/karbowanecwallet/arm-homebrew/opt/openssl@3/lib/libcrypto.so \
+          -D OPENSSL_INCLUDE_DIR=/Users/runner/work/karbowanecwallet/karbowanecwallet/arm-homebrew/opt/openssl@3/include \
+          ../..
           make
           mkdir "$app_name$lang_folder"
           cp languages/*.qm "$app_name$lang_folder"
