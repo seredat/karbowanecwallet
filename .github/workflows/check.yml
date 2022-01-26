@@ -119,13 +119,6 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.ref }}
 
-      - name: Install Qt
-        uses: jurplel/install-qt-action@v2
-        with:
-          version: '5.15.2'
-          modules: 'qttools5'
-          install-deps: 'true'
-
       - name: Setup Xcode
         uses: maxim-lobanov/setup-xcode@v1
         with:
@@ -133,7 +126,7 @@ jobs:
 
       - name: Install other deps
         run: |
-          brew install gcc boost openssl
+          brew install gcc boost openssl qt5
           brew link boost --force
 
       - name: Find Tag
