@@ -11,7 +11,7 @@ on:
 jobs:
   build-windows:
     name: Windows
-    runs-on: windows-2019
+    runs-on: windows-latest
     env:
       BOOST_ROOT: C:\thirdparties\boost-1.72.0
     steps:
@@ -155,7 +155,7 @@ jobs:
           lang_folder="/Contents/Resources/languages"
           mkdir -p "$build_folder"
           cd "$build_folder"
-          cmake -D ARCH=default -D CMAKE_C_FLAGS="-target arm64e-apple-macos11.0 --disable-asm-optimizations -mmacosx-version-min=11.0" -D CMAKE_CXX_FLAGS="-mmacosx-version-min=11.0" -D CMAKE_BUILD_TYPE=Release ../..
+          cmake -D ARCH=default -D CMAKE_C_FLAGS="-target arm64e-apple-macos11.0 -mmacosx-version-min=11.0" -D CMAKE_CXX_FLAGS="-mmacosx-version-min=11.0" -D CMAKE_BUILD_TYPE=Release ../..
           make
           mkdir "$app_name$lang_folder"
           cp languages/*.qm "$app_name$lang_folder"
