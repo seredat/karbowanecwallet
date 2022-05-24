@@ -1,0 +1,9 @@
+usr
+apprun-hooks
+AppRun
+AppRun.wrapped
+KarbowanecWallet
+*.png
+*.AppImage
+*.desktop
+.DirIcon

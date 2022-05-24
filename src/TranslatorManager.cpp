@@ -1,3 +1,7 @@
+// Copyright (c) 2016-2021 The Karbowanec developers
+// Distributed under the MIT/X11 software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
 #include <QApplication>
 #include <QLocale>
 #include <QTranslator>
@@ -17,18 +21,23 @@ TranslatorManager::TranslatorManager()
     }
 
 #if defined(_MSC_VER)
-  m_langPath = QApplication::applicationDirPath();
-  m_langPath.append("/languages");
+    m_langPath = QApplication::applicationDirPath();
+    m_langPath.append("/languages");
 #elif defined(Q_OS_MAC)
-  m_langPath = QApplication::applicationDirPath();
-  m_langPath = m_langPath + "/../Resources/languages/";
+    m_langPath = QApplication::applicationDirPath();
+    m_langPath = m_langPath + "/../Resources/languages/";
 #elif defined(__FreeBSD__)
-  m_langPath = "/usr/local/share/karbo/karbowallet/languages";
+    m_langPath = "/usr/local/share/karbo/karbowallet/languages";
 #else
-  m_langPath = "/opt/karbo/languages";
+    m_langPath = "/opt/karbo/languages";
 #endif
+    // Workaround for AppImage
+    if (nullptr != std::getenv("APPIMAGE") && !QDir("m_langPath").exists()) {
+        m_langPath = "../share/karbo/languages";
+    }
 
     QDir dir(m_langPath);
+
     QStringList resources = dir.entryList(QStringList("??.qm"));
     for (int j = 0; j < resources.size(); j++)
     {
@@ -114,10 +123,10 @@ TranslatorManager* TranslatorManager::instance()
 
 void TranslatorManager::switchTranslator(QTranslator& translator, const QString& filename)
 {
-  // remove the old translator
-  qApp->removeTranslator(&translator);
+    // remove the old translator
+    qApp->removeTranslator(&translator);
 
-  // load the new translator
-  if(translator.load(filename))
-   qApp->installTranslator(&translator);
+    // load the new translator
+    if(translator.load(filename))
+       qApp->installTranslator(&translator);
 }
