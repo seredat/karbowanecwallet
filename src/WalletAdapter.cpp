@@ -134,6 +134,8 @@ void WalletAdapter::open(const QString& _password) {
   } else {
     //createWallet();
   }
+
+  m_wallet_rpc = new Tools::wallet_rpc_server(dispatcher, logManager, *m_wallet, *node, currency, Settings::instance().getWalletFile());
 }
 
 bool WalletAdapter::tryOpen(const QString& _password) {

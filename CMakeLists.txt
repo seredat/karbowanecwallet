@@ -263,6 +263,7 @@ set(CRYPTONOTE_SOURCES
   cryptonote/src/Wallet/LegacyKeysImporter.cpp
   cryptonote/src/Wallet/WalletAsyncContextCounter.cpp
   cryptonote/src/Wallet/WalletErrors.cpp
+  cryptonote/src/Wallet/WalletRpcServer.cpp
   cryptonote/src/Wallet/WalletSerializationV1.cpp
   cryptonote/src/Wallet/WalletSerializationV2.cpp
   cryptonote/src/Wallet/WalletUtils.cpp
