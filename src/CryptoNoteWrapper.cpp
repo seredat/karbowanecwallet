@@ -256,11 +256,11 @@ public:
     return new CryptoNote::WalletLegacy(m_currency, m_node, m_logManager);
   }
 
-  System::Dispatcher& getDispatcher() {
+  System::Dispatcher& getDispatcher() override {
      return m_dispatcher;
   }
 
-  CryptoNote::INode* getNode() {
+  CryptoNote::INode* getNode() override {
     return &m_node;
   }
 
@@ -511,11 +511,11 @@ public:
     return new CryptoNote::WalletLegacy(m_currency, m_node, m_logManager);
   }
 
-  System::Dispatcher& getDispatcher() {
+  System::Dispatcher& getDispatcher() override {
      return m_dispatcher;
   }
 
-  CryptoNote::INode* getNode() {
+  CryptoNote::INode* getNode() override {
     return &m_node;
   }
 

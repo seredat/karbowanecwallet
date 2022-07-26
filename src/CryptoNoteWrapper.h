@@ -72,8 +72,8 @@ public:
 
   virtual CryptoNote::IWalletLegacy* createWallet() = 0;
 
-  System::Dispatcher& getDispatcher();
-  CryptoNote::INode* getNode();
+  virtual CryptoNote::INode* getNode() = 0;
+  virtual System::Dispatcher& getDispatcher() = 0;
 
 };
 
