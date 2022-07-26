@@ -108,7 +108,7 @@
       </sizepolicy>
      </property>
      <property name="title">
-      <string>Authentication</string>
+      <string>Authorization</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
@@ -119,7 +119,7 @@
         <item>
          <widget class="QLabel" name="label_3">
           <property name="text">
-           <string>User:</string>
+           <string>Username:</string>
           </property>
          </widget>
         </item>
