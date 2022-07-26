@@ -53,7 +53,8 @@ WalletAdapter& WalletAdapter::instance() {
 
 WalletAdapter::WalletAdapter() : QObject(), m_wallet(nullptr), m_mutex(), m_isBackupInProgress(false),
   m_syncSpeed(0), m_syncPeriod(0), m_isSynchronized(false), m_newTransactionsNotificationTimer(),
-  m_lastWalletTransactionId(std::numeric_limits<quint64>::max())
+  m_lastWalletTransactionId(std::numeric_limits<quint64>::max()),
+  m_logger(LoggerAdapter::instance().getLoggerManager(), "WalletAdapter")
 {
   connect(this, &WalletAdapter::walletInitCompletedSignal, this, &WalletAdapter::onWalletInitCompleted, Qt::QueuedConnection);
   connect(this, &WalletAdapter::walletSendTransactionCompletedSignal, this, &WalletAdapter::onWalletSendTransactionCompleted, Qt::QueuedConnection);
@@ -159,23 +160,19 @@ void WalletAdapter::open(const QString& _password) {
   }
 
   const std::string walletFilename = Settings::instance().getWalletFile().toStdString();
-  //auto logger = LoggerAdapter::instance().getLoggerManager();
   m_wallet_rpc = new Tools::wallet_rpc_server(NodeAdapter::instance().getDispatcher(),
                                               LoggerAdapter::instance().getLoggerManager(),
                                               *m_wallet,
                                               *NodeAdapter::instance().getNode(),
                                               CurrencyAdapter::instance().getCurrency(),
                                               walletFilename);
-
-  //bool enable_ssl;
-  //std::string bind_address, bind_address_ssl, ssl_info;
-  //m_wallet_rpc->getServerConf(bind_address, bind_address_ssl, enable_ssl);
-  //if (enable_ssl) ssl_info += std::string(", SSL on address ") + bind_address_ssl;
-  //  logger.getLogger()(Logging::INFO) << "Starting wallet rpc server on address " << bind_address << ssl_info;
-
-  if (!m_wallet_rpc->init(m_wrpcOptions)) {
-      //logger(ERROR, BRIGHT_RED) << "Failed to initialize wallet rpc server";
-  }
+  if (!m_wallet_rpc->init(m_wrpcOptions))
+    m_logger(Logging::ERROR) << "Failed to initialize wallet rpc server";
+  bool enable_ssl;
+  std::string bind_address, bind_address_ssl, ssl_info;
+  m_wallet_rpc->getServerConf(bind_address, bind_address_ssl, enable_ssl);
+  if (enable_ssl) ssl_info += std::string(", SSL on address ") + bind_address_ssl;
+    m_logger(Logging::INFO) << "Starting wallet rpc server on address " << bind_address << ssl_info;
 
   m_wallet_rpc->run(true);
 }

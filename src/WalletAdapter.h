@@ -110,7 +110,7 @@ private:
   std::atomic<quint64> m_lastWalletTransactionId;
   QTimer m_newTransactionsNotificationTimer;
   QPushButton* m_closeButton;
-
+  Logging::LoggerRef m_logger;
   uint32_t m_syncSpeed;
   uint32_t m_syncPeriod;
   struct PerfType { uint32_t height; QTime time; };
