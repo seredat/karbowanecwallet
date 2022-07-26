@@ -18,7 +18,8 @@
 #include <fstream>
 
 #include <IWalletLegacy.h>
-#include <Wallet/WalletRpcServer.h>
+
+#include "Wallet/WalletRpcServer.h"
 
 namespace WalletGui {
 

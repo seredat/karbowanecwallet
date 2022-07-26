@@ -15,13 +15,13 @@
 
 #include "WalletAdapter.h"
 
-#include <crypto/crypto.h>
-#include <Common/Base58.h>
-#include <Common/Util.h>
-#include <Wallet/WalletErrors.h>
-#include <Wallet/LegacyKeysImporter.h>
+#include "crypto/crypto.h"
+#include "Common/Base58.h"
+#include "Common/Util.h"
+#include "Wallet/WalletErrors.h"
+#include "Wallet/LegacyKeysImporter.h"
 #include "CryptoNoteCore/CryptoNoteBasic.h"
-#include <ITransfersContainer.h>
+#include "ITransfersContainer.h"
 #include "NodeAdapter.h"
 #include "Settings.h"
 #include "Mnemonics/electrum-words.h"
@@ -261,6 +261,11 @@ void WalletAdapter::close() {
   m_lastWalletTransactionId = std::numeric_limits<quint64>::max();
   Q_EMIT walletCloseCompletedSignal();
   QCoreApplication::processEvents();
+
+  m_wallet_rpc->stop();
+  delete m_wallet_rpc;
+  m_wallet_rpc = nullptr;
+
   delete m_wallet;
   m_wallet = nullptr;
   unlock();
