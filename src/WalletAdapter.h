@@ -17,6 +17,8 @@
 #include <atomic>
 #include <fstream>
 
+#include <boost/program_options.hpp>
+
 #include <IWalletLegacy.h>
 
 #include "Wallet/WalletRpcServer.h"
@@ -113,6 +115,8 @@ private:
   uint32_t m_syncPeriod;
   struct PerfType { uint32_t height; QTime time; };
   std::vector<PerfType> m_perfData;
+
+  boost::program_options::variables_map m_wrpcOptions;
 
   WalletAdapter();
   ~WalletAdapter();

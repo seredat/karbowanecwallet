@@ -13,8 +13,11 @@
 #include <QVector>
 #include <QDebug>
 
+#include <boost/filesystem.hpp>
+
 #include "WalletAdapter.h"
 
+#include "CryptoNoteConfig.h"
 #include "crypto/crypto.h"
 #include "Common/Base58.h"
 #include "Common/Util.h"
@@ -68,6 +71,24 @@ WalletAdapter::WalletAdapter() : QObject(), m_wallet(nullptr), m_mutex(), m_isBa
   }, Qt::QueuedConnection);
 
   m_newTransactionsNotificationTimer.setInterval(500);
+
+
+  // init wallet rpc config
+  bool no = false;
+  std::string dummy = "", cors = "*";
+  std::string wrpcBindIp = "127.0.0.1"; //Settings::instance().getWalletRpcBindIp().toStdString();
+  uint16_t wrpcBindPort = CryptoNote::WALLET_RPC_DEFAULT_PORT; //static_cast<uint16_t>(Settings::instance().getWalletRpcPort());
+  uint16_t wrpcBindSslPort = CryptoNote::WALLET_RPC_DEFAULT_SSL_PORT;
+
+  m_wrpcOptions.insert(std::make_pair("rpc-bind-ip", boost::program_options::variable_value(wrpcBindIp, false)));
+  m_wrpcOptions.insert(std::make_pair("rpc-bind-port", boost::program_options::variable_value(wrpcBindPort, false)));
+  m_wrpcOptions.insert(std::make_pair("rpc-bind-ssl-port", boost::program_options::variable_value(wrpcBindSslPort, false)));
+  m_wrpcOptions.insert(std::make_pair("rpc-bind-ssl-enable", boost::program_options::variable_value(no, false)));
+  m_wrpcOptions.insert(std::make_pair("rpc-chain-file", boost::program_options::variable_value(dummy, false)));
+  m_wrpcOptions.insert(std::make_pair("rpc-key-file", boost::program_options::variable_value(dummy, false)));
+  m_wrpcOptions.insert(std::make_pair("rpc-user", boost::program_options::variable_value(dummy, false)));
+  m_wrpcOptions.insert(std::make_pair("rpc-password", boost::program_options::variable_value(dummy, false)));
+
 }
 
 WalletAdapter::~WalletAdapter() {
@@ -137,13 +158,25 @@ void WalletAdapter::open(const QString& _password) {
   }
 
   const std::string walletFilename = Settings::instance().getWalletFile().toStdString();
-
+  //auto logger = LoggerAdapter::instance().getLoggerManager();
   m_wallet_rpc = new Tools::wallet_rpc_server(NodeAdapter::instance().getDispatcher(),
                                               LoggerAdapter::instance().getLoggerManager(),
                                               *m_wallet,
                                               *NodeAdapter::instance().getNode(),
                                               CurrencyAdapter::instance().getCurrency(),
                                               walletFilename);
+
+  //bool enable_ssl;
+  //std::string bind_address, bind_address_ssl, ssl_info;
+  //m_wallet_rpc->getServerConf(bind_address, bind_address_ssl, enable_ssl);
+  //if (enable_ssl) ssl_info += std::string(", SSL on address ") + bind_address_ssl;
+  //  logger.getLogger()(Logging::INFO) << "Starting wallet rpc server on address " << bind_address << ssl_info;
+
+  if (!m_wallet_rpc->init(m_wrpcOptions)) {
+      //logger(ERROR, BRIGHT_RED) << "Failed to initialize wallet rpc server";
+  }
+
+  m_wallet_rpc->run(true);
 }
 
 bool WalletAdapter::tryOpen(const QString& _password) {
