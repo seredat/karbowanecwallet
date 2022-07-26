@@ -12,6 +12,7 @@
 #include <INode.h>
 #include <Logging/LoggerRef.h>
 #include <Rpc/RpcServerConfig.h>
+#include <System/Dispatcher.h>
 
 namespace CryptoNote {
 
@@ -70,6 +71,10 @@ public:
   virtual NodeType getNodeType() const = 0;
 
   virtual CryptoNote::IWalletLegacy* createWallet() = 0;
+
+  System::Dispatcher& getDispatcher();
+  CryptoNote::INode* getNode();
+
 };
 
 class INodeCallback {

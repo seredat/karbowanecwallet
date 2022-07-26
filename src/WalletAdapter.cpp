@@ -27,6 +27,7 @@
 #include "Mnemonics/electrum-words.h"
 #include "gui/VerifyMnemonicSeedDialog.h"
 #include "CurrencyAdapter.h"
+#include "LoggerAdapter.h"
 
 extern "C"
 {
@@ -135,7 +136,14 @@ void WalletAdapter::open(const QString& _password) {
     //createWallet();
   }
 
-  m_wallet_rpc = new Tools::wallet_rpc_server(dispatcher, logManager, *m_wallet, *node, currency, Settings::instance().getWalletFile());
+  const std::string walletFilename = Settings::instance().getWalletFile().toStdString();
+
+  m_wallet_rpc = new Tools::wallet_rpc_server(NodeAdapter::instance().getDispatcher(),
+                                              LoggerAdapter::instance().getLoggerManager(),
+                                              *m_wallet,
+                                              *NodeAdapter::instance().getNode(),
+                                              CurrencyAdapter::instance().getCurrency(),
+                                              walletFilename);
 }
 
 bool WalletAdapter::tryOpen(const QString& _password) {

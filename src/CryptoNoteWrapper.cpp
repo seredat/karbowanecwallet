@@ -30,7 +30,6 @@
 #include "WalletLegacy/WalletLegacy.h"
 #include "Logging/LoggerManager.h"
 #include "LoggerAdapter.h"
-#include "System/Dispatcher.h"
 #include "CurrencyAdapter.h"
 #include "Settings.h"
 
@@ -302,6 +301,14 @@ public:
     return new CryptoNote::WalletLegacy(m_currency, m_node, m_logManager);
   }
 
+  System::Dispatcher& getDispatcher() {
+     return m_dispatcher;
+  }
+
+  CryptoNote::INode* getNode() {
+    return &m_node;
+  }
+
 private:
   INodeCallback& m_callback;
   const CryptoNote::Currency& m_currency;
@@ -547,6 +554,14 @@ public:
 
   CryptoNote::IWalletLegacy* createWallet() override {
     return new CryptoNote::WalletLegacy(m_currency, m_node, m_logManager);
+  }
+
+  System::Dispatcher& getDispatcher() {
+     return m_dispatcher;
+  }
+
+  CryptoNote::INode* getNode() {
+    return &m_node;
   }
 
 private:

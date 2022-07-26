@@ -482,6 +482,15 @@ bool NodeAdapter::isOffline() {
   return getConnectionsCount() == 0;
 }
 
+CryptoNote::INode* NodeAdapter::getNode() {
+  Q_CHECK_PTR(m_node);
+  return m_node->getNode();
+}
+
+System::Dispatcher &NodeAdapter::getDispatcher() {
+  return m_node->getDispatcher();
+}
+
 }
 
 #include "NodeAdapter.moc"
