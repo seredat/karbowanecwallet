@@ -509,7 +509,7 @@ QString Settings::getWalletRpcUser() const {
   QString walletRpcUser = "";
 
   if (m_settings.contains(OPTION_WALLET_RPC)) {
-    QJsonObject walletRpcObject = m_settings.value(OPTION_WALLET_RPC_USER).toObject();
+    QJsonObject walletRpcObject = m_settings.value(OPTION_WALLET_RPC).toObject();
     if (walletRpcObject.contains(OPTION_WALLET_RPC_USER)) {
        walletRpcUser = walletRpcObject.value(OPTION_WALLET_RPC_USER).toString();
     }
