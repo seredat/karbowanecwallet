@@ -53,7 +53,8 @@ WalletAdapter& WalletAdapter::instance() {
 
 WalletAdapter::WalletAdapter() : QObject(), m_wallet(nullptr), m_mutex(), m_isBackupInProgress(false),
   m_syncSpeed(0), m_syncPeriod(0), m_isSynchronized(false), m_newTransactionsNotificationTimer(),
-  m_lastWalletTransactionId(std::numeric_limits<quint64>::max()) {
+  m_lastWalletTransactionId(std::numeric_limits<quint64>::max())
+{
   connect(this, &WalletAdapter::walletInitCompletedSignal, this, &WalletAdapter::onWalletInitCompleted, Qt::QueuedConnection);
   connect(this, &WalletAdapter::walletSendTransactionCompletedSignal, this, &WalletAdapter::onWalletSendTransactionCompleted, Qt::QueuedConnection);
   connect(this, &WalletAdapter::updateBlockStatusTextSignal, this, &WalletAdapter::updateBlockStatusText, Qt::QueuedConnection);
@@ -72,13 +73,14 @@ WalletAdapter::WalletAdapter() : QObject(), m_wallet(nullptr), m_mutex(), m_isBa
 
   m_newTransactionsNotificationTimer.setInterval(500);
 
-
   // init wallet rpc config
   bool no = false;
-  std::string dummy = "", cors = "*";
-  std::string wrpcBindIp = "127.0.0.1"; //Settings::instance().getWalletRpcBindIp().toStdString();
-  uint16_t wrpcBindPort = CryptoNote::WALLET_RPC_DEFAULT_PORT; //static_cast<uint16_t>(Settings::instance().getWalletRpcPort());
+  std::string dummy = "";
+  std::string wrpcBindIp = Settings::instance().getWalletRpcBindIp().toStdString();
+  uint16_t wrpcBindPort = static_cast<uint16_t>(Settings::instance().getWalletRpcBindPort());
   uint16_t wrpcBindSslPort = CryptoNote::WALLET_RPC_DEFAULT_SSL_PORT;
+  std::string wrpcUser = Settings::instance().getWalletRpcUser().toStdString();
+  std::string wrpcPassword = Settings::instance().getWalletRpcPassword().toStdString();
 
   m_wrpcOptions.insert(std::make_pair("rpc-bind-ip", boost::program_options::variable_value(wrpcBindIp, false)));
   m_wrpcOptions.insert(std::make_pair("rpc-bind-port", boost::program_options::variable_value(wrpcBindPort, false)));
@@ -86,9 +88,8 @@ WalletAdapter::WalletAdapter() : QObject(), m_wallet(nullptr), m_mutex(), m_isBa
   m_wrpcOptions.insert(std::make_pair("rpc-bind-ssl-enable", boost::program_options::variable_value(no, false)));
   m_wrpcOptions.insert(std::make_pair("rpc-chain-file", boost::program_options::variable_value(dummy, false)));
   m_wrpcOptions.insert(std::make_pair("rpc-key-file", boost::program_options::variable_value(dummy, false)));
-  m_wrpcOptions.insert(std::make_pair("rpc-user", boost::program_options::variable_value(dummy, false)));
-  m_wrpcOptions.insert(std::make_pair("rpc-password", boost::program_options::variable_value(dummy, false)));
-
+  m_wrpcOptions.insert(std::make_pair("rpc-user", boost::program_options::variable_value(wrpcUser, false)));
+  m_wrpcOptions.insert(std::make_pair("rpc-password", boost::program_options::variable_value(wrpcPassword, false)));
 }
 
 WalletAdapter::~WalletAdapter() {

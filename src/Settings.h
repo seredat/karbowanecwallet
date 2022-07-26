@@ -75,6 +75,12 @@ public:
 
   quint32 getRollBack() const;
 
+  bool runWalletRpc() const;
+  QString getWalletRpcBindIp() const;
+  QString getWalletRpcUser() const;
+  QString getWalletRpcPassword() const;
+  quint16 getWalletRpcBindPort() const;
+
   bool isEncrypted() const;
   bool isStartOnLoginEnabled() const;
   bool isMiningOnLaunchEnabled() const;
@@ -114,6 +120,12 @@ public:
   void setOptimizationMixin(quint64 _mixin);
   void setSkipFusionTransactions(bool _skip);
   void setHideEverythingOnLocked(bool _hide);
+
+  void setRunWalletRpc(bool _enable);
+  void setWalletRpcBindIp(QString& _ip);
+  void setWalletRpcPort(quint16 _port);
+  void setWalletRpcUser(QString& _user);
+  void setWalletRpcPassword(QString& _pwd);
 
 private:
   QJsonObject m_settings;
