@@ -31,6 +31,7 @@
 #include "ChangePasswordDialog.h"
 #include "ConnectionSettings.h"
 #include "OptimizationSettings.h"
+#include "WalletRpcSettings.h"
 #include "PrivateKeysDialog.h"
 #include "ImportKeyDialog.h"
 #include "ImportKeysDialog.h"
@@ -797,6 +798,13 @@ void MainWindow::openConnectionSettings() {
 void MainWindow::openOptimizationSettings() {
   OptimizationSettingsDialog dlg(&MainWindow::instance());
   dlg.exec();
+}
+
+void MainWindow::openWalletRpcSettings() {
+  WalletRpcSettingsDialog dlg(&MainWindow::instance());
+  if (dlg.exec() == QDialog::Accepted) {
+    QMessageBox::information(this, tr("Wallet RPC settings changed"), tr("Changes will take effect when you restart the wallet."), QMessageBox::Ok);
+  }
 }
 
 void MainWindow::getBalanceProof() {

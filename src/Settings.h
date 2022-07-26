@@ -123,7 +123,7 @@ public:
 
   void setRunWalletRpc(bool _enable);
   void setWalletRpcBindIp(QString& _ip);
-  void setWalletRpcPort(quint16 _port);
+  void setWalletRpcBindPort(quint16 _port);
   void setWalletRpcUser(QString& _user);
   void setWalletRpcPassword(QString& _pwd);
 

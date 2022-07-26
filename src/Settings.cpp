@@ -897,7 +897,7 @@ void Settings::setWalletRpcBindIp(QString& _ip) {
   }
 }
 
-void Settings::setWalletRpcPort(quint16 _port) {
+void Settings::setWalletRpcBindPort(quint16 _port) {
   if (_port == getWalletRpcBindPort()) {
     return;
   }
