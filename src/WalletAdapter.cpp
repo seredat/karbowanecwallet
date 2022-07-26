@@ -781,7 +781,11 @@ void WalletAdapter::lock() {
 }
 
 void WalletAdapter::unlock() {
-  m_mutex.unlock();
+  if (m_mutex.try_lock()) {
+    m_mutex.unlock();
+  } else {
+    m_mutex.unlock();
+  }
 }
 
 bool WalletAdapter::openFile(const QString& _file, bool _readOnly) {
