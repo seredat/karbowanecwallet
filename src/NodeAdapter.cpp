@@ -17,7 +17,6 @@
 #include "LoggerAdapter.h"
 #include "NodeAdapter.h"
 #include "P2p/NetNodeConfig.h"
-#include "Rpc/RpcServerConfig.h"
 #include "Settings.h"
 #include "Wallet/WalletErrors.h"
 

@@ -2,9 +2,6 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef UI_WALLETRPCSETTINGS_H
-#define UI_WALLETRPCSETTINGS_H
-
 #pragma  once
 
 #include <QDialog>
@@ -19,7 +16,6 @@ class WalletRpcSettingsDialog : public QDialog {
   Q_OBJECT
   Q_DISABLE_COPY(WalletRpcSettingsDialog)
 
-
 public:
   WalletRpcSettingsDialog(QWidget* _parent);
   ~WalletRpcSettingsDialog();
@@ -33,5 +29,3 @@ private:
 };
 
 }
-
-#endif // UI_WALLETRPCSETTINGS_H
