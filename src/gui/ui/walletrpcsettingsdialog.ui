@@ -134,7 +134,28 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="m_walletRpcPassword"/>
+         <widget class="QLineEdit" name="m_walletRpcPassword">
+          <property name="inputMethodHints">
+           <set>Qt::ImhHiddenText|Qt::ImhNoAutoUppercase|Qt::ImhNoPredictiveText|Qt::ImhSensitiveData</set>
+          </property>
+          <property name="echoMode">
+           <enum>QLineEdit::Password</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="m_showPwdButton">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="../../resources.qrc">
+            <normaloff>:/icons/tracking</normaloff>:/icons/tracking</iconset>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+         </widget>
         </item>
         <item>
          <spacer name="horizontalSpacer_4">
@@ -200,7 +221,9 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>walletRpcSetetingsCancelButton</sender>
@@ -234,8 +257,25 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>m_showPwdButton</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>WalletRpcSettingsDialog</receiver>
+   <slot>showPwdToggled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>420</x>
+     <y>156</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>293</x>
+     <y>178</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>saveSettingClicked()</slot>
+  <slot>showPwdToggled(bool)</slot>
  </slots>
 </ui>

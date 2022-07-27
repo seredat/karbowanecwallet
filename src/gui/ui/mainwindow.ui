@@ -271,13 +271,14 @@
     <addaction name="m_connectionSettingsAction"/>
     <addaction name="m_optimizationAction"/>
     <addaction name="m_walletRpcAction"/>
+    <addaction name="separator"/>
     <addaction name="m_hideFusionTransactions"/>
     <addaction name="m_hideEverythingOnLocked"/>
+    <addaction name="m_miningOnLaunchAction"/>
     <addaction name="separator"/>
     <addaction name="m_startOnLoginAction"/>
     <addaction name="m_minimizeToTrayAction"/>
     <addaction name="m_closeToTrayAction"/>
-    <addaction name="m_miningOnLaunchAction"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
