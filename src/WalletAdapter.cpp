@@ -161,8 +161,7 @@ void WalletAdapter::open(const QString& _password) {
 
   if (Settings::instance().runWalletRpc()) {
     const std::string walletFilename = Settings::instance().getWalletFile().toStdString();
-    m_wallet_rpc = new Tools::wallet_rpc_server(NodeAdapter::instance().getDispatcher(),
-                                                LoggerAdapter::instance().getLoggerManager(),
+    m_wallet_rpc = new Tools::wallet_rpc_server(LoggerAdapter::instance().getLoggerManager(),
                                                 *m_wallet,
                                                 *NodeAdapter::instance().getNode(),
                                                 CurrencyAdapter::instance().getCurrency(),
@@ -175,7 +174,7 @@ void WalletAdapter::open(const QString& _password) {
     if (enable_ssl) ssl_info += std::string(", SSL on address ") + bind_address_ssl;
       m_logger(Logging::INFO) << "Starting wallet rpc server on address " << bind_address << ssl_info;
 
-    m_wallet_rpc->run(true);
+    m_wallet_rpc->run();
   }
 }
 
