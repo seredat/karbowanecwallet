@@ -861,8 +861,8 @@ S&apos;il vous plaît, patientez...</translation>
         <translation>Commencer à miner automatiquement</translation>
     </message>
     <message>
-        <source>Wallet RPC</source>
-        <translation type="unfinished"></translation>
+        <source>Wallet RPC interface</source>
+        <translation>Interface RPC du portefeuille</translation>
     </message>
 </context>
 <context>

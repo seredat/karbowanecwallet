@@ -912,8 +912,8 @@ Please wait...</source>
     </message>
     <message>
         <location filename="../gui/ui/mainwindow.ui" line="740"/>
-        <source>Wallet RPC</source>
-        <translation type="unfinished"></translation>
+        <source>Wallet RPC interface</source>
+        <translation>지갑 RPC 인터페이스</translation>
     </message>
     <message>
         <location filename="../gui/ui/mainwindow.ui" line="594"/>
@@ -1758,7 +1758,7 @@ Do you want to go to the download page?</source>
     <message>
         <location filename="../gui/ui/sendframe.ui" line="386"/>
         <source>Priority:</source>
-        <translation type="unfinished"></translation>
+        <translation>우선 사항:</translation>
     </message>
     <message>
         <location filename="../gui/ui/sendframe.ui" line="393"/>

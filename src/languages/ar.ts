@@ -929,8 +929,8 @@ Please wait...</source>
     </message>
     <message>
         <location filename="../gui/ui/mainwindow.ui" line="740"/>
-        <source>Wallet RPC</source>
-        <translation type="unfinished"></translation>
+        <source>Wallet RPC interface</source>
+        <translation>واجهة المحفظة RPC</translation>
     </message>
     <message>
         <location filename="../gui/ui/mainwindow.ui" line="594"/>
@@ -1510,7 +1510,7 @@ Please wait...</source>
     <message>
         <location filename="../gui/ui/passworddialog.ui" line="84"/>
         <source>Wallet:</source>
-        <translation type="unfinished">محفظة</translation>
+        <translation>محفظة:</translation>
     </message>
     <message>
         <location filename="../gui/ui/passworddialog.ui" line="97"/>
@@ -1811,7 +1811,7 @@ Do you want to go to the download page?</source>
     <message>
         <location filename="../gui/ui/sendframe.ui" line="424"/>
         <source>Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>متقدم</translation>
     </message>
     <message>
         <location filename="../gui/ui/sendframe.ui" line="513"/>

@@ -850,8 +850,8 @@ Bitte warten...</translation>
         <translation>Mining automatisch starten</translation>
     </message>
     <message>
-        <source>Wallet RPC</source>
-        <translation type="unfinished"></translation>
+        <source>Wallet RPC interface</source>
+        <translation>Wallet-RPC-Schnittstelle</translation>
     </message>
 </context>
 <context>

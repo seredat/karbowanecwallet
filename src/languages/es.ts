@@ -851,8 +851,8 @@ Por favor, espera...</translation>
         <translation>Comencar mining automáticamente</translation>
     </message>
     <message>
-        <source>Wallet RPC</source>
-        <translation type="unfinished"></translation>
+        <source>Wallet RPC interface</source>
+        <translation>Interfaz RPC de billetera</translation>
     </message>
 </context>
 <context>

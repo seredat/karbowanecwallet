@@ -845,8 +845,8 @@ Please wait...</source>
         <translation>Запускать майнинг при старте</translation>
     </message>
     <message>
-        <source>Wallet RPC</source>
-        <translation type="unfinished"></translation>
+        <source>Wallet RPC interface</source>
+        <translation>RPC-интерфейс кошелька</translation>
     </message>
 </context>
 <context>

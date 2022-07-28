@@ -737,7 +737,7 @@
   </action>
   <action name="m_walletRpcAction">
    <property name="text">
-    <string>Wallet RPC</string>
+    <string>Wallet RPC interface</string>
    </property>
   </action>
  </widget>

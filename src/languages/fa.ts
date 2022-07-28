@@ -841,8 +841,8 @@ Please wait...</source>
         <translation>استخراج خودکار را شروع کنید</translation>
     </message>
     <message>
-        <source>Wallet RPC</source>
-        <translation type="unfinished"></translation>
+        <source>Wallet RPC interface</source>
+        <translation>واسط RPC کیف پول</translation>
     </message>
 </context>
 <context>
@@ -1286,7 +1286,7 @@ Please wait...</source>
     </message>
     <message>
         <source>Wallet:</source>
-        <translation type="unfinished">کیف پول</translation>
+        <translation>کیف پول:</translation>
     </message>
 </context>
 <context>

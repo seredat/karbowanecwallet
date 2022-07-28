@@ -870,8 +870,8 @@ Por favor aguarde...</translation>
         <translation>Iniciar mineração automaticamente</translation>
     </message>
     <message>
-        <source>Wallet RPC</source>
-        <translation type="unfinished"></translation>
+        <source>Wallet RPC interface</source>
+        <translation>Interface RPC da carteira</translation>
     </message>
 </context>
 <context>

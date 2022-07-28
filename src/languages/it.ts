@@ -887,8 +887,8 @@ Attendere prego…
     </message>
     <message>
         <location filename="../gui/ui/mainwindow.ui" line="740"/>
-        <source>Wallet RPC</source>
-        <translation type="unfinished"></translation>
+        <source>Wallet RPC interface</source>
+        <translation>Interfaccia RPC del portafoglio</translation>
     </message>
     <message>
         <location filename="../gui/ui/mainwindow.ui" line="599"/>

@@ -845,8 +845,8 @@ Please wait...</source>
         <translation>Запускати карбування при старті</translation>
     </message>
     <message>
-        <source>Wallet RPC</source>
-        <translation type="unfinished"></translation>
+        <source>Wallet RPC interface</source>
+        <translation>RPC-інтерфейс гаманця</translation>
     </message>
 </context>
 <context>

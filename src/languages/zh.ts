@@ -916,8 +916,8 @@ Please wait...</source>
     </message>
     <message>
         <location filename="../gui/ui/mainwindow.ui" line="740"/>
-        <source>Wallet RPC</source>
-        <translation type="unfinished"></translation>
+        <source>Wallet RPC interface</source>
+        <translation>钱包 RPC 接口</translation>
     </message>
     <message>
         <location filename="../gui/ui/mainwindow.ui" line="594"/>
@@ -1762,7 +1762,7 @@ Do you want to go to the download page?</source>
     <message>
         <location filename="../gui/ui/sendframe.ui" line="386"/>
         <source>Priority:</source>
-        <translation>优先</translation>
+        <translation>优先:</translation>
     </message>
     <message>
         <location filename="../gui/ui/sendframe.ui" line="393"/>
@@ -1797,7 +1797,7 @@ Do you want to go to the download page?</source>
     <message>
         <location filename="../gui/ui/sendframe.ui" line="424"/>
         <source>Advanced</source>
-        <translation></translation>
+        <translation>先进的</translation>
     </message>
     <message>
         <location filename="../gui/ui/sendframe.ui" line="513"/>

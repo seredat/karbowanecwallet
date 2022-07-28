@@ -849,8 +849,8 @@ Please wait...</source>
         <translation>Запускаць чаканку пры старце</translation>
     </message>
     <message>
-        <source>Wallet RPC</source>
-        <translation type="unfinished"></translation>
+        <source>Wallet RPC interface</source>
+        <translation>RPC-інтэрфейс гаманца</translation>
     </message>
 </context>
 <context>

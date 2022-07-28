@@ -846,8 +846,8 @@ Proszę czekać...</translation>
         <translation>Uruchamiać karbowanie automatycznie</translation>
     </message>
     <message>
-        <source>Wallet RPC</source>
-        <translation type="unfinished"></translation>
+        <source>Wallet RPC interface</source>
+        <translation>Interfejs RPC portfela</translation>
     </message>
 </context>
 <context>
