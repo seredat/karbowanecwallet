@@ -879,11 +879,10 @@ void Settings::setRunWalletRpc(bool _enable) {
   }
 }
 
-void Settings::setWalletRpcBindIp(QString& _ip) {
+void Settings::setWalletRpcBindIp(const QString& _ip) {
   if (_ip == getWalletRpcBindIp()) {
     return;
   }
-
 
   {
     QJsonObject walletRpcObject;
@@ -897,11 +896,10 @@ void Settings::setWalletRpcBindIp(QString& _ip) {
   }
 }
 
-void Settings::setWalletRpcBindPort(quint16 _port) {
+void Settings::setWalletRpcBindPort(const quint16& _port) {
   if (_port == getWalletRpcBindPort()) {
     return;
   }
-
 
   {
     QJsonObject walletRpcObject;
@@ -915,11 +913,10 @@ void Settings::setWalletRpcBindPort(quint16 _port) {
   }
 }
 
-void Settings::setWalletRpcUser(QString& _user) {
+void Settings::setWalletRpcUser(const QString& _user) {
   if (_user == getWalletRpcUser()) {
     return;
   }
-
 
   {
     QJsonObject walletRpcObject;
@@ -933,11 +930,10 @@ void Settings::setWalletRpcUser(QString& _user) {
   }
 }
 
-void Settings::setWalletRpcPassword(QString& _pwd) {
+void Settings::setWalletRpcPassword(const QString& _pwd) {
   if (_pwd == getWalletRpcPassword()) {
     return;
   }
-
 
   {
     QJsonObject walletRpcObject;

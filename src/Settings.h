@@ -122,10 +122,10 @@ public:
   void setHideEverythingOnLocked(bool _hide);
 
   void setRunWalletRpc(bool _enable);
-  void setWalletRpcBindIp(QString& _ip);
-  void setWalletRpcBindPort(quint16 _port);
-  void setWalletRpcUser(QString& _user);
-  void setWalletRpcPassword(QString& _pwd);
+  void setWalletRpcBindIp(const QString& _ip);
+  void setWalletRpcBindPort(const quint16& _port);
+  void setWalletRpcUser(const QString& _user);
+  void setWalletRpcPassword(const QString& _pwd);
 
 private:
   QJsonObject m_settings;
