@@ -7,6 +7,7 @@
 #pragma once
 
 #include <QDialog>
+#include <CryptoNote.h>
 
 namespace Ui {
 class RestoreFromMnemonicSeedDialog;
@@ -24,11 +25,13 @@ public:
   QString getSeedString() const;
   QString getFilePath() const;
   quint32 getSyncHeight() const;
+  CryptoNote::AccountKeys getAccountKeys() const;
 
 private:
   QScopedPointer<Ui::RestoreFromMnemonicSeedDialog> m_ui;
 
   int wordCount = 0;
+  CryptoNote::AccountKeys m_keys;
 
   Q_SLOT void selectPathClicked();
   Q_SLOT void onTextChanged();

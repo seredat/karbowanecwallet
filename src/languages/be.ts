@@ -2377,11 +2377,11 @@ Are you sure?</source>
     </message>
     <message>
         <source>Mnemonic seed is not correct</source>
-        <translation>Мнеманічна фраза не з&apos;яўляецца правільнай</translation>
+        <translation type="vanished">Мнеманічна фраза не з&apos;яўляецца правільнай</translation>
     </message>
     <message>
         <source>There must be an error in mnemonic seed. Make sure you entered it correctly.</source>
-        <translation>Павінна быць памылка ў мнеманічнай фразе. Пераканайцеся што вы ўвялі яе правільна.</translation>
+        <translation type="vanished">Павінна быць памылка ў мнеманічнай фразе. Пераканайцеся што вы ўвялі яе правільна.</translation>
     </message>
     <message>
         <source>Wallet keys are not valid</source>

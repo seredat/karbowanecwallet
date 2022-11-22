@@ -61,14 +61,6 @@
 #include "macdockiconhandler.h"
 #endif
 
-#include "Mnemonics/electrum-words.h"
-
-extern "C"
-{
-#include "crypto/keccak.h"
-#include "crypto/crypto-ops.h"
-}
-
 namespace WalletGui {
 
 MainWindow* MainWindow::m_instance = nullptr;
@@ -621,9 +613,8 @@ void MainWindow::isTrackingMode() {
 void MainWindow::restoreFromMnemonicSeed() {
   RestoreFromMnemonicSeedDialog dlg(this);
   if (dlg.exec() == QDialog::Accepted) {
-    QString mnemonicString = dlg.getSeedString().trimmed();
     QString filePath = dlg.getFilePath();
-    if (mnemonicString.isEmpty() || filePath.isEmpty()) {
+    if (filePath.isEmpty()) {
       return;
     }
 
@@ -631,28 +622,18 @@ void MainWindow::restoreFromMnemonicSeed() {
       filePath.append(".wallet");
     }
 
-    CryptoNote::AccountKeys keys;
-    std::string seed_language = "English";
-    if(Crypto::ElectrumWords::words_to_bytes(mnemonicString.toStdString(), keys.spendSecretKey, seed_language)) {
-      Crypto::secret_key_to_public_key(keys.spendSecretKey,keys.address.spendPublicKey);
-      Crypto::SecretKey second;
-      keccak((uint8_t *)&keys.spendSecretKey, sizeof(Crypto::SecretKey), (uint8_t *)&second, sizeof(Crypto::SecretKey));
-      Crypto::generate_deterministic_keys(keys.address.viewPublicKey,keys.viewSecretKey,second);
+    CryptoNote::AccountKeys keys = dlg.getAccountKeys();
 
-      if (WalletAdapter::instance().isOpen()) {
-        WalletAdapter::instance().close();
-      }
-      WalletAdapter::instance().setWalletFile(filePath);
+    if (WalletAdapter::instance().isOpen()) {
+      WalletAdapter::instance().close();
+    }
+    WalletAdapter::instance().setWalletFile(filePath);
 
-      quint32 syncHeight = dlg.getSyncHeight();
-      if (syncHeight != 0) {
-        WalletAdapter::instance().createWithKeys(keys, syncHeight);
-      } else {
-        WalletAdapter::instance().createWithKeys(keys);
-      }
+    quint32 syncHeight = dlg.getSyncHeight();
+    if (syncHeight != 0) {
+      WalletAdapter::instance().createWithKeys(keys, syncHeight);
     } else {
-      QMessageBox::critical(nullptr, tr("Mnemonic seed is not correct"), tr("There must be an error in mnemonic seed. Make sure you entered it correctly."), QMessageBox::Ok);
-      return;
+      WalletAdapter::instance().createWithKeys(keys);
     }
   }
 }

@@ -8,9 +8,19 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QStandardPaths>
-#include <CryptoNote.h>
 #include "RestoreFromMnemonicSeedDialog.h"
 #include "Mnemonics/electrum-words.h"
+
+#include "Mnemonics/electrum-words.h"
+
+//#include "crypto.h"
+
+extern "C"
+{
+#include "crypto/keccak.h"
+#include "crypto/crypto-ops.h"
+}
+
 #include "ui_restorefrommnemonicseeddialog.h"
 
 namespace WalletGui {
@@ -32,6 +42,10 @@ QString RestoreFromMnemonicSeedDialog::getFilePath() const {
 
 quint32 RestoreFromMnemonicSeedDialog::getSyncHeight() const {
   return m_ui->m_syncHeight->value();
+}
+
+CryptoNote::AccountKeys RestoreFromMnemonicSeedDialog::getAccountKeys() const {
+  return m_keys;
 }
 
 void RestoreFromMnemonicSeedDialog::selectPathClicked() {
@@ -68,15 +82,23 @@ void RestoreFromMnemonicSeedDialog::onTextChanged() {
 }
 
 void RestoreFromMnemonicSeedDialog::onAccept() {
-  CryptoNote::AccountKeys keys;
   std::string seed_language = "English";
-  if (!Crypto::ElectrumWords::words_to_bytes(getSeedString().toStdString(), keys.spendSecretKey, seed_language)) {
+  if (!Crypto::ElectrumWords::words_to_bytes(getSeedString().toStdString(), m_keys.spendSecretKey, seed_language)) {
     QMessageBox::critical(nullptr, tr("Mnemonic seed is not correct"), tr("There must be an error in mnemonic seed. Make sure you entered it correctly."), QMessageBox::Ok);
-  } else if (getFilePath().isEmpty()) {
-    QMessageBox::critical(nullptr, tr("File path is empty"), tr("Please enter the path where to save the wallet file and its name."), QMessageBox::Ok);
+    return;
   } else {
-    accept();
+    Crypto::secret_key_to_public_key(m_keys.spendSecretKey,m_keys.address.spendPublicKey);
+    Crypto::SecretKey second;
+    keccak((uint8_t *)&m_keys.spendSecretKey, sizeof(Crypto::SecretKey), (uint8_t *)&second, sizeof(Crypto::SecretKey));
+    Crypto::generate_deterministic_keys(m_keys.address.viewPublicKey,m_keys.viewSecretKey,second);
   }
+
+  if (getFilePath().isEmpty()) {
+    QMessageBox::critical(nullptr, tr("File path is empty"), tr("Please enter the path where to save the wallet file and its name."), QMessageBox::Ok);
+    return;
+  }
+
+  accept();
 }
 
 }

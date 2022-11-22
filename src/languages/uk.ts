@@ -2358,11 +2358,11 @@ Are you sure?</source>
     </message>
     <message>
         <source>Mnemonic seed is not correct</source>
-        <translation>Мнемонічна фраза невірна</translation>
+        <translation type="vanished">Мнемонічна фраза невірна</translation>
     </message>
     <message>
         <source>There must be an error in mnemonic seed. Make sure you entered it correctly.</source>
-        <translation>У мнемомічній фразі є помилка. Перевірте чи ви ввели її правильно.</translation>
+        <translation type="vanished">У мнемомічній фразі є помилка. Перевірте чи ви ввели її правильно.</translation>
     </message>
     <message>
         <source>Wallet keys are not valid</source>

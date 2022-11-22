@@ -2386,11 +2386,11 @@ Você tem certeza?</translation>
     </message>
     <message>
         <source>Mnemonic seed is not correct</source>
-        <translation>A frase mnemônica está incorreta</translation>
+        <translation type="vanished">A frase mnemônica está incorreta</translation>
     </message>
     <message>
         <source>There must be an error in mnemonic seed. Make sure you entered it correctly.</source>
-        <translation>Há uma falha na frase mnemônica. Verifique se você digitou corretamente.</translation>
+        <translation type="vanished">Há uma falha na frase mnemônica. Verifique se você digitou corretamente.</translation>
     </message>
     <message>
         <source>Wallet keys are not valid</source>
