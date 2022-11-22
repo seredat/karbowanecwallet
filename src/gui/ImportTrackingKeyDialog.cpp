@@ -1,11 +1,12 @@
 // Copyright (c) 2011-2016 The Cryptonote developers
 // Copyright (c) 2015-2016 XDN developers
-// Copyright (c) 2016-2018 The Karbowanec developers
+// Copyright (c) 2016-2022 The Karbowanec developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <QApplication>
 #include <QFileDialog>
+#include <QMessageBox>
 #include <QStandardPaths>
 
 #include "ImportTrackingKeyDialog.h"
@@ -49,6 +50,14 @@ void ImportTrackingKeyDialog::selectPathClicked() {
   }
 
   m_ui->m_pathEdit->setText(filePath);
+}
+
+void ImportTrackingKeyDialog::onAccept() {
+  if (getFilePath().isEmpty()) {
+    QMessageBox::critical(nullptr, tr("File path is empty"), tr("Please enter the path where to save the wallet file and its name."), QMessageBox::Ok);
+  } else {
+    accept();
+  }
 }
 
 }

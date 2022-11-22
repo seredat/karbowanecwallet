@@ -125,7 +125,7 @@
    <sender>m_okButton</sender>
    <signal>clicked()</signal>
    <receiver>ImportKeyDialog</receiver>
-   <slot>accept()</slot>
+   <slot>onAccept()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>594</x>
