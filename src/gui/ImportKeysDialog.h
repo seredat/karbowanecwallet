@@ -7,6 +7,7 @@
 #pragma once
 
 #include <QDialog>
+#include <CryptoNote.h>
 
 namespace Ui {
 class ImportKeysDialog;
@@ -25,9 +26,12 @@ public:
   QString getSpendKeyString() const;
   QString getFilePath() const;
   quint32 getSyncHeight() const;
+  CryptoNote::AccountKeys getAccountKeys() const;
 
 private:
   QScopedPointer<Ui::ImportKeysDialog> m_ui;
+
+  CryptoNote::AccountKeys m_keys;
 
   Q_SLOT void selectPathClicked();
   Q_SLOT void onAccept();

@@ -2165,6 +2165,18 @@ Czy chesz otworzyć stronę pobierania w przeglądarce?</translation>
         <source>Please enter the path where to save the wallet file and its name.</source>
         <translation>Podaj ścieżkę, w której chcesz zapisać plik portfela i jego nazwę.</translation>
     </message>
+    <message>
+        <source>Key is not valid</source>
+        <translation>Klucz jest nieprawidłowy</translation>
+    </message>
+    <message>
+        <source>The private spend key you entered is not valid.</source>
+        <translation>Podany klucz prywatny wydatków jest nieprawidłowy.</translation>
+    </message>
+    <message>
+        <source>The private view key you entered is not valid.</source>
+        <translation>Podany klucz prywatny przeglądu jest nieprawidłowy.</translation>
+    </message>
 </context>
 <context>
     <name>WalletGui::ImportTrackingKeyDialog</name>

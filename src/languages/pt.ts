@@ -2186,6 +2186,18 @@ Você quer ir à página de dowload?</translation>
         <source>Please enter the path where to save the wallet file and its name.</source>
         <translation>Por favor, digite o caminho onde salvar o arquivo da carteira e seu nome.</translation>
     </message>
+    <message>
+        <source>Key is not valid</source>
+        <translation>A chave está errada</translation>
+    </message>
+    <message>
+        <source>The private spend key you entered is not valid.</source>
+        <translation>Os custos das chaves privadas inseridas estão incorretos.</translation>
+    </message>
+    <message>
+        <source>The private view key you entered is not valid.</source>
+        <translation>A exibição privada inserida está incorreta.</translation>
+    </message>
 </context>
 <context>
     <name>WalletGui::ImportTrackingKeyDialog</name>

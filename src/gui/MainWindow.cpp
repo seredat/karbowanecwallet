@@ -499,10 +499,8 @@ void MainWindow::importKey() {
 void MainWindow::importKeys() {
   ImportKeysDialog dlg(this);
   if (dlg.exec() == QDialog::Accepted) {
-    QString viewKeyString = dlg.getViewKeyString().trimmed();
-    QString spendKeyString = dlg.getSpendKeyString().trimmed();
     QString filePath = dlg.getFilePath();
-    if (viewKeyString.isEmpty() || spendKeyString.isEmpty() || filePath.isEmpty()) {
+    if (filePath.isEmpty()) {
       return;
     }
 
@@ -510,31 +508,7 @@ void MainWindow::importKeys() {
       filePath.append(".wallet");
     }
 
-    uint64_t addressPrefix;
-    std::string data;
-    CryptoNote::AccountKeys keys;
-
-    std::string private_spend_key_string = spendKeyString.toStdString();
-    std::string private_view_key_string = viewKeyString.toStdString();
-
-    Crypto::Hash private_spend_key_hash;
-    Crypto::Hash private_view_key_hash;
-
-    size_t size;
-    if (!Common::fromHex(private_spend_key_string, &private_spend_key_hash, sizeof(private_spend_key_hash), size) || size != sizeof(private_spend_key_hash)) {
-      QMessageBox::warning(this, tr("Key is not valid"), tr("The private spend key you entered is not valid."), QMessageBox::Ok);
-      return;
-    }
-    if (!Common::fromHex(private_view_key_string, &private_view_key_hash, sizeof(private_view_key_hash), size) || size != sizeof(private_view_key_hash)) {
-      QMessageBox::warning(this, tr("Key is not valid"), tr("The private view key you entered is not valid."), QMessageBox::Ok);
-      return;
-    }
-
-    keys.spendSecretKey = *(struct Crypto::SecretKey *) &private_spend_key_hash;
-    keys.viewSecretKey = *(struct Crypto::SecretKey *) &private_view_key_hash;
-
-    Crypto::secret_key_to_public_key(keys.spendSecretKey, keys.address.spendPublicKey);
-    Crypto::secret_key_to_public_key(keys.viewSecretKey, keys.address.viewPublicKey);
+    CryptoNote::AccountKeys keys = dlg.getAccountKeys();
 
     if (WalletAdapter::instance().isOpen()) {
         WalletAdapter::instance().close();

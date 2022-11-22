@@ -2157,6 +2157,18 @@ Do you want to go to the download page?</source>
         <source>Please enter the path where to save the wallet file and its name.</source>
         <translation>Будь ласка, введіть шлях для збереження файлу гаманця та його назву.</translation>
     </message>
+    <message>
+        <source>Key is not valid</source>
+        <translation>Ключ неправильний</translation>
+    </message>
+    <message>
+        <source>The private spend key you entered is not valid.</source>
+        <translation>Введений приватний ключ витрати є неправильним.</translation>
+    </message>
+    <message>
+        <source>The private view key you entered is not valid.</source>
+        <translation>Введений приватний ключ перегляду є неправильним.</translation>
+    </message>
 </context>
 <context>
     <name>WalletGui::ImportTrackingKeyDialog</name>
