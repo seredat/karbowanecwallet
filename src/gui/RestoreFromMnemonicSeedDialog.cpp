@@ -6,8 +6,11 @@
 
 #include <QApplication>
 #include <QFileDialog>
+#include <QMessageBox>
 #include <QStandardPaths>
+#include <CryptoNote.h>
 #include "RestoreFromMnemonicSeedDialog.h"
+#include "Mnemonics/electrum-words.h"
 #include "ui_restorefrommnemonicseeddialog.h"
 
 namespace WalletGui {
@@ -61,6 +64,18 @@ void RestoreFromMnemonicSeedDialog::onTextChanged() {
     m_ui->m_okButton->setEnabled(true);
     m_ui->m_errorLabel->setText("OK");
     m_ui->m_errorLabel->setStyleSheet("QLabel { color : green; }");
+  }
+}
+
+void RestoreFromMnemonicSeedDialog::onAccept() {
+  CryptoNote::AccountKeys keys;
+  std::string seed_language = "English";
+  if (!Crypto::ElectrumWords::words_to_bytes(getSeedString().toStdString(), keys.spendSecretKey, seed_language)) {
+    QMessageBox::critical(nullptr, tr("Mnemonic seed is not correct"), tr("There must be an error in mnemonic seed. Make sure you entered it correctly."), QMessageBox::Ok);
+  } else if (getFilePath().isEmpty()) {
+    QMessageBox::critical(nullptr, tr("File path is empty"), tr("Please enter the path where to save the wallet file and its name."), QMessageBox::Ok);
+  } else {
+    accept();
   }
 }
 

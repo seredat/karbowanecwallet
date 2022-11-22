@@ -32,6 +32,7 @@ private:
 
   Q_SLOT void selectPathClicked();
   Q_SLOT void onTextChanged();
+  Q_SLOT void onAccept();
 };
 
 }
