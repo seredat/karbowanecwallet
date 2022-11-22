@@ -39,6 +39,10 @@ quint32 ImportKeyDialog::getSyncHeight() const {
   return m_ui->m_syncHeight->value();
 }
 
+CryptoNote::AccountKeys ImportKeyDialog::getAccountKeys() const {
+  return m_keys;
+}
+
 void ImportKeyDialog::selectPathClicked() {
   QString filePath = QFileDialog::getSaveFileName(this, tr("Wallet file"),
 #ifdef Q_OS_WIN
@@ -55,10 +59,6 @@ void ImportKeyDialog::selectPathClicked() {
   }
 
   m_ui->m_pathEdit->setText(filePath);
-}
-
-CryptoNote::AccountKeys ImportKeyDialog::getAccountKeys() const {
-  return m_keys;
 }
 
 void ImportKeyDialog::onAccept() {
@@ -79,10 +79,6 @@ void ImportKeyDialog::onAccept() {
   if (filePath.isEmpty()) {
     QMessageBox::critical(nullptr, tr("File path is empty"), tr("Please enter the path where to save the wallet file and its name."), QMessageBox::Ok);
     return;
-  } else {
-    if (!filePath.endsWith(".wallet")) {
-      filePath.append(".wallet");
-    }
   }
 
   accept();

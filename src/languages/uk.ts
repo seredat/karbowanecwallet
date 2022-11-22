@@ -2192,6 +2192,34 @@ Do you want to go to the download page?</source>
         <source>Please enter the path where to save the wallet file and its name.</source>
         <translation>Будь ласка, введіть шлях для збереження файлу гаманця та його назву.</translation>
     </message>
+    <message>
+        <source>Tracking key is not valid</source>
+        <translation type="unfinished">Ключ стеження неправильний</translation>
+    </message>
+    <message>
+        <source>The tracking key you entered is not valid.</source>
+        <translation type="unfinished">Введений ключ стеження є неправильним.</translation>
+    </message>
+    <message>
+        <source>Key is not valid</source>
+        <translation type="unfinished">Ключ неправильний</translation>
+    </message>
+    <message>
+        <source>The public spend key you entered is not valid.</source>
+        <translation type="unfinished">Введений публічний ключ витрати є неправильним.</translation>
+    </message>
+    <message>
+        <source>The public view key you entered is not valid.</source>
+        <translation type="unfinished">Введений публічний ключ перегляду є неправильним.</translation>
+    </message>
+    <message>
+        <source>The private spend key you entered is not valid.</source>
+        <translation type="unfinished">Введений приватний ключ витрати є неправильним.</translation>
+    </message>
+    <message>
+        <source>The private view key you entered is not valid.</source>
+        <translation type="unfinished">Введений приватний ключ перегляду є неправильним.</translation>
+    </message>
 </context>
 <context>
     <name>WalletGui::InfoDialog</name>
@@ -2382,23 +2410,23 @@ Are you sure?</source>
     </message>
     <message>
         <source>Key is not valid</source>
-        <translation>Ключ неправильний</translation>
+        <translation type="vanished">Ключ неправильний</translation>
     </message>
     <message>
         <source>The public spend key you entered is not valid.</source>
-        <translation>Введений публічний ключ витрати є неправильним.</translation>
+        <translation type="vanished">Введений публічний ключ витрати є неправильним.</translation>
     </message>
     <message>
         <source>The public view key you entered is not valid.</source>
-        <translation>Введений публічний ключ перегляду є неправильним.</translation>
+        <translation type="vanished">Введений публічний ключ перегляду є неправильним.</translation>
     </message>
     <message>
         <source>The private spend key you entered is not valid.</source>
-        <translation>Введений приватний ключ витрати є неправильним.</translation>
+        <translation type="vanished">Введений приватний ключ витрати є неправильним.</translation>
     </message>
     <message>
         <source>The private view key you entered is not valid.</source>
-        <translation>Введений приватний ключ перегляду є неправильним.</translation>
+        <translation type="vanished">Введений приватний ключ перегляду є неправильним.</translation>
     </message>
     <message>
         <source>Wrong wallet file extension</source>

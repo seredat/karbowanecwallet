@@ -99,9 +99,10 @@ void ImportKeysDialog::onAccept() {
 
   if (getFilePath().isEmpty()) {
     QMessageBox::critical(nullptr, tr("File path is empty"), tr("Please enter the path where to save the wallet file and its name."), QMessageBox::Ok);
-  } else {
-    accept();
+    return;
   }
+
+  accept();
 }
 
 }

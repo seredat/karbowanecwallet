@@ -2203,6 +2203,34 @@ Do you want to go to the download page?</source>
         <source>Please enter the path where to save the wallet file and its name.</source>
         <translation>Ingrese la ruta donde guardar el archivo de la billetera y su nombre.</translation>
     </message>
+    <message>
+        <source>Tracking key is not valid</source>
+        <translation type="unfinished">La clave de seguimiento es inválido</translation>
+    </message>
+    <message>
+        <source>The tracking key you entered is not valid.</source>
+        <translation type="unfinished">La clave de seguimiento que ingresó es inválido.</translation>
+    </message>
+    <message>
+        <source>Key is not valid</source>
+        <translation type="unfinished">La clave no es válida</translation>
+    </message>
+    <message>
+        <source>The public spend key you entered is not valid.</source>
+        <translation type="unfinished">La clave de gasto público que ingresó es inválido.</translation>
+    </message>
+    <message>
+        <source>The public view key you entered is not valid.</source>
+        <translation type="unfinished">La clave de vista pública que ingresó es inválido.</translation>
+    </message>
+    <message>
+        <source>The private spend key you entered is not valid.</source>
+        <translation type="unfinished">La clave de gasto privado que ingresó es inválido.</translation>
+    </message>
+    <message>
+        <source>The private view key you entered is not valid.</source>
+        <translation type="unfinished">La clave de vista privada que ingresó es inválido.</translation>
+    </message>
 </context>
 <context>
     <name>WalletGui::InfoDialog</name>
@@ -2393,23 +2421,23 @@ Are you sure?</source>
     </message>
     <message>
         <source>Key is not valid</source>
-        <translation>La clave no es válida</translation>
+        <translation type="vanished">La clave no es válida</translation>
     </message>
     <message>
         <source>The public spend key you entered is not valid.</source>
-        <translation>La clave de gasto público que ingresó es inválido.</translation>
+        <translation type="vanished">La clave de gasto público que ingresó es inválido.</translation>
     </message>
     <message>
         <source>The public view key you entered is not valid.</source>
-        <translation>La clave de vista pública que ingresó es inválido.</translation>
+        <translation type="vanished">La clave de vista pública que ingresó es inválido.</translation>
     </message>
     <message>
         <source>The private spend key you entered is not valid.</source>
-        <translation>La clave de gasto privado que ingresó es inválido.</translation>
+        <translation type="vanished">La clave de gasto privado que ingresó es inválido.</translation>
     </message>
     <message>
         <source>The private view key you entered is not valid.</source>
-        <translation>La clave de vista privada que ingresó es inválido.</translation>
+        <translation type="vanished">La clave de vista privada que ingresó es inválido.</translation>
     </message>
     <message>
         <source>Wrong wallet file extension</source>

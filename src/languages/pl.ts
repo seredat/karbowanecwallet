@@ -2200,6 +2200,34 @@ Czy chesz otworzyć stronę pobierania w przeglądarce?</translation>
         <source>Please enter the path where to save the wallet file and its name.</source>
         <translation>Podaj ścieżkę, w której chcesz zapisać plik portfela i jego nazwę.</translation>
     </message>
+    <message>
+        <source>Tracking key is not valid</source>
+        <translation type="unfinished">Klucz śledzenia jest nieprawidłowy</translation>
+    </message>
+    <message>
+        <source>The tracking key you entered is not valid.</source>
+        <translation type="unfinished">Podany klucz śledzenia nie jest prawidłowy.</translation>
+    </message>
+    <message>
+        <source>Key is not valid</source>
+        <translation type="unfinished">Klucz jest nieprawidłowy</translation>
+    </message>
+    <message>
+        <source>The public spend key you entered is not valid.</source>
+        <translation type="unfinished">Podany klucz publiczny wydatków jest nieprawidłowy.</translation>
+    </message>
+    <message>
+        <source>The public view key you entered is not valid.</source>
+        <translation type="unfinished">Podany klucz publiczny przeglądu jest nieprawidłowy.</translation>
+    </message>
+    <message>
+        <source>The private spend key you entered is not valid.</source>
+        <translation type="unfinished">Podany klucz prywatny wydatków jest nieprawidłowy.</translation>
+    </message>
+    <message>
+        <source>The private view key you entered is not valid.</source>
+        <translation type="unfinished">Podany klucz prywatny przeglądu jest nieprawidłowy.</translation>
+    </message>
 </context>
 <context>
     <name>WalletGui::InfoDialog</name>
@@ -2394,23 +2422,23 @@ Jesteś pewien?</translation>
     </message>
     <message>
         <source>Key is not valid</source>
-        <translation>Klucz jest nieprawidłowy</translation>
+        <translation type="vanished">Klucz jest nieprawidłowy</translation>
     </message>
     <message>
         <source>The public spend key you entered is not valid.</source>
-        <translation>Podany klucz publiczny wydatków jest nieprawidłowy.</translation>
+        <translation type="vanished">Podany klucz publiczny wydatków jest nieprawidłowy.</translation>
     </message>
     <message>
         <source>The public view key you entered is not valid.</source>
-        <translation>Podany klucz publiczny przeglądu jest nieprawidłowy.</translation>
+        <translation type="vanished">Podany klucz publiczny przeglądu jest nieprawidłowy.</translation>
     </message>
     <message>
         <source>The private spend key you entered is not valid.</source>
-        <translation>Podany klucz prywatny wydatków jest nieprawidłowy.</translation>
+        <translation type="vanished">Podany klucz prywatny wydatków jest nieprawidłowy.</translation>
     </message>
     <message>
         <source>The private view key you entered is not valid.</source>
-        <translation>Podany klucz prywatny przeglądu jest nieprawidłowy.</translation>
+        <translation type="vanished">Podany klucz prywatny przeglądu jest nieprawidłowy.</translation>
     </message>
     <message>
         <source>The private keys you entered are not valid.</source>

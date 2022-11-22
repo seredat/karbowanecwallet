@@ -2221,6 +2221,34 @@ Você quer ir à página de dowload?</translation>
         <source>Please enter the path where to save the wallet file and its name.</source>
         <translation>Por favor, digite o caminho onde salvar o arquivo da carteira e seu nome.</translation>
     </message>
+    <message>
+        <source>Tracking key is not valid</source>
+        <translation type="unfinished">A chave de rastreamento está incorreta</translation>
+    </message>
+    <message>
+        <source>The tracking key you entered is not valid.</source>
+        <translation type="unfinished">A chave de rastreamento que você digitou está incorreta.</translation>
+    </message>
+    <message>
+        <source>Key is not valid</source>
+        <translation type="unfinished">A chave está errada</translation>
+    </message>
+    <message>
+        <source>The public spend key you entered is not valid.</source>
+        <translation type="unfinished">A chave pública inserida está incorreta.</translation>
+    </message>
+    <message>
+        <source>The public view key you entered is not valid.</source>
+        <translation type="unfinished">A chave pública pública inserida está incorreta.</translation>
+    </message>
+    <message>
+        <source>The private spend key you entered is not valid.</source>
+        <translation type="unfinished">Os custos das chaves privadas inseridas estão incorretos.</translation>
+    </message>
+    <message>
+        <source>The private view key you entered is not valid.</source>
+        <translation type="unfinished">A exibição privada inserida está incorreta.</translation>
+    </message>
 </context>
 <context>
     <name>WalletGui::InfoDialog</name>
@@ -2410,23 +2438,23 @@ Você tem certeza?</translation>
     </message>
     <message>
         <source>Key is not valid</source>
-        <translation>A chave está errada</translation>
+        <translation type="vanished">A chave está errada</translation>
     </message>
     <message>
         <source>The public spend key you entered is not valid.</source>
-        <translation>A chave pública inserida está incorreta.</translation>
+        <translation type="vanished">A chave pública inserida está incorreta.</translation>
     </message>
     <message>
         <source>The public view key you entered is not valid.</source>
-        <translation>A chave pública pública inserida está incorreta.</translation>
+        <translation type="vanished">A chave pública pública inserida está incorreta.</translation>
     </message>
     <message>
         <source>The private spend key you entered is not valid.</source>
-        <translation>Os custos das chaves privadas inseridas estão incorretos.</translation>
+        <translation type="vanished">Os custos das chaves privadas inseridas estão incorretos.</translation>
     </message>
     <message>
         <source>The private view key you entered is not valid.</source>
-        <translation>A exibição privada inserida está incorreta.</translation>
+        <translation type="vanished">A exibição privada inserida está incorreta.</translation>
     </message>
     <message>
         <source>Wrong wallet file extension</source>

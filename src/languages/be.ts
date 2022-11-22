@@ -2203,6 +2203,34 @@ Do you want to go to the download page?</source>
         <source>Please enter the path where to save the wallet file and its name.</source>
         <translation>Калі ласка, увядзіце шлях для захавання файла кашалька і яго імя.</translation>
     </message>
+    <message>
+        <source>Tracking key is not valid</source>
+        <translation type="unfinished">Ключ адсочвання нядзейны</translation>
+    </message>
+    <message>
+        <source>The tracking key you entered is not valid.</source>
+        <translation type="unfinished">Уведзены ключ сачэння няправільны.</translation>
+    </message>
+    <message>
+        <source>Key is not valid</source>
+        <translation type="unfinished">Ключ нядзейны</translation>
+    </message>
+    <message>
+        <source>The public spend key you entered is not valid.</source>
+        <translation type="unfinished">Уведзены публічны ключ расходавання няправільны.</translation>
+    </message>
+    <message>
+        <source>The public view key you entered is not valid.</source>
+        <translation type="unfinished">Уведзены публічны ключ прагляду няправільны.</translation>
+    </message>
+    <message>
+        <source>The private spend key you entered is not valid.</source>
+        <translation type="unfinished">Уведзены прыватны ключ расходавання няправільны.</translation>
+    </message>
+    <message>
+        <source>The private view key you entered is not valid.</source>
+        <translation type="unfinished">Уведзены прыватны ключ прагляду няправільны.</translation>
+    </message>
 </context>
 <context>
     <name>WalletGui::InfoDialog</name>
@@ -2397,23 +2425,23 @@ Are you sure?</source>
     </message>
     <message>
         <source>Key is not valid</source>
-        <translation>Ключ нядзейны</translation>
+        <translation type="vanished">Ключ нядзейны</translation>
     </message>
     <message>
         <source>The public spend key you entered is not valid.</source>
-        <translation>Уведзены публічны ключ расходавання няправільны.</translation>
+        <translation type="vanished">Уведзены публічны ключ расходавання няправільны.</translation>
     </message>
     <message>
         <source>The public view key you entered is not valid.</source>
-        <translation>Уведзены публічны ключ прагляду няправільны.</translation>
+        <translation type="vanished">Уведзены публічны ключ прагляду няправільны.</translation>
     </message>
     <message>
         <source>The private spend key you entered is not valid.</source>
-        <translation>Уведзены прыватны ключ расходавання няправільны.</translation>
+        <translation type="vanished">Уведзены прыватны ключ расходавання няправільны.</translation>
     </message>
     <message>
         <source>The private view key you entered is not valid.</source>
-        <translation>Уведзены прыватны ключ прагляду няправільны.</translation>
+        <translation type="vanished">Уведзены прыватны ключ прагляду няправільны.</translation>
     </message>
     <message>
         <source>The private keys you entered are not valid.</source>

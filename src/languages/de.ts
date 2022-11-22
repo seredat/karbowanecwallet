@@ -2204,6 +2204,34 @@ Externer Port für das P2P-Netzwerkprotokoll (wenn Portweiterleitung mit NAT ver
         <source>Please enter the path where to save the wallet file and its name.</source>
         <translation>Bitte geben Sie den Pfad zum Speichern der Wallet-Datei und ihren Namen ein.</translation>
     </message>
+    <message>
+        <source>Tracking key is not valid</source>
+        <translation type="unfinished">Tracking Schlüssel ist nicht gültig</translation>
+    </message>
+    <message>
+        <source>The tracking key you entered is not valid.</source>
+        <translation type="unfinished">Der eingegebene Tracking Schlüssel ist nicht gültig.</translation>
+    </message>
+    <message>
+        <source>Key is not valid</source>
+        <translation type="unfinished">Schlüssel ist nicht gültig</translation>
+    </message>
+    <message>
+        <source>The public spend key you entered is not valid.</source>
+        <translation type="unfinished">Der von Ihnen eingegebene öffentliche Ausgabenschlüssel ist ungültig.</translation>
+    </message>
+    <message>
+        <source>The public view key you entered is not valid.</source>
+        <translation type="unfinished">Der von Ihnen eingegebene öffentliche Ansichtsschlüssel ist ungültig.</translation>
+    </message>
+    <message>
+        <source>The private spend key you entered is not valid.</source>
+        <translation type="unfinished">Der von Ihnen eingegebene private Ausgabenschlüssel ist ungültig.</translation>
+    </message>
+    <message>
+        <source>The private view key you entered is not valid.</source>
+        <translation type="unfinished">Der von Ihnen eingegebene private Ansichtsschlüssel ist ungültig.</translation>
+    </message>
 </context>
 <context>
     <name>WalletGui::InfoDialog</name>
@@ -2393,23 +2421,23 @@ Bist du sicher?</translation>
     </message>
     <message>
         <source>Key is not valid</source>
-        <translation>Schlüssel ist nicht gültig</translation>
+        <translation type="vanished">Schlüssel ist nicht gültig</translation>
     </message>
     <message>
         <source>The public spend key you entered is not valid.</source>
-        <translation>Der von Ihnen eingegebene öffentliche Ausgabenschlüssel ist ungültig.</translation>
+        <translation type="vanished">Der von Ihnen eingegebene öffentliche Ausgabenschlüssel ist ungültig.</translation>
     </message>
     <message>
         <source>The public view key you entered is not valid.</source>
-        <translation>Der von Ihnen eingegebene öffentliche Ansichtsschlüssel ist ungültig.</translation>
+        <translation type="vanished">Der von Ihnen eingegebene öffentliche Ansichtsschlüssel ist ungültig.</translation>
     </message>
     <message>
         <source>The private spend key you entered is not valid.</source>
-        <translation>Der von Ihnen eingegebene private Ausgabenschlüssel ist ungültig.</translation>
+        <translation type="vanished">Der von Ihnen eingegebene private Ausgabenschlüssel ist ungültig.</translation>
     </message>
     <message>
         <source>The private view key you entered is not valid.</source>
-        <translation>Der von Ihnen eingegebene private Ansichtsschlüssel ist ungültig.</translation>
+        <translation type="vanished">Der von Ihnen eingegebene private Ansichtsschlüssel ist ungültig.</translation>
     </message>
     <message>
         <source>Wrong wallet file extension</source>
