@@ -2147,6 +2147,14 @@ Você quer ir à página de dowload?</translation>
         <source>Wallets (*.wallet)</source>
         <translation>Carteira(*.wallet)</translation>
     </message>
+    <message>
+        <source>File path is empty</source>
+        <translation>O caminho do arquivo está vazio</translation>
+    </message>
+    <message>
+        <source>Please enter the path where to save the wallet file and its name.</source>
+        <translation>Por favor, digite o caminho onde salvar o arquivo da carteira e seu nome.</translation>
+    </message>
 </context>
 <context>
     <name>WalletGui::ImportKeysDialog</name>
@@ -2157,6 +2165,14 @@ Você quer ir à página de dowload?</translation>
     <message>
         <source>Wallets (*.wallet)</source>
         <translation></translation>
+    </message>
+    <message>
+        <source>File path is empty</source>
+        <translation>O caminho do arquivo está vazio</translation>
+    </message>
+    <message>
+        <source>Please enter the path where to save the wallet file and its name.</source>
+        <translation>Por favor, digite o caminho onde salvar o arquivo da carteira e seu nome.</translation>
     </message>
 </context>
 <context>
@@ -2172,6 +2188,14 @@ Você quer ir à página de dowload?</translation>
     <message>
         <source>Tracking wallets (*.wallet)</source>
         <translation>Bolsas para rastreamento (*.wallet)</translation>
+    </message>
+    <message>
+        <source>File path is empty</source>
+        <translation>O caminho do arquivo está vazio</translation>
+    </message>
+    <message>
+        <source>Please enter the path where to save the wallet file and its name.</source>
+        <translation>Por favor, digite o caminho onde salvar o arquivo da carteira e seu nome.</translation>
     </message>
 </context>
 <context>
@@ -2440,6 +2464,10 @@ Você tem certeza?</translation>
         <source>Changes will take effect when you restart the wallet.</source>
         <translation>As alterações entrarão em vigor quando você reiniciar a carteira.</translation>
     </message>
+    <message>
+        <source>Failed to parse account keys</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>WalletGui::MiningFrame</name>
@@ -2685,6 +2713,22 @@ Você tem certeza?</translation>
     <message>
         <source>Wallets (*.wallet)</source>
         <translation>Carteira (*.wallet)</translation>
+    </message>
+    <message>
+        <source>Mnemonic seed is not correct</source>
+        <translation>A frase mnemônica está incorreta</translation>
+    </message>
+    <message>
+        <source>There must be an error in mnemonic seed. Make sure you entered it correctly.</source>
+        <translation>Há uma falha na frase mnemônica. Verifique se você digitou corretamente.</translation>
+    </message>
+    <message>
+        <source>File path is empty</source>
+        <translation>O caminho do arquivo está vazio</translation>
+    </message>
+    <message>
+        <source>Please enter the path where to save the wallet file and its name.</source>
+        <translation>Por favor, digite o caminho onde salvar o arquivo da carteira e seu nome.</translation>
     </message>
 </context>
 <context>

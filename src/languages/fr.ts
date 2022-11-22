@@ -2138,6 +2138,14 @@ Voulez-vous aller à la page de téléchargement?</translation>
         <source>Wallets (*.wallet)</source>
         <translation>Portefeuilles (*.wallet)</translation>
     </message>
+    <message>
+        <source>File path is empty</source>
+        <translation>Le chemin du fichier est vide</translation>
+    </message>
+    <message>
+        <source>Please enter the path where to save the wallet file and its name.</source>
+        <translation>Veuillez entrer le chemin où enregistrer le fichier du portefeuille et son nom.</translation>
+    </message>
 </context>
 <context>
     <name>WalletGui::ImportKeysDialog</name>
@@ -2148,6 +2156,14 @@ Voulez-vous aller à la page de téléchargement?</translation>
     <message>
         <source>Wallets (*.wallet)</source>
         <translation>Portefeuilles (*.wallet)</translation>
+    </message>
+    <message>
+        <source>File path is empty</source>
+        <translation>Le chemin du fichier est vide</translation>
+    </message>
+    <message>
+        <source>Please enter the path where to save the wallet file and its name.</source>
+        <translation>Veuillez entrer le chemin où enregistrer le fichier du portefeuille et son nom.</translation>
     </message>
 </context>
 <context>
@@ -2163,6 +2179,14 @@ Voulez-vous aller à la page de téléchargement?</translation>
     <message>
         <source>Tracking wallets (*.wallet)</source>
         <translation>Suivi des portefeuilles (*.wallet)</translation>
+    </message>
+    <message>
+        <source>File path is empty</source>
+        <translation>Le chemin du fichier est vide</translation>
+    </message>
+    <message>
+        <source>Please enter the path where to save the wallet file and its name.</source>
+        <translation>Veuillez entrer le chemin où enregistrer le fichier du portefeuille et son nom.</translation>
     </message>
 </context>
 <context>
@@ -2431,6 +2455,10 @@ Are you sure?</source>
         <source>Changes will take effect when you restart the wallet.</source>
         <translation>Les modifications prendront effet lorsque vous redémarrerez le portefeuille.</translation>
     </message>
+    <message>
+        <source>Failed to parse account keys</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>WalletGui::MiningFrame</name>
@@ -2676,6 +2704,22 @@ Are you sure?</source>
     <message>
         <source>Wallets (*.wallet)</source>
         <translation>Portefeuilles (*.wallet)</translation>
+    </message>
+    <message>
+        <source>Mnemonic seed is not correct</source>
+        <translation>La graine mnémonique n&apos;est pas correcte</translation>
+    </message>
+    <message>
+        <source>There must be an error in mnemonic seed. Make sure you entered it correctly.</source>
+        <translation>Il doit y avoir une erreur dans la graine mnémotechnique. Assurez-vous que vous l&apos;avez entré correctement.</translation>
+    </message>
+    <message>
+        <source>File path is empty</source>
+        <translation>Le chemin du fichier est vide</translation>
+    </message>
+    <message>
+        <source>Please enter the path where to save the wallet file and its name.</source>
+        <translation>Veuillez entrer le chemin où enregistrer le fichier du portefeuille et son nom.</translation>
     </message>
 </context>
 <context>

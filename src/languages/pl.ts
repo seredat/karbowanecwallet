@@ -2126,6 +2126,14 @@ Czy chesz otworzyć stronę pobierania w przeglądarce?</translation>
         <source>Wallets (*.wallet)</source>
         <translation>Portfele (*.wallet)</translation>
     </message>
+    <message>
+        <source>File path is empty</source>
+        <translation>Ścieżka do pliku jest pusta</translation>
+    </message>
+    <message>
+        <source>Please enter the path where to save the wallet file and its name.</source>
+        <translation>Podaj ścieżkę, w której chcesz zapisać plik portfela i jego nazwę.</translation>
+    </message>
 </context>
 <context>
     <name>WalletGui::ImportKeysDialog</name>
@@ -2136,6 +2144,14 @@ Czy chesz otworzyć stronę pobierania w przeglądarce?</translation>
     <message>
         <source>Wallets (*.wallet)</source>
         <translation>Portfele (*.wallet)</translation>
+    </message>
+    <message>
+        <source>File path is empty</source>
+        <translation>Ścieżka do pliku jest pusta</translation>
+    </message>
+    <message>
+        <source>Please enter the path where to save the wallet file and its name.</source>
+        <translation>Podaj ścieżkę, w której chcesz zapisać plik portfela i jego nazwę.</translation>
     </message>
 </context>
 <context>
@@ -2151,6 +2167,14 @@ Czy chesz otworzyć stronę pobierania w przeglądarce?</translation>
     <message>
         <source>Tracking wallets (*.wallet)</source>
         <translation type="unfinished">Portfel śledzenia (*.wallet)</translation>
+    </message>
+    <message>
+        <source>File path is empty</source>
+        <translation>Ścieżka do pliku jest pusta</translation>
+    </message>
+    <message>
+        <source>Please enter the path where to save the wallet file and its name.</source>
+        <translation>Podaj ścieżkę, w której chcesz zapisać plik portfela i jego nazwę.</translation>
     </message>
 </context>
 <context>
@@ -2428,6 +2452,10 @@ Jesteś pewien?</translation>
         <source>Changes will take effect when you restart the wallet.</source>
         <translation>Zmiany zaczną obowiązywać po ponownym uruchomieniu portfela.</translation>
     </message>
+    <message>
+        <source>Failed to parse account keys</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>WalletGui::MiningFrame</name>
@@ -2673,6 +2701,22 @@ Jesteś pewien?</translation>
     <message>
         <source>Wallets (*.wallet)</source>
         <translation>Portfele (*.wallet)</translation>
+    </message>
+    <message>
+        <source>Mnemonic seed is not correct</source>
+        <translation>Mnemonik jest nieprawidłowy</translation>
+    </message>
+    <message>
+        <source>There must be an error in mnemonic seed. Make sure you entered it correctly.</source>
+        <translation>Musi istnieć błąd w mnemoniku. Upewnij się, że został prawidłowo wprowadzony.</translation>
+    </message>
+    <message>
+        <source>File path is empty</source>
+        <translation>Ścieżka do pliku jest pusta</translation>
+    </message>
+    <message>
+        <source>Please enter the path where to save the wallet file and its name.</source>
+        <translation>Podaj ścieżkę, w której chcesz zapisać plik portfela i jego nazwę.</translation>
     </message>
 </context>
 <context>

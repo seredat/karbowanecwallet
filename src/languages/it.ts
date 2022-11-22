@@ -1524,7 +1524,7 @@ Attendere prego…
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="766"/>
+        <location filename="../gui/MainWindow.cpp" line="770"/>
         <location filename="../main.cpp" line="96"/>
         <source>Help</source>
         <translation>Aiuto</translation>
@@ -2418,40 +2418,70 @@ Vuoi andare alla pagina dei download?</translation>
 <context>
     <name>WalletGui::ImportKeyDialog</name>
     <message>
-        <location filename="../gui/ImportKeyDialog.cpp" line="37"/>
+        <location filename="../gui/ImportKeyDialog.cpp" line="38"/>
         <source>Wallet file</source>
         <translation>File di Portafoglio</translation>
     </message>
     <message>
-        <location filename="../gui/ImportKeyDialog.cpp" line="44"/>
+        <location filename="../gui/ImportKeyDialog.cpp" line="45"/>
         <source>Wallets (*.wallet)</source>
         <translation>Portafogli (*.wallet)</translation>
+    </message>
+    <message>
+        <location filename="../gui/ImportKeyDialog.cpp" line="57"/>
+        <source>File path is empty</source>
+        <translation>Il percorso del file è vuoto</translation>
+    </message>
+    <message>
+        <location filename="../gui/ImportKeyDialog.cpp" line="57"/>
+        <source>Please enter the path where to save the wallet file and its name.</source>
+        <translation>Inserisci il percorso in cui salvare il file del portafoglio e il suo nome.</translation>
     </message>
 </context>
 <context>
     <name>WalletGui::ImportKeysDialog</name>
     <message>
-        <location filename="../gui/ImportKeysDialog.cpp" line="41"/>
+        <location filename="../gui/ImportKeysDialog.cpp" line="42"/>
         <source>Wallet file</source>
         <translation>File di Portafoglio</translation>
     </message>
     <message>
-        <location filename="../gui/ImportKeysDialog.cpp" line="48"/>
+        <location filename="../gui/ImportKeysDialog.cpp" line="49"/>
         <source>Wallets (*.wallet)</source>
         <translation>Portafogli (*.wallet)</translation>
+    </message>
+    <message>
+        <location filename="../gui/ImportKeysDialog.cpp" line="61"/>
+        <source>File path is empty</source>
+        <translation>Il percorso del file è vuoto</translation>
+    </message>
+    <message>
+        <location filename="../gui/ImportKeysDialog.cpp" line="61"/>
+        <source>Please enter the path where to save the wallet file and its name.</source>
+        <translation>Inserisci il percorso in cui salvare il file del portafoglio e il suo nome.</translation>
     </message>
 </context>
 <context>
     <name>WalletGui::ImportTrackingKeyDialog</name>
     <message>
-        <location filename="../gui/ImportTrackingKeyDialog.cpp" line="37"/>
+        <location filename="../gui/ImportTrackingKeyDialog.cpp" line="38"/>
         <source>Tracking wallet file</source>
         <translation>File del portafoglio di tracking</translation>
     </message>
     <message>
-        <location filename="../gui/ImportTrackingKeyDialog.cpp" line="44"/>
+        <location filename="../gui/ImportTrackingKeyDialog.cpp" line="45"/>
         <source>Tracking wallets (*.wallet)</source>
         <translation>Portafogli di tracking (*.wallet)</translation>
+    </message>
+    <message>
+        <location filename="../gui/ImportTrackingKeyDialog.cpp" line="57"/>
+        <source>File path is empty</source>
+        <translation>Il percorso del file è vuoto</translation>
+    </message>
+    <message>
+        <location filename="../gui/ImportTrackingKeyDialog.cpp" line="57"/>
+        <source>Please enter the path where to save the wallet file and its name.</source>
+        <translation>Inserisci il percorso in cui salvare il file del portafoglio e il suo nome.</translation>
     </message>
 </context>
 <context>
@@ -2499,19 +2529,19 @@ Vuoi andare alla pagina dei download?</translation>
 <context>
     <name>WalletGui::MainWindow</name>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="143"/>
-        <location filename="../gui/MainWindow.cpp" line="1255"/>
-        <location filename="../gui/MainWindow.cpp" line="1283"/>
+        <location filename="../gui/MainWindow.cpp" line="144"/>
+        <location filename="../gui/MainWindow.cpp" line="1259"/>
+        <location filename="../gui/MainWindow.cpp" line="1287"/>
         <source>Karbo Wallet %1</source>
         <translation>Karbo Wallet %1</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="161"/>
+        <location filename="../gui/MainWindow.cpp" line="162"/>
         <source>About %1 Wallet</source>
         <translation>Informazioni su %1 Wallet</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="212"/>
+        <location filename="../gui/MainWindow.cpp" line="213"/>
         <source>Tracking wallet. Spending unavailable</source>
         <translation>Portafoglio di tracking. Non è possibile spendere</translation>
     </message>
@@ -2520,223 +2550,229 @@ Vuoi andare alla pagina dei download?</translation>
         <translation type="vanished">Connesso tramite un nodo remoto</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="250"/>
+        <location filename="../gui/MainWindow.cpp" line="251"/>
         <source>&amp;Show / Hide</source>
         <translation>Mostra/Nascondi</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="251"/>
+        <location filename="../gui/MainWindow.cpp" line="252"/>
         <source>Show or hide the main window</source>
         <translation>Mostra o nascondi la finestra principale</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="363"/>
-        <location filename="../gui/MainWindow.cpp" line="393"/>
+        <location filename="../gui/MainWindow.cpp" line="364"/>
+        <location filename="../gui/MainWindow.cpp" line="394"/>
         <source>New wallet file</source>
         <translation>Nuovo file di portafoglio</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="371"/>
-        <location filename="../gui/MainWindow.cpp" line="400"/>
-        <location filename="../gui/MainWindow.cpp" line="838"/>
+        <location filename="../gui/MainWindow.cpp" line="372"/>
+        <location filename="../gui/MainWindow.cpp" line="401"/>
+        <location filename="../gui/MainWindow.cpp" line="842"/>
         <source>Wallets (*.wallet)</source>
         <translation>Portafogli (*.wallet)</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="433"/>
+        <location filename="../gui/MainWindow.cpp" line="434"/>
         <source>Open .wallet/.keys file</source>
         <translation>Apri file .wallet/.keys</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="435"/>
+        <location filename="../gui/MainWindow.cpp" line="436"/>
         <source>Wallet (*.wallet *.keys)</source>
         <translation>Portafoglio (*.wallet *.keys)</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="440"/>
+        <location filename="../gui/MainWindow.cpp" line="441"/>
         <source>Wrong wallet file extension</source>
         <translation>Estensione del file di portafoglio errata</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="441"/>
+        <location filename="../gui/MainWindow.cpp" line="442"/>
         <source>Wrong wallet file extension, wallet file should have &quot;.wallet&quot;, &quot;.keys&quot; or &quot;.trackingwallet&quot; extension.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="502"/>
+        <location filename="../gui/MainWindow.cpp" line="491"/>
+        <location filename="../gui/MainWindow.cpp" line="506"/>
         <source>Wallet keys are not valid</source>
         <translation>Le chiavi di portafoglio non sono valide</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="502"/>
+        <location filename="../gui/MainWindow.cpp" line="506"/>
         <source>The private keys you entered are not valid.</source>
         <translation>Le chiavi private che hai inserito non sono valide.</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="570"/>
+        <location filename="../gui/MainWindow.cpp" line="574"/>
         <source>Tracking key is not valid</source>
         <translation>La chiave di tracking non è valida</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="570"/>
+        <location filename="../gui/MainWindow.cpp" line="574"/>
         <source>The tracking key you entered is not valid.</source>
         <translation>La chiave di tracking che hai inserito non è valida.</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="533"/>
         <location filename="../gui/MainWindow.cpp" line="537"/>
-        <location filename="../gui/MainWindow.cpp" line="601"/>
+        <location filename="../gui/MainWindow.cpp" line="541"/>
         <location filename="../gui/MainWindow.cpp" line="605"/>
         <location filename="../gui/MainWindow.cpp" line="609"/>
         <location filename="../gui/MainWindow.cpp" line="613"/>
+        <location filename="../gui/MainWindow.cpp" line="617"/>
         <source>Key is not valid</source>
         <translation>La chiave non è valida.</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="601"/>
+        <location filename="../gui/MainWindow.cpp" line="605"/>
         <source>The public spend key you entered is not valid.</source>
         <translation>La chiave di spesa pubblica che hai inserito non è valida.</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="605"/>
+        <location filename="../gui/MainWindow.cpp" line="609"/>
         <source>The public view key you entered is not valid.</source>
         <translation>La chiave di vista pubblica che hai inserito non è valida.</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="533"/>
-        <location filename="../gui/MainWindow.cpp" line="609"/>
+        <location filename="../gui/MainWindow.cpp" line="537"/>
+        <location filename="../gui/MainWindow.cpp" line="613"/>
         <source>The private spend key you entered is not valid.</source>
         <translation>La chiave di spesa privata che hai inserito non è valida.</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="213"/>
+        <location filename="../gui/MainWindow.cpp" line="214"/>
         <source>Wallet is connected through remote node. Additional fee may be applied.</source>
         <translation>Il portafoglio è connesso tramite un nodo remoto. Sarà addebitata una commissione aggiuntiva.</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="465"/>
+        <location filename="../gui/MainWindow.cpp" line="466"/>
         <source>Recent wallet file not found</source>
         <translation>File di recente portafoglio non trovato</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="465"/>
+        <location filename="../gui/MainWindow.cpp" line="466"/>
         <source>The recent wallet file is missing. Probably it was removed.</source>
         <translation>Manca il file wallet recente. Probabilmente è stato rimosso.</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="537"/>
-        <location filename="../gui/MainWindow.cpp" line="613"/>
+        <location filename="../gui/MainWindow.cpp" line="491"/>
+        <source>Failed to parse account keys</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/MainWindow.cpp" line="541"/>
+        <location filename="../gui/MainWindow.cpp" line="617"/>
         <source>The private view key you entered is not valid.</source>
         <translation>La chiave di vista privata che hai inserito non è valida.</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="688"/>
+        <location filename="../gui/MainWindow.cpp" line="692"/>
         <source>Mnemonic seed is not correct</source>
         <translation>Il seed mnemonico non è corretto</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="688"/>
+        <location filename="../gui/MainWindow.cpp" line="692"/>
         <source>There must be an error in mnemonic seed. Make sure you entered it correctly.</source>
         <translation>Ci deve essere un errore nel seed mnemonico. Assicuratevi di averlo inserito correttamente.</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="757"/>
+        <location filename="../gui/MainWindow.cpp" line="761"/>
         <source>Language changed to %1</source>
         <translation>La lingua è stata modificata %1</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="758"/>
+        <location filename="../gui/MainWindow.cpp" line="762"/>
         <source>Language was changed</source>
         <translation>La lingua è stata modificata</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="759"/>
+        <location filename="../gui/MainWindow.cpp" line="763"/>
         <source>Language changed to %1. The change will take effect after restarting the wallet.</source>
         <translation>La lingua è stata modificata in %1. La lingua sarà modificata dopo il riavvio del portafoglio.</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="769"/>
+        <location filename="../gui/MainWindow.cpp" line="773"/>
         <source>More info can be found at www.karbowanec.com in Documentation section</source>
         <translation>Maggiori info si possono trovare su www.karbowanec.com nella sezione Documentazione</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="794"/>
+        <location filename="../gui/MainWindow.cpp" line="798"/>
         <source>Connection settings changed</source>
         <translation>Impostazioni di connessione modificate</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="794"/>
+        <location filename="../gui/MainWindow.cpp" line="798"/>
         <source>Connection mode will be changed after restarting the wallet.</source>
         <translation>La modalità di connessione sarà modificata dopo il riavvio del portafoglio.</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="806"/>
+        <location filename="../gui/MainWindow.cpp" line="810"/>
         <source>Wallet RPC settings changed</source>
         <translation>Le impostazioni dell&apos;RPC del portafoglio sono state modificate</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="806"/>
+        <location filename="../gui/MainWindow.cpp" line="810"/>
         <source>Changes will take effect when you restart the wallet.</source>
         <translation>Le modifiche avranno effetto al riavvio del portafoglio.</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="812"/>
+        <location filename="../gui/MainWindow.cpp" line="816"/>
         <source>Zero balance</source>
         <translation>Zero saldo</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="812"/>
+        <location filename="../gui/MainWindow.cpp" line="816"/>
         <source>You cannot generate balance proof of zero.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="831"/>
+        <location filename="../gui/MainWindow.cpp" line="835"/>
         <source>Backup wallet to...</source>
         <translation>Portafoglio di backup in…</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="851"/>
+        <location filename="../gui/MainWindow.cpp" line="855"/>
         <source>Warning</source>
         <translation>Attenzione</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="851"/>
+        <location filename="../gui/MainWindow.cpp" line="855"/>
         <source>Your wallet will be reset and restored from blockchain.
 Are you sure?</source>
         <translation>Il tuo portafoglio sarà resettato e ripristinato dal blockchain. Sei sicuro?</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1057"/>
+        <location filename="../gui/MainWindow.cpp" line="1061"/>
         <source>Wallet error</source>
         <translation>Errore nel portafoglio</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1060"/>
+        <location filename="../gui/MainWindow.cpp" line="1064"/>
         <source>Wallet</source>
         <translation>Portafoglio</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1116"/>
+        <location filename="../gui/MainWindow.cpp" line="1120"/>
         <source>Incorrect password</source>
         <translation>Password errata</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1116"/>
+        <location filename="../gui/MainWindow.cpp" line="1120"/>
         <source>Wrong password.</source>
         <translation>Password errata.</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1132"/>
+        <location filename="../gui/MainWindow.cpp" line="1136"/>
         <source>Encrypted</source>
         <translation>Criptato</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1132"/>
+        <location filename="../gui/MainWindow.cpp" line="1136"/>
         <source>Not encrypted</source>
         <translation>Non criptato</translation>
     </message>
     <message numerus="yes">
-        <location filename="../gui/MainWindow.cpp" line="1141"/>
+        <location filename="../gui/MainWindow.cpp" line="1145"/>
         <source>%n active connection(s)</source>
         <translation>
             <numerusform>%n connessione attiva</numerusform>
@@ -2744,22 +2780,22 @@ Are you sure?</source>
         </translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1149"/>
+        <location filename="../gui/MainWindow.cpp" line="1153"/>
         <source>Synchronization in progress</source>
         <translation>Sincronizzazione in corso</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1167"/>
+        <location filename="../gui/MainWindow.cpp" line="1171"/>
         <source>Not synchronized</source>
         <translation>Non sincronizzato</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1167"/>
+        <location filename="../gui/MainWindow.cpp" line="1171"/>
         <source>Synchronized</source>
         <translation>Sincronizzato</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1203"/>
+        <location filename="../gui/MainWindow.cpp" line="1207"/>
         <source>%1 - Karbo Wallet %2</source>
         <translatorcomment>%1 - Karbo Wallet %2</translatorcomment>
         <translation></translation>
@@ -3048,14 +3084,34 @@ Are you sure?</source>
 <context>
     <name>WalletGui::RestoreFromMnemonicSeedDialog</name>
     <message>
-        <location filename="../gui/RestoreFromMnemonicSeedDialog.cpp" line="35"/>
+        <location filename="../gui/RestoreFromMnemonicSeedDialog.cpp" line="38"/>
         <source>Wallet file</source>
         <translation>File di Portafoglio</translation>
     </message>
     <message>
-        <location filename="../gui/RestoreFromMnemonicSeedDialog.cpp" line="42"/>
+        <location filename="../gui/RestoreFromMnemonicSeedDialog.cpp" line="45"/>
         <source>Wallets (*.wallet)</source>
         <translation>Portafogli (*.wallet)</translation>
+    </message>
+    <message>
+        <location filename="../gui/RestoreFromMnemonicSeedDialog.cpp" line="74"/>
+        <source>Mnemonic seed is not correct</source>
+        <translation>Il seed mnemonico non è corretto</translation>
+    </message>
+    <message>
+        <location filename="../gui/RestoreFromMnemonicSeedDialog.cpp" line="74"/>
+        <source>There must be an error in mnemonic seed. Make sure you entered it correctly.</source>
+        <translation>Ci deve essere un errore nel seed mnemonico. Assicuratevi di averlo inserito correttamente.</translation>
+    </message>
+    <message>
+        <location filename="../gui/RestoreFromMnemonicSeedDialog.cpp" line="76"/>
+        <source>File path is empty</source>
+        <translation>Il percorso del file è vuoto</translation>
+    </message>
+    <message>
+        <location filename="../gui/RestoreFromMnemonicSeedDialog.cpp" line="76"/>
+        <source>Please enter the path where to save the wallet file and its name.</source>
+        <translation>Inserisci il percorso in cui salvare il file del portafoglio e il suo nome.</translation>
     </message>
 </context>
 <context>
@@ -3521,24 +3577,24 @@ when the wallet is synchronized</source>
         <translation>Apertura del portafoglio</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="208"/>
+        <location filename="../WalletAdapter.cpp" line="207"/>
         <source>Creating wallet</source>
         <translation>Creazione del portafoglio</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="241"/>
-        <location filename="../WalletAdapter.cpp" line="249"/>
+        <location filename="../WalletAdapter.cpp" line="240"/>
+        <location filename="../WalletAdapter.cpp" line="248"/>
         <source>Importing keys</source>
         <translation>Importazione delle chiavi</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="316"/>
+        <location filename="../WalletAdapter.cpp" line="315"/>
         <source>Saving data</source>
         <translation>Salvataggio dei dati</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="463"/>
-        <location filename="../WalletAdapter.cpp" line="478"/>
+        <location filename="../WalletAdapter.cpp" line="462"/>
+        <location filename="../WalletAdapter.cpp" line="477"/>
         <source>Sending transaction</source>
         <translation>Invio della transazione</translation>
     </message>
@@ -3547,29 +3603,29 @@ when the wallet is synchronized</source>
         <translation type="vanished">Sweeping unmixable dust</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="489"/>
-        <location filename="../WalletAdapter.cpp" line="502"/>
+        <location filename="../WalletAdapter.cpp" line="488"/>
+        <location filename="../WalletAdapter.cpp" line="501"/>
         <source>Preparing transaction</source>
         <translation>Preparazione della transazione</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="533"/>
+        <location filename="../WalletAdapter.cpp" line="532"/>
         <source>Optimizing wallet</source>
         <translation>Ottimizzazione del portafoglio</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="594"/>
-        <location filename="../WalletAdapter.cpp" line="620"/>
+        <location filename="../WalletAdapter.cpp" line="593"/>
+        <location filename="../WalletAdapter.cpp" line="619"/>
         <source>Ready</source>
         <translation>Pronto</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="641"/>
+        <location filename="../WalletAdapter.cpp" line="640"/>
         <source>Offline</source>
         <translation>Disconnesso</translation>
     </message>
     <message numerus="yes">
-        <location filename="../WalletAdapter.cpp" line="672"/>
+        <location filename="../WalletAdapter.cpp" line="671"/>
         <source>%n blocks per second</source>
         <translation>
             <numerusform>%n blocco al secondo</numerusform>
@@ -3577,12 +3633,12 @@ when the wallet is synchronized</source>
         </translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="675"/>
+        <location filename="../WalletAdapter.cpp" line="674"/>
         <source>est. completion in</source>
         <translation>completamento stimato in</translation>
     </message>
     <message numerus="yes">
-        <location filename="../WalletAdapter.cpp" line="677"/>
+        <location filename="../WalletAdapter.cpp" line="676"/>
         <source>%n day(s) and</source>
         <translation>
             <numerusform>%n giorno e</numerusform>
@@ -3590,213 +3646,213 @@ when the wallet is synchronized</source>
         </translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="685"/>
+        <location filename="../WalletAdapter.cpp" line="684"/>
         <source>Synchronizing</source>
         <translation>Sincronizzazione in corso</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="725"/>
+        <location filename="../WalletAdapter.cpp" line="724"/>
         <source>Object was not initialized</source>
         <translation>L&apos;oggetto non è stato inizializzato</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="726"/>
+        <location filename="../WalletAdapter.cpp" line="725"/>
         <source>The password is wrong</source>
         <translation>La password è errata</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="727"/>
+        <location filename="../WalletAdapter.cpp" line="726"/>
         <source>The object is already initialized</source>
         <translation>L&apos;oggetto è già stato inizializzato</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="728"/>
+        <location filename="../WalletAdapter.cpp" line="727"/>
         <source>Internal error occurred</source>
         <translation>C&apos;è stato un errore interno</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="729"/>
+        <location filename="../WalletAdapter.cpp" line="728"/>
         <source>MixIn count is too big</source>
         <translation>Il conto Mixln è troppo elevato</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="730"/>
+        <location filename="../WalletAdapter.cpp" line="729"/>
         <source>Bad address</source>
         <translation>Indirizzo errato</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="731"/>
+        <location filename="../WalletAdapter.cpp" line="730"/>
         <source>Transaction size is too big</source>
         <translation>La dimensione della transazione è troppo grande</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="732"/>
+        <location filename="../WalletAdapter.cpp" line="731"/>
         <source>Wrong amount</source>
         <translation>Somma errata</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="733"/>
+        <location filename="../WalletAdapter.cpp" line="732"/>
         <source>Sum overflow</source>
         <translation>Somma eccessiva</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="734"/>
+        <location filename="../WalletAdapter.cpp" line="733"/>
         <source>The destination is empty</source>
         <translation>La destinazione è vuota</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="735"/>
+        <location filename="../WalletAdapter.cpp" line="734"/>
         <source>Impossible to cancel transaction</source>
         <translation>Impossibile cancellare la transazione</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="736"/>
+        <location filename="../WalletAdapter.cpp" line="735"/>
         <source>The wallet is in wrong state (maybe loading or saving), try again later</source>
         <translation>Il portafoglio è in stato di errore (forse in fase di caricamento o salvataggio), riprovate più tardi</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="737"/>
+        <location filename="../WalletAdapter.cpp" line="736"/>
         <source>The operation you&apos;ve requested has been cancelled</source>
         <translation>L&apos;operazione che hai richiesto è stata annullata</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="738"/>
+        <location filename="../WalletAdapter.cpp" line="737"/>
         <source>Transaction transfer impossible</source>
         <translation>Impossibile trasferire la transazione</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="739"/>
+        <location filename="../WalletAdapter.cpp" line="738"/>
         <source>Wrong version</source>
         <translation>Versione errata</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="740"/>
+        <location filename="../WalletAdapter.cpp" line="739"/>
         <source>Transaction fee is too small</source>
         <translation>La commissione di transazione è troppo bassa</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="741"/>
+        <location filename="../WalletAdapter.cpp" line="740"/>
         <source>Cannot generate new key</source>
         <translation>Impossibile generare una nuova chiave</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="742"/>
+        <location filename="../WalletAdapter.cpp" line="741"/>
         <source>Index is out of range</source>
         <translation>L&apos;indice è fuori dal range</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="743"/>
+        <location filename="../WalletAdapter.cpp" line="742"/>
         <source>Address already exists</source>
         <translation>L&apos;indirizzo è già esistente</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="744"/>
+        <location filename="../WalletAdapter.cpp" line="743"/>
         <source>The wallet is in tracking mode</source>
         <translation>Il portafoglio è in modalità tracking</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="745"/>
+        <location filename="../WalletAdapter.cpp" line="744"/>
         <source>Wrong parameters passed</source>
         <translation>Passati parametri errati</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="746"/>
+        <location filename="../WalletAdapter.cpp" line="745"/>
         <source>Object not found</source>
         <translation>Oggetto non trovato</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="747"/>
+        <location filename="../WalletAdapter.cpp" line="746"/>
         <source>Requested wallet not found</source>
         <translation>Il portafoglio richiesto non è stato trovato</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="748"/>
+        <location filename="../WalletAdapter.cpp" line="747"/>
         <source>Change address required</source>
         <translation>Necessaria modifica all&apos;indirizzo </translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="749"/>
+        <location filename="../WalletAdapter.cpp" line="748"/>
         <source>Change address not found</source>
         <translation>Indirizzo modificato non trovato</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="750"/>
+        <location filename="../WalletAdapter.cpp" line="749"/>
         <source>Destination address required</source>
         <translation>Necessario indirizzo di destinazione</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="751"/>
+        <location filename="../WalletAdapter.cpp" line="750"/>
         <source>Destination address not found</source>
         <translation>Indirizzo di destinazione non trovato</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="752"/>
+        <location filename="../WalletAdapter.cpp" line="751"/>
         <source>Wrong payment id format</source>
         <translation>Pagamento errato formato id</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="753"/>
+        <location filename="../WalletAdapter.cpp" line="752"/>
         <source>Wrong transaction extra format</source>
         <translation>Transazione errata formato extra</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="754"/>
+        <location filename="../WalletAdapter.cpp" line="753"/>
         <source>Unknown error</source>
         <translation>Errore sconosciuto</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="838"/>
+        <location filename="../WalletAdapter.cpp" line="837"/>
         <source>  Warning: last block was received %1 hours %2 minutes ago</source>
         <translation>  Attenzione: l&apos;ultimo blocco è stato ricevuto %1 ora e %2 minuti fa</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="839"/>
+        <location filename="../WalletAdapter.cpp" line="838"/>
         <source>Wallet synchronized. Height: %1  |  Time (UTC): %2%3</source>
         <translation>Il portafoglio è stato sicronizzato. Altezza: %1 | Ora (UTC): %2%3</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="891"/>
+        <location filename="../WalletAdapter.cpp" line="890"/>
         <source>Mnemonic seed is not correct</source>
         <translation>Il seed mnemonico non è corretto</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="891"/>
+        <location filename="../WalletAdapter.cpp" line="890"/>
         <source>There must be an error in mnemonic seed. Make sure you entered it correctly.</source>
         <translation>Ci deve essere un errore nel seed mnemonico. Assicuratevi di averlo inserito correttamente.</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="907"/>
+        <location filename="../WalletAdapter.cpp" line="906"/>
         <source>Failed to get the transaction proof</source>
         <translation>Impossibile ottenere la prova della transazione</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="907"/>
+        <location filename="../WalletAdapter.cpp" line="906"/>
         <source>Failed to get the transaction proof.</source>
         <translation>Impossibile ottenere la prova della transazione.</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="915"/>
-        <location filename="../WalletAdapter.cpp" line="928"/>
+        <location filename="../WalletAdapter.cpp" line="914"/>
+        <location filename="../WalletAdapter.cpp" line="927"/>
         <source>Failed to get the reserve proof</source>
         <translation>Impossibile ottenere la prova della riserva</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="915"/>
+        <location filename="../WalletAdapter.cpp" line="914"/>
         <source>This is tracking wallet. The reserve proof can be generated only by a full wallet.</source>
         <translation>Questo è il monitoraggio del portafoglio. La prova di riserva può essere generata solo da un portafoglio completo.</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="928"/>
+        <location filename="../WalletAdapter.cpp" line="927"/>
         <source>Failed to get the reserve proof.</source>
         <translation>Impossibile ottenere la prova della riserva.</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="936"/>
+        <location filename="../WalletAdapter.cpp" line="935"/>
         <source>Failed to sign message</source>
         <translation>Impossibile firmare il messaggio</translation>
     </message>
     <message>
-        <location filename="../WalletAdapter.cpp" line="936"/>
+        <location filename="../WalletAdapter.cpp" line="935"/>
         <source>This is tracking wallet. The message can be signed only by a full wallet.</source>
         <translation type="unfinished"></translation>
     </message>

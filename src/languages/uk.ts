@@ -2118,6 +2118,14 @@ Do you want to go to the download page?</source>
         <source>Wallets (*.wallet)</source>
         <translation>Гаманці (*.wallet)</translation>
     </message>
+    <message>
+        <source>File path is empty</source>
+        <translation>Шлях до файлу порожній</translation>
+    </message>
+    <message>
+        <source>Please enter the path where to save the wallet file and its name.</source>
+        <translation>Будь ласка, введіть шлях для збереження файлу гаманця та його назву.</translation>
+    </message>
 </context>
 <context>
     <name>WalletGui::ImportKeysDialog</name>
@@ -2128,6 +2136,14 @@ Do you want to go to the download page?</source>
     <message>
         <source>Wallets (*.wallet)</source>
         <translation>Гаманці (*.wallet)</translation>
+    </message>
+    <message>
+        <source>File path is empty</source>
+        <translation>Шлях до файлу порожній</translation>
+    </message>
+    <message>
+        <source>Please enter the path where to save the wallet file and its name.</source>
+        <translation>Будь ласка, введіть шлях для збереження файлу гаманця та його назву.</translation>
     </message>
 </context>
 <context>
@@ -2143,6 +2159,14 @@ Do you want to go to the download page?</source>
     <message>
         <source>Tracking wallets (*.wallet)</source>
         <translation>Гаманці стеження (*.wallet)</translation>
+    </message>
+    <message>
+        <source>File path is empty</source>
+        <translation>Шлях до файлу порожній</translation>
+    </message>
+    <message>
+        <source>Please enter the path where to save the wallet file and its name.</source>
+        <translation>Будь ласка, введіть шлях для збереження файлу гаманця та його назву.</translation>
     </message>
 </context>
 <context>
@@ -2416,6 +2440,10 @@ Are you sure?</source>
         <source>Changes will take effect when you restart the wallet.</source>
         <translation>Зміни набудуть чинності, коли ви перезапустите гаманець.</translation>
     </message>
+    <message>
+        <source>Failed to parse account keys</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>WalletGui::MiningFrame</name>
@@ -2661,6 +2689,22 @@ Are you sure?</source>
     <message>
         <source>Wallets (*.wallet)</source>
         <translation>Гаманці (*.wallet)</translation>
+    </message>
+    <message>
+        <source>Mnemonic seed is not correct</source>
+        <translation>Мнемонічна фраза неправильна</translation>
+    </message>
+    <message>
+        <source>There must be an error in mnemonic seed. Make sure you entered it correctly.</source>
+        <translation>У мнемомічній фразі є помилка. Перевірте чи ви ввели її правильно.</translation>
+    </message>
+    <message>
+        <source>File path is empty</source>
+        <translation>Шлях до файлу порожній</translation>
+    </message>
+    <message>
+        <source>Please enter the path where to save the wallet file and its name.</source>
+        <translation>Будь ласка, введіть шлях для збереження файлу гаманця та його назву.</translation>
     </message>
 </context>
 <context>

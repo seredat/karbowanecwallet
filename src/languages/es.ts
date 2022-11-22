@@ -2129,6 +2129,14 @@ Do you want to go to the download page?</source>
         <source>Wallets (*.wallet)</source>
         <translation>Monederos (*.wallet)</translation>
     </message>
+    <message>
+        <source>File path is empty</source>
+        <translation>La ruta del archivo está vacía</translation>
+    </message>
+    <message>
+        <source>Please enter the path where to save the wallet file and its name.</source>
+        <translation>Ingrese la ruta donde guardar el archivo de la billetera y su nombre.</translation>
+    </message>
 </context>
 <context>
     <name>WalletGui::ImportKeysDialog</name>
@@ -2139,6 +2147,14 @@ Do you want to go to the download page?</source>
     <message>
         <source>Wallets (*.wallet)</source>
         <translation>Monederos (*.wallet)</translation>
+    </message>
+    <message>
+        <source>File path is empty</source>
+        <translation>La ruta del archivo está vacía</translation>
+    </message>
+    <message>
+        <source>Please enter the path where to save the wallet file and its name.</source>
+        <translation>Ingrese la ruta donde guardar el archivo de la billetera y su nombre.</translation>
     </message>
 </context>
 <context>
@@ -2154,6 +2170,14 @@ Do you want to go to the download page?</source>
     <message>
         <source>Tracking wallets (*.wallet)</source>
         <translation>Seguimiento de monederos (*.wallet)</translation>
+    </message>
+    <message>
+        <source>File path is empty</source>
+        <translation>La ruta del archivo está vacía</translation>
+    </message>
+    <message>
+        <source>Please enter the path where to save the wallet file and its name.</source>
+        <translation>Ingrese la ruta donde guardar el archivo de la billetera y su nombre.</translation>
     </message>
 </context>
 <context>
@@ -2423,6 +2447,10 @@ Are you sure?</source>
         <source>Changes will take effect when you restart the wallet.</source>
         <translation>Los cambios entrarán en vigencia cuando reinicie la billetera.</translation>
     </message>
+    <message>
+        <source>Failed to parse account keys</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>WalletGui::MiningFrame</name>
@@ -2668,6 +2696,22 @@ Are you sure?</source>
     <message>
         <source>Wallets (*.wallet)</source>
         <translation>Monederos (*.wallet)</translation>
+    </message>
+    <message>
+        <source>Mnemonic seed is not correct</source>
+        <translation>Frase mnemónica es incorrecta</translation>
+    </message>
+    <message>
+        <source>There must be an error in mnemonic seed. Make sure you entered it correctly.</source>
+        <translation>Debe haber un error en la frase mnemónica. Asegúrate de haberlo ingresado correctamente.</translation>
+    </message>
+    <message>
+        <source>File path is empty</source>
+        <translation>La ruta del archivo está vacía</translation>
+    </message>
+    <message>
+        <source>Please enter the path where to save the wallet file and its name.</source>
+        <translation>Ingrese la ruta donde guardar el archivo de la billetera y su nombre.</translation>
     </message>
 </context>
 <context>

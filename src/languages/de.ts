@@ -2130,6 +2130,14 @@ Externer Port für das P2P-Netzwerkprotokoll (wenn Portweiterleitung mit NAT ver
         <source>Wallets (*.wallet)</source>
         <translation>Wallets (*.wallet)</translation>
     </message>
+    <message>
+        <source>File path is empty</source>
+        <translation>Dateipfad ist leer</translation>
+    </message>
+    <message>
+        <source>Please enter the path where to save the wallet file and its name.</source>
+        <translation>Bitte geben Sie den Pfad zum Speichern der Wallet-Datei und ihren Namen ein.</translation>
+    </message>
 </context>
 <context>
     <name>WalletGui::ImportKeysDialog</name>
@@ -2140,6 +2148,14 @@ Externer Port für das P2P-Netzwerkprotokoll (wenn Portweiterleitung mit NAT ver
     <message>
         <source>Wallets (*.wallet)</source>
         <translation>Wallets (*.wallet)</translation>
+    </message>
+    <message>
+        <source>File path is empty</source>
+        <translation>Dateipfad ist leer</translation>
+    </message>
+    <message>
+        <source>Please enter the path where to save the wallet file and its name.</source>
+        <translation>Bitte geben Sie den Pfad zum Speichern der Wallet-Datei und ihren Namen ein.</translation>
     </message>
 </context>
 <context>
@@ -2155,6 +2171,14 @@ Externer Port für das P2P-Netzwerkprotokoll (wenn Portweiterleitung mit NAT ver
     <message>
         <source>Tracking wallets (*.wallet)</source>
         <translation>Brieftaschen (*.wallet)</translation>
+    </message>
+    <message>
+        <source>File path is empty</source>
+        <translation>Dateipfad ist leer</translation>
+    </message>
+    <message>
+        <source>Please enter the path where to save the wallet file and its name.</source>
+        <translation>Bitte geben Sie den Pfad zum Speichern der Wallet-Datei und ihren Namen ein.</translation>
     </message>
 </context>
 <context>
@@ -2427,6 +2451,10 @@ Bist du sicher?</translation>
         <source>Changes will take effect when you restart the wallet.</source>
         <translation>Änderungen werden wirksam, wenn Sie das Wallet neu starten.</translation>
     </message>
+    <message>
+        <source>Failed to parse account keys</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>WalletGui::MiningFrame</name>
@@ -2672,6 +2700,22 @@ Bist du sicher?</translation>
     <message>
         <source>Wallets (*.wallet)</source>
         <translation>Wallets (*.wallet)</translation>
+    </message>
+    <message>
+        <source>Mnemonic seed is not correct</source>
+        <translation>Mnemonic seed ist nicht korrekt</translation>
+    </message>
+    <message>
+        <source>There must be an error in mnemonic seed. Make sure you entered it correctly.</source>
+        <translation>Es muss ein Fehler in der Mnemonic Seed geben. Vergewissern Sie sich, dass Sie es richtig eingegeben haben.</translation>
+    </message>
+    <message>
+        <source>File path is empty</source>
+        <translation>Dateipfad ist leer</translation>
+    </message>
+    <message>
+        <source>Please enter the path where to save the wallet file and its name.</source>
+        <translation>Bitte geben Sie den Pfad zum Speichern der Wallet-Datei und ihren Namen ein.</translation>
     </message>
 </context>
 <context>
