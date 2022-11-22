@@ -11,10 +11,6 @@
 #include "RestoreFromMnemonicSeedDialog.h"
 #include "Mnemonics/electrum-words.h"
 
-#include "Mnemonics/electrum-words.h"
-
-//#include "crypto.h"
-
 extern "C"
 {
 #include "crypto/keccak.h"
