@@ -2134,6 +2134,18 @@ Czy chesz otworzyć stronę pobierania w przeglądarce?</translation>
         <source>Please enter the path where to save the wallet file and its name.</source>
         <translation>Podaj ścieżkę, w której chcesz zapisać plik portfela i jego nazwę.</translation>
     </message>
+    <message>
+        <source>Wallet keys are not valid</source>
+        <translation>Klucze portfela są nieprawidłowe</translation>
+    </message>
+    <message>
+        <source>Failed to parse account keys</source>
+        <translation>Nie udało się odczytać kluczy konta</translation>
+    </message>
+    <message>
+        <source>The private keys you entered are not valid.</source>
+        <translation>Podane klucze prywatne są nieprawidłowe.</translation>
+    </message>
 </context>
 <context>
     <name>WalletGui::ImportKeysDialog</name>
@@ -2358,7 +2370,7 @@ Jesteś pewien?</translation>
     </message>
     <message>
         <source>Wallet keys are not valid</source>
-        <translation>Klucze portfela są nieprawidłowe</translation>
+        <translation type="vanished">Klucze portfela są nieprawidłowe</translation>
     </message>
     <message>
         <source>Tracking key is not valid</source>
@@ -2390,7 +2402,7 @@ Jesteś pewien?</translation>
     </message>
     <message>
         <source>The private keys you entered are not valid.</source>
-        <translation>Podane klucze prywatne są nieprawidłowe.</translation>
+        <translation type="vanished">Podane klucze prywatne są nieprawidłowe.</translation>
     </message>
     <message>
         <source>Wrong wallet file extension</source>
@@ -2451,10 +2463,6 @@ Jesteś pewien?</translation>
     <message>
         <source>Changes will take effect when you restart the wallet.</source>
         <translation>Zmiany zaczną obowiązywać po ponownym uruchomieniu portfela.</translation>
-    </message>
-    <message>
-        <source>Failed to parse account keys</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

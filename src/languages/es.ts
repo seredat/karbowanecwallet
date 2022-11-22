@@ -2137,6 +2137,18 @@ Do you want to go to the download page?</source>
         <source>Please enter the path where to save the wallet file and its name.</source>
         <translation>Ingrese la ruta donde guardar el archivo de la billetera y su nombre.</translation>
     </message>
+    <message>
+        <source>Wallet keys are not valid</source>
+        <translation>Las claves de monedero son inválidos</translation>
+    </message>
+    <message>
+        <source>Failed to parse account keys</source>
+        <translation>Error al leer las claves de la cuenta</translation>
+    </message>
+    <message>
+        <source>The private keys you entered are not valid.</source>
+        <translation>Las claves privadas que ingresó son inválidos.</translation>
+    </message>
 </context>
 <context>
     <name>WalletGui::ImportKeysDialog</name>
@@ -2353,11 +2365,11 @@ Are you sure?</source>
     </message>
     <message>
         <source>Wallet keys are not valid</source>
-        <translation>Las claves de monedero son inválidos</translation>
+        <translation type="vanished">Las claves de monedero son inválidos</translation>
     </message>
     <message>
         <source>The private keys you entered are not valid.</source>
-        <translation>Las claves privadas que ingresó son inválidos.</translation>
+        <translation type="vanished">Las claves privadas que ingresó son inválidos.</translation>
     </message>
     <message>
         <source>Tracking key is not valid</source>
@@ -2446,10 +2458,6 @@ Are you sure?</source>
     <message>
         <source>Changes will take effect when you restart the wallet.</source>
         <translation>Los cambios entrarán en vigencia cuando reinicie la billetera.</translation>
-    </message>
-    <message>
-        <source>Failed to parse account keys</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

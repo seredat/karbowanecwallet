@@ -2155,6 +2155,18 @@ Você quer ir à página de dowload?</translation>
         <source>Please enter the path where to save the wallet file and its name.</source>
         <translation>Por favor, digite o caminho onde salvar o arquivo da carteira e seu nome.</translation>
     </message>
+    <message>
+        <source>Wallet keys are not valid</source>
+        <translation>As chaves Wallet estão erradas</translation>
+    </message>
+    <message>
+        <source>Failed to parse account keys</source>
+        <translation>Falha ao ler as chaves da conta</translation>
+    </message>
+    <message>
+        <source>The private keys you entered are not valid.</source>
+        <translation>As chaves privadas inseridas estão incorretas.</translation>
+    </message>
 </context>
 <context>
     <name>WalletGui::ImportKeysDialog</name>
@@ -2370,11 +2382,11 @@ Você tem certeza?</translation>
     </message>
     <message>
         <source>Wallet keys are not valid</source>
-        <translation>As chaves Wallet estão erradas</translation>
+        <translation type="vanished">As chaves Wallet estão erradas</translation>
     </message>
     <message>
         <source>The private keys you entered are not valid.</source>
-        <translation>As chaves privadas inseridas estão incorretas.</translation>
+        <translation type="vanished">As chaves privadas inseridas estão incorretas.</translation>
     </message>
     <message>
         <source>Tracking key is not valid</source>
@@ -2463,10 +2475,6 @@ Você tem certeza?</translation>
     <message>
         <source>Changes will take effect when you restart the wallet.</source>
         <translation>As alterações entrarão em vigor quando você reiniciar a carteira.</translation>
-    </message>
-    <message>
-        <source>Failed to parse account keys</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

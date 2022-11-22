@@ -1530,7 +1530,7 @@ Please wait...</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="770"/>
+        <location filename="../gui/MainWindow.cpp" line="758"/>
         <location filename="../main.cpp" line="96"/>
         <source>Help</source>
         <translation></translation>
@@ -2439,22 +2439,38 @@ Do you want to go to the download page?</source>
 <context>
     <name>WalletGui::ImportKeyDialog</name>
     <message>
-        <location filename="../gui/ImportKeyDialog.cpp" line="38"/>
+        <location filename="../gui/ImportKeyDialog.cpp" line="43"/>
         <source>Wallet file</source>
         <translation>वॉलेट फाइल</translation>
     </message>
     <message>
-        <location filename="../gui/ImportKeyDialog.cpp" line="45"/>
+        <location filename="../gui/ImportKeyDialog.cpp" line="50"/>
         <source>Wallets (*.wallet)</source>
         <translation>वॉलेट (*.wallet)</translation>
     </message>
     <message>
-        <location filename="../gui/ImportKeyDialog.cpp" line="57"/>
+        <location filename="../gui/ImportKeyDialog.cpp" line="70"/>
+        <location filename="../gui/ImportKeyDialog.cpp" line="74"/>
+        <source>Wallet keys are not valid</source>
+        <translation>वॉलेट की मान्य नहीं हैं</translation>
+    </message>
+    <message>
+        <location filename="../gui/ImportKeyDialog.cpp" line="70"/>
+        <source>Failed to parse account keys</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/ImportKeyDialog.cpp" line="74"/>
+        <source>The private keys you entered are not valid.</source>
+        <translation>आपके द्वारा दर्ज की गई प्राइवेट की मान्य नहीं हैं।</translation>
+    </message>
+    <message>
+        <location filename="../gui/ImportKeyDialog.cpp" line="80"/>
         <source>File path is empty</source>
         <translation>फ़ाइल पथ खाली है</translation>
     </message>
     <message>
-        <location filename="../gui/ImportKeyDialog.cpp" line="57"/>
+        <location filename="../gui/ImportKeyDialog.cpp" line="80"/>
         <source>Please enter the path where to save the wallet file and its name.</source>
         <translation>कृपया वह पथ दर्ज करें जहां वॉलेट फ़ाइल और उसका नाम सहेजना है।.</translation>
     </message>
@@ -2568,7 +2584,7 @@ Do you want to go to the download page?</source>
     <message>
         <location filename="../gui/MainWindow.cpp" line="372"/>
         <location filename="../gui/MainWindow.cpp" line="401"/>
-        <location filename="../gui/MainWindow.cpp" line="842"/>
+        <location filename="../gui/MainWindow.cpp" line="830"/>
         <source>Wallets (*.wallet)</source>
         <translation>वॉलेट (*.wallet)</translation>
     </message>
@@ -2603,54 +2619,46 @@ Do you want to go to the download page?</source>
         <translation>हाल की बटुआ फ़ाइल गायब है। संभवत: इसे हटा दिया गया था।</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="491"/>
-        <location filename="../gui/MainWindow.cpp" line="506"/>
         <source>Wallet keys are not valid</source>
-        <translation>वॉलेट की मान्य नहीं हैं</translation>
+        <translation type="vanished">वॉलेट की मान्य नहीं हैं</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="491"/>
-        <source>Failed to parse account keys</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../gui/MainWindow.cpp" line="506"/>
         <source>The private keys you entered are not valid.</source>
-        <translation>आपके द्वारा दर्ज की गई प्राइवेट की मान्य नहीं हैं।</translation>
+        <translation type="vanished">आपके द्वारा दर्ज की गई प्राइवेट की मान्य नहीं हैं।</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="574"/>
+        <location filename="../gui/MainWindow.cpp" line="562"/>
         <source>Tracking key is not valid</source>
         <translation>ट्रैकिंग की मान्य नहीं है</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="574"/>
+        <location filename="../gui/MainWindow.cpp" line="562"/>
         <source>The tracking key you entered is not valid.</source>
         <translation>आपके द्वारा दर्ज की गई ट्रैकिंग की मान्य नहीं है।</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="537"/>
-        <location filename="../gui/MainWindow.cpp" line="541"/>
+        <location filename="../gui/MainWindow.cpp" line="525"/>
+        <location filename="../gui/MainWindow.cpp" line="529"/>
+        <location filename="../gui/MainWindow.cpp" line="593"/>
+        <location filename="../gui/MainWindow.cpp" line="597"/>
+        <location filename="../gui/MainWindow.cpp" line="601"/>
         <location filename="../gui/MainWindow.cpp" line="605"/>
-        <location filename="../gui/MainWindow.cpp" line="609"/>
-        <location filename="../gui/MainWindow.cpp" line="613"/>
-        <location filename="../gui/MainWindow.cpp" line="617"/>
         <source>Key is not valid</source>
         <translation>की मान्य नहीं है</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="605"/>
+        <location filename="../gui/MainWindow.cpp" line="593"/>
         <source>The public spend key you entered is not valid.</source>
         <translation>आपके द्वारा दर्ज की गई पब्लिक स्पेंड की मान्य नहीं है।</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="609"/>
+        <location filename="../gui/MainWindow.cpp" line="597"/>
         <source>The public view key you entered is not valid.</source>
         <translation>आपके द्वारा दर्ज की गई पब्लिक व्यू की मान्य नहीं है।</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="537"/>
-        <location filename="../gui/MainWindow.cpp" line="613"/>
+        <location filename="../gui/MainWindow.cpp" line="525"/>
+        <location filename="../gui/MainWindow.cpp" line="601"/>
         <source>The private spend key you entered is not valid.</source>
         <translation>आपके द्वारा दर्ज की गई प्राइवेट स्पेंड की मान्य नहीं है।</translation>
     </message>
@@ -2660,38 +2668,38 @@ Do you want to go to the download page?</source>
         <translation>वॉलेट रिमोट नोड के माध्यम से जुड़ा हुआ है। अतिरिक्त शुल्क लागू किया जा सकता है।</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="541"/>
-        <location filename="../gui/MainWindow.cpp" line="617"/>
+        <location filename="../gui/MainWindow.cpp" line="529"/>
+        <location filename="../gui/MainWindow.cpp" line="605"/>
         <source>The private view key you entered is not valid.</source>
         <translation>आपके द्वारा दर्ज की गई प्राइवेट व्यू की मान्य नहीं है।</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="692"/>
+        <location filename="../gui/MainWindow.cpp" line="680"/>
         <source>Mnemonic seed is not correct</source>
         <translation>म्नेमोनिक सीड सही नहीं है</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="692"/>
+        <location filename="../gui/MainWindow.cpp" line="680"/>
         <source>There must be an error in mnemonic seed. Make sure you entered it correctly.</source>
         <translation>म्नेमोनिक सीड में एक त्रुटि होनी चाहिए। सुनिश्चित करें कि आपने यह सही दर्ज की है।</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="761"/>
+        <location filename="../gui/MainWindow.cpp" line="749"/>
         <source>Language changed to %1</source>
         <translation>भाषा बदली %1</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="762"/>
+        <location filename="../gui/MainWindow.cpp" line="750"/>
         <source>Language was changed</source>
         <translation>भाषा बदल दी गई थी</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="763"/>
+        <location filename="../gui/MainWindow.cpp" line="751"/>
         <source>Language changed to %1. The change will take effect after restarting the wallet.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1207"/>
+        <location filename="../gui/MainWindow.cpp" line="1195"/>
         <source>%1 - Karbo Wallet %2</source>
         <translation>%1 - कार्बो वॉलेट %2</translation>
     </message>
@@ -2700,88 +2708,88 @@ Do you want to go to the download page?</source>
         <translation type="vanished">वॉलेट को रीस्टार्ट करने के बाद भाषा बदल दी जाएगी।</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="773"/>
+        <location filename="../gui/MainWindow.cpp" line="761"/>
         <source>More info can be found at www.karbowanec.com in Documentation section</source>
         <translation>डॉक्यूमेंटेशन अनुभाग में www.karbowanec.com पर अधिक जानकारी मिल सकती है</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="798"/>
+        <location filename="../gui/MainWindow.cpp" line="786"/>
         <source>Connection settings changed</source>
         <translation>कनेक्शन सेटिंग्स बदल दी</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="798"/>
+        <location filename="../gui/MainWindow.cpp" line="786"/>
         <source>Connection mode will be changed after restarting the wallet.</source>
         <translation>वॉलेट को रीस्टार्ट करने के बाद कनेक्शन मोड बदल दिया जाएगा।</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="810"/>
+        <location filename="../gui/MainWindow.cpp" line="798"/>
         <source>Wallet RPC settings changed</source>
         <translation>वॉलेट RPC सेटिंग बदली गईं</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="810"/>
+        <location filename="../gui/MainWindow.cpp" line="798"/>
         <source>Changes will take effect when you restart the wallet.</source>
         <translation>जब आप वॉलेट को फिर से शुरू करेंगे तो परिवर्तन प्रभावी होंगे।</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="816"/>
+        <location filename="../gui/MainWindow.cpp" line="804"/>
         <source>Zero balance</source>
         <translation>जीरो बैलेंस</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="816"/>
+        <location filename="../gui/MainWindow.cpp" line="804"/>
         <source>You cannot generate balance proof of zero.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="835"/>
+        <location filename="../gui/MainWindow.cpp" line="823"/>
         <source>Backup wallet to...</source>
         <translation>... में वॉलेट का बैकअप</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="855"/>
+        <location filename="../gui/MainWindow.cpp" line="843"/>
         <source>Warning</source>
         <translation>चेतावनी</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="855"/>
+        <location filename="../gui/MainWindow.cpp" line="843"/>
         <source>Your wallet will be reset and restored from blockchain.
 Are you sure?</source>
         <translation>आपका वॉलेट ब्लॉकचेन से रीसेट और रिस्टोर किया जाएगा। क्या आपको चाहते हैं?</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1061"/>
+        <location filename="../gui/MainWindow.cpp" line="1049"/>
         <source>Wallet error</source>
         <translation>वॉलेट त्रुटि</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1064"/>
+        <location filename="../gui/MainWindow.cpp" line="1052"/>
         <source>Wallet</source>
         <translation>वॉलेट</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1120"/>
+        <location filename="../gui/MainWindow.cpp" line="1108"/>
         <source>Incorrect password</source>
         <translation>गलत पासवर्ड</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1120"/>
+        <location filename="../gui/MainWindow.cpp" line="1108"/>
         <source>Wrong password.</source>
         <translation>गलत पासवर्ड।</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1136"/>
+        <location filename="../gui/MainWindow.cpp" line="1124"/>
         <source>Encrypted</source>
         <translation>एन्क्रिप्टेड</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1136"/>
+        <location filename="../gui/MainWindow.cpp" line="1124"/>
         <source>Not encrypted</source>
         <translation>एन्क्रिप्ट नहीं किया गया</translation>
     </message>
     <message numerus="yes">
-        <location filename="../gui/MainWindow.cpp" line="1145"/>
+        <location filename="../gui/MainWindow.cpp" line="1133"/>
         <source>%n active connection(s)</source>
         <translation>
             <numerusform>%n सक्रिय कनेक्शन</numerusform>
@@ -2789,24 +2797,24 @@ Are you sure?</source>
         </translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1153"/>
+        <location filename="../gui/MainWindow.cpp" line="1141"/>
         <source>Synchronization in progress</source>
         <translation>प्रगति पर सिंक्रनाइज़ेशन</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1171"/>
+        <location filename="../gui/MainWindow.cpp" line="1159"/>
         <source>Not synchronized</source>
         <translation>सिंक्रोनाइज नहीं है</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1171"/>
+        <location filename="../gui/MainWindow.cpp" line="1159"/>
         <source>Synchronized</source>
         <translation>सिंक्रनाइज़ है</translation>
     </message>
     <message>
         <location filename="../gui/MainWindow.cpp" line="144"/>
-        <location filename="../gui/MainWindow.cpp" line="1259"/>
-        <location filename="../gui/MainWindow.cpp" line="1287"/>
+        <location filename="../gui/MainWindow.cpp" line="1247"/>
+        <location filename="../gui/MainWindow.cpp" line="1275"/>
         <source>Karbo Wallet %1</source>
         <translation>कार्बो वॉलेट %1</translation>
     </message>

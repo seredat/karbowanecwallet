@@ -2126,6 +2126,18 @@ Do you want to go to the download page?</source>
         <source>Please enter the path where to save the wallet file and its name.</source>
         <translation>Будь ласка, введіть шлях для збереження файлу гаманця та його назву.</translation>
     </message>
+    <message>
+        <source>Wallet keys are not valid</source>
+        <translation>Ключі гаманця неправильні</translation>
+    </message>
+    <message>
+        <source>Failed to parse account keys</source>
+        <translation>Не вдалося розібрати ключі облікового запису</translation>
+    </message>
+    <message>
+        <source>The private keys you entered are not valid.</source>
+        <translation>Введені приватні ключі є неправильними.</translation>
+    </message>
 </context>
 <context>
     <name>WalletGui::ImportKeysDialog</name>
@@ -2342,11 +2354,11 @@ Are you sure?</source>
     </message>
     <message>
         <source>Wallet keys are not valid</source>
-        <translation>Ключі гаманця неправильні</translation>
+        <translation type="vanished">Ключі гаманця неправильні</translation>
     </message>
     <message>
         <source>The private keys you entered are not valid.</source>
-        <translation>Введені приватні ключі є неправильними.</translation>
+        <translation type="vanished">Введені приватні ключі є неправильними.</translation>
     </message>
     <message>
         <source>Tracking key is not valid</source>
@@ -2439,10 +2451,6 @@ Are you sure?</source>
     <message>
         <source>Changes will take effect when you restart the wallet.</source>
         <translation>Зміни набудуть чинності, коли ви перезапустите гаманець.</translation>
-    </message>
-    <message>
-        <source>Failed to parse account keys</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

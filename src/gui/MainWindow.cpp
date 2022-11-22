@@ -471,9 +471,8 @@ void MainWindow::openRecent(){
 void MainWindow::importKey() {
   ImportKeyDialog dlg(this);
   if (dlg.exec() == QDialog::Accepted) {
-    QString keyString = dlg.getKeyString().trimmed();
     QString filePath = dlg.getFilePath();
-    if (keyString.isEmpty() || filePath.isEmpty()) {
+    if (filePath.isEmpty()) {
       return;
     }
 
@@ -481,29 +480,18 @@ void MainWindow::importKey() {
       filePath.append(".wallet");
     }
 
-    uint64_t addressPrefix;
-    std::string data;
-    CryptoNote::AccountKeys keys;
-    if (Tools::Base58::decode_addr(keyString.toStdString(), addressPrefix, data) && addressPrefix == CurrencyAdapter::instance().getAddressPrefix() &&
-      data.size() == sizeof(keys)) {
-      //std::memcpy(&keys, data.data(), sizeof(keys));
-      if (!fromBinaryArray(keys, Common::asBinaryArray(data))) {
-        QMessageBox::warning(this, tr("Wallet keys are not valid"), tr("Failed to parse account keys"), QMessageBox::Ok);
-      }
-      if (WalletAdapter::instance().isOpen()) {
-        WalletAdapter::instance().close();
-      }
-      WalletAdapter::instance().setWalletFile(filePath);
+    CryptoNote::AccountKeys keys = dlg.getAccountKeys();
 
-      quint32 syncHeight = dlg.getSyncHeight();
-      if (syncHeight != 0) {
-        WalletAdapter::instance().createWithKeys(keys, syncHeight);
-      } else {
-        WalletAdapter::instance().createWithKeys(keys);
-      }
+    if (WalletAdapter::instance().isOpen()) {
+      WalletAdapter::instance().close();
+    }
+    WalletAdapter::instance().setWalletFile(filePath);
 
+    quint32 syncHeight = dlg.getSyncHeight();
+    if (syncHeight != 0) {
+      WalletAdapter::instance().createWithKeys(keys, syncHeight);
     } else {
-      QMessageBox::warning(this, tr("Wallet keys are not valid"), tr("The private keys you entered are not valid."), QMessageBox::Ok);
+      WalletAdapter::instance().createWithKeys(keys);
     }
   }
 }

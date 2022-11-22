@@ -9,6 +9,11 @@
 #include <QMessageBox>
 #include <QStandardPaths>
 
+#include "Common/Base58.h"
+#include "Common/StringTools.h"
+#include "CryptoNoteCore/CryptoNoteTools.h"
+#include "CurrencyAdapter.h"
+
 #include "ImportKeyDialog.h"
 
 #include "ui_importkeydialog.h"
@@ -52,12 +57,35 @@ void ImportKeyDialog::selectPathClicked() {
   m_ui->m_pathEdit->setText(filePath);
 }
 
+CryptoNote::AccountKeys ImportKeyDialog::getAccountKeys() const {
+  return m_keys;
+}
+
 void ImportKeyDialog::onAccept() {
-  if (getFilePath().isEmpty()) {
-    QMessageBox::critical(nullptr, tr("File path is empty"), tr("Please enter the path where to save the wallet file and its name."), QMessageBox::Ok);
+  uint64_t addressPrefix;
+  std::string data;
+  QString keyString = getKeyString().trimmed();
+  if (!keyString.isEmpty() && Tools::Base58::decode_addr(keyString.toStdString(), addressPrefix, data) && addressPrefix == CurrencyAdapter::instance().getAddressPrefix() && data.size() == sizeof(m_keys)) {
+    if (!CryptoNote::fromBinaryArray(m_keys, Common::asBinaryArray(data))) {
+      QMessageBox::warning(nullptr, tr("Wallet keys are not valid"), tr("Failed to parse account keys"), QMessageBox::Ok);
+      return;
+    }
   } else {
-    accept();
+    QMessageBox::warning(nullptr, tr("Wallet keys are not valid"), tr("The private keys you entered are not valid."), QMessageBox::Ok);
+    return;
   }
+
+  QString filePath = getFilePath();
+  if (filePath.isEmpty()) {
+    QMessageBox::critical(nullptr, tr("File path is empty"), tr("Please enter the path where to save the wallet file and its name."), QMessageBox::Ok);
+    return;
+  } else {
+    if (!filePath.endsWith(".wallet")) {
+      filePath.append(".wallet");
+    }
+  }
+
+  accept();
 }
 
 }

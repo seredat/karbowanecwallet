@@ -2137,6 +2137,18 @@ Do you want to go to the download page?</source>
         <source>Please enter the path where to save the wallet file and its name.</source>
         <translation>Калі ласка, увядзіце шлях для захавання файла кашалька і яго імя.</translation>
     </message>
+    <message>
+        <source>Wallet keys are not valid</source>
+        <translation>Ключы гаманца нядзейныя</translation>
+    </message>
+    <message>
+        <source>Failed to parse account keys</source>
+        <translation>Не ўдалося прачытаць ключы ўліковага запісу</translation>
+    </message>
+    <message>
+        <source>The private keys you entered are not valid.</source>
+        <translation>Уведзеныя прыватныя ключы няправільныя.</translation>
+    </message>
 </context>
 <context>
     <name>WalletGui::ImportKeysDialog</name>
@@ -2361,7 +2373,7 @@ Are you sure?</source>
     </message>
     <message>
         <source>Wallet keys are not valid</source>
-        <translation>Ключы гаманца нядзейныя</translation>
+        <translation type="vanished">Ключы гаманца нядзейныя</translation>
     </message>
     <message>
         <source>Tracking key is not valid</source>
@@ -2393,7 +2405,7 @@ Are you sure?</source>
     </message>
     <message>
         <source>The private keys you entered are not valid.</source>
-        <translation>Уведзеныя прыватныя ключы няправільныя.</translation>
+        <translation type="vanished">Уведзеныя прыватныя ключы няправільныя.</translation>
     </message>
     <message>
         <source>Wrong wallet file extension</source>
@@ -2454,10 +2466,6 @@ Are you sure?</source>
     <message>
         <source>Changes will take effect when you restart the wallet.</source>
         <translation>Змены ўступяць у сілу пасля перазапуску гаманца.</translation>
-    </message>
-    <message>
-        <source>Failed to parse account keys</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

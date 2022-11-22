@@ -2138,6 +2138,18 @@ Externer Port für das P2P-Netzwerkprotokoll (wenn Portweiterleitung mit NAT ver
         <source>Please enter the path where to save the wallet file and its name.</source>
         <translation>Bitte geben Sie den Pfad zum Speichern der Wallet-Datei und ihren Namen ein.</translation>
     </message>
+    <message>
+        <source>Wallet keys are not valid</source>
+        <translation>Der Wallet Schlüssel sind nicht gültig</translation>
+    </message>
+    <message>
+        <source>Failed to parse account keys</source>
+        <translation>Kontoschlüssel konnten nicht gelesen werden</translation>
+    </message>
+    <message>
+        <source>The private keys you entered are not valid.</source>
+        <translation>Der eingegebene Private Schlüssel ist nicht gültig.</translation>
+    </message>
 </context>
 <context>
     <name>WalletGui::ImportKeysDialog</name>
@@ -2353,11 +2365,11 @@ Bist du sicher?</translation>
     </message>
     <message>
         <source>Wallet keys are not valid</source>
-        <translation>Der Wallet Schlüssel sind nicht gültig</translation>
+        <translation type="vanished">Der Wallet Schlüssel sind nicht gültig</translation>
     </message>
     <message>
         <source>The private keys you entered are not valid.</source>
-        <translation>Der eingegebene Private Schlüssel ist nicht gültig.</translation>
+        <translation type="vanished">Der eingegebene Private Schlüssel ist nicht gültig.</translation>
     </message>
     <message>
         <source>Tracking key is not valid</source>
@@ -2450,10 +2462,6 @@ Bist du sicher?</translation>
     <message>
         <source>Changes will take effect when you restart the wallet.</source>
         <translation>Änderungen werden wirksam, wenn Sie das Wallet neu starten.</translation>
-    </message>
-    <message>
-        <source>Failed to parse account keys</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

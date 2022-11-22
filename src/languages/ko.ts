@@ -1554,7 +1554,7 @@ Please wait...</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="770"/>
+        <location filename="../gui/MainWindow.cpp" line="758"/>
         <location filename="../main.cpp" line="96"/>
         <source>Help</source>
         <translation>도움말</translation>
@@ -2467,22 +2467,38 @@ Do you want to go to the download page?</source>
 <context>
     <name>WalletGui::ImportKeyDialog</name>
     <message>
-        <location filename="../gui/ImportKeyDialog.cpp" line="38"/>
+        <location filename="../gui/ImportKeyDialog.cpp" line="43"/>
         <source>Wallet file</source>
         <translation>지갑 파일</translation>
     </message>
     <message>
-        <location filename="../gui/ImportKeyDialog.cpp" line="45"/>
+        <location filename="../gui/ImportKeyDialog.cpp" line="50"/>
         <source>Wallets (*.wallet)</source>
         <translation>지갑 (*.wallet)</translation>
     </message>
     <message>
-        <location filename="../gui/ImportKeyDialog.cpp" line="57"/>
+        <location filename="../gui/ImportKeyDialog.cpp" line="70"/>
+        <location filename="../gui/ImportKeyDialog.cpp" line="74"/>
+        <source>Wallet keys are not valid</source>
+        <translation>지갑 키가 유효하지 않습니다</translation>
+    </message>
+    <message>
+        <location filename="../gui/ImportKeyDialog.cpp" line="70"/>
+        <source>Failed to parse account keys</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/ImportKeyDialog.cpp" line="74"/>
+        <source>The private keys you entered are not valid.</source>
+        <translation>입력하신 개인 키가 유효하지 않습니다</translation>
+    </message>
+    <message>
+        <location filename="../gui/ImportKeyDialog.cpp" line="80"/>
         <source>File path is empty</source>
         <translation>파일 경로가 비어 있습니다</translation>
     </message>
     <message>
-        <location filename="../gui/ImportKeyDialog.cpp" line="57"/>
+        <location filename="../gui/ImportKeyDialog.cpp" line="80"/>
         <source>Please enter the path where to save the wallet file and its name.</source>
         <translation>지갑 파일을 저장할 경로와 이름을 입력해주세요.</translation>
     </message>
@@ -2610,7 +2626,7 @@ Do you want to go to the download page?</source>
     <message>
         <location filename="../gui/MainWindow.cpp" line="372"/>
         <location filename="../gui/MainWindow.cpp" line="401"/>
-        <location filename="../gui/MainWindow.cpp" line="842"/>
+        <location filename="../gui/MainWindow.cpp" line="830"/>
         <source>Wallets (*.wallet)</source>
         <translation>지갑 (*.wallet)</translation>
     </message>
@@ -2645,54 +2661,46 @@ Do you want to go to the download page?</source>
         <translation>최근 월렛 파일이 없습니다. 아마 제거되었습니다.</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="491"/>
-        <location filename="../gui/MainWindow.cpp" line="506"/>
         <source>Wallet keys are not valid</source>
-        <translation>지갑 키가 유효하지 않습니다</translation>
+        <translation type="vanished">지갑 키가 유효하지 않습니다</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="491"/>
-        <source>Failed to parse account keys</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../gui/MainWindow.cpp" line="506"/>
         <source>The private keys you entered are not valid.</source>
-        <translation>입력하신 개인 키가 유효하지 않습니다</translation>
+        <translation type="vanished">입력하신 개인 키가 유효하지 않습니다</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="574"/>
+        <location filename="../gui/MainWindow.cpp" line="562"/>
         <source>Tracking key is not valid</source>
         <translation>추적 키가 유효하지 않습니다</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="574"/>
+        <location filename="../gui/MainWindow.cpp" line="562"/>
         <source>The tracking key you entered is not valid.</source>
         <translation>입력하신 추적 키가 유효하지 않습니다</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="537"/>
-        <location filename="../gui/MainWindow.cpp" line="541"/>
+        <location filename="../gui/MainWindow.cpp" line="525"/>
+        <location filename="../gui/MainWindow.cpp" line="529"/>
+        <location filename="../gui/MainWindow.cpp" line="593"/>
+        <location filename="../gui/MainWindow.cpp" line="597"/>
+        <location filename="../gui/MainWindow.cpp" line="601"/>
         <location filename="../gui/MainWindow.cpp" line="605"/>
-        <location filename="../gui/MainWindow.cpp" line="609"/>
-        <location filename="../gui/MainWindow.cpp" line="613"/>
-        <location filename="../gui/MainWindow.cpp" line="617"/>
         <source>Key is not valid</source>
         <translation>키가 유효하지 않습니다</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="605"/>
+        <location filename="../gui/MainWindow.cpp" line="593"/>
         <source>The public spend key you entered is not valid.</source>
         <translation>입력하신 공개 지출 키가 유효하지 않습니다.</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="609"/>
+        <location filename="../gui/MainWindow.cpp" line="597"/>
         <source>The public view key you entered is not valid.</source>
         <translation>입력하신 공개 보기 키가 유효하지 않습니다.</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="537"/>
-        <location filename="../gui/MainWindow.cpp" line="613"/>
+        <location filename="../gui/MainWindow.cpp" line="525"/>
+        <location filename="../gui/MainWindow.cpp" line="601"/>
         <source>The private spend key you entered is not valid.</source>
         <translation>입력하신 비공개 지출 키가 유효하지 않습니다.</translation>
     </message>
@@ -2702,46 +2710,46 @@ Do you want to go to the download page?</source>
         <translation>지갑은 원격 노드를 통해 연결되었습니다. 추가 요금이 부과 될 수 있습니다.</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="541"/>
-        <location filename="../gui/MainWindow.cpp" line="617"/>
+        <location filename="../gui/MainWindow.cpp" line="529"/>
+        <location filename="../gui/MainWindow.cpp" line="605"/>
         <source>The private view key you entered is not valid.</source>
         <translation>입력하신 비공개 보기 키가 유효하지 않습니다.</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="692"/>
+        <location filename="../gui/MainWindow.cpp" line="680"/>
         <source>Mnemonic seed is not correct</source>
         <translation>연산 기호가 올바르지 않습니다</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="692"/>
+        <location filename="../gui/MainWindow.cpp" line="680"/>
         <source>There must be an error in mnemonic seed. Make sure you entered it correctly.</source>
         <translation>연산기호 시드에 오류가 있습니다. 올바르게 입력했는지 확인하세요.</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="761"/>
+        <location filename="../gui/MainWindow.cpp" line="749"/>
         <source>Language changed to %1</source>
         <translatorcomment>언어가 %1(으)로 변경되었습니다.</translatorcomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="762"/>
+        <location filename="../gui/MainWindow.cpp" line="750"/>
         <source>Language was changed</source>
         <translation>언어가 변경되었습니다</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="763"/>
+        <location filename="../gui/MainWindow.cpp" line="751"/>
         <source>Language changed to %1. The change will take effect after restarting the wallet.</source>
         <translation>언어가 %1(으)로 변경되었습니다. 지갑을 다시 시작하면 변경 사항이 적용됩니다.</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1207"/>
+        <location filename="../gui/MainWindow.cpp" line="1195"/>
         <source>%1 - Karbo Wallet %2</source>
         <translation>%1 - Karbo 지갑 %2</translation>
     </message>
     <message>
         <location filename="../gui/MainWindow.cpp" line="144"/>
-        <location filename="../gui/MainWindow.cpp" line="1259"/>
-        <location filename="../gui/MainWindow.cpp" line="1287"/>
+        <location filename="../gui/MainWindow.cpp" line="1247"/>
+        <location filename="../gui/MainWindow.cpp" line="1275"/>
         <source>Karbo Wallet %1</source>
         <translation>Karbo 지갑 %1</translation>
     </message>
@@ -2750,105 +2758,105 @@ Do you want to go to the download page?</source>
         <translation type="vanished">지갑을 재시작한 후에 언어가 변경되었습니다.</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="773"/>
+        <location filename="../gui/MainWindow.cpp" line="761"/>
         <source>More info can be found at www.karbowanec.com in Documentation section</source>
         <translation>더 많은 정보는 www.karbowanec.com 문서 항목에서 확인하실 수 있습니다</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="798"/>
+        <location filename="../gui/MainWindow.cpp" line="786"/>
         <source>Connection settings changed</source>
         <translation>연결 설정 변경됨</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="798"/>
+        <location filename="../gui/MainWindow.cpp" line="786"/>
         <source>Connection mode will be changed after restarting the wallet.</source>
         <translation>연결 모드가 지갑을 재시작한 후에 변경되었습니다.</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="810"/>
+        <location filename="../gui/MainWindow.cpp" line="798"/>
         <source>Wallet RPC settings changed</source>
         <translation>지갑 RPC 설정이 변경됨</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="810"/>
+        <location filename="../gui/MainWindow.cpp" line="798"/>
         <source>Changes will take effect when you restart the wallet.</source>
         <translation>지갑을 다시 시작하면 변경 사항이 적용됩니다.</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="816"/>
+        <location filename="../gui/MainWindow.cpp" line="804"/>
         <source>Zero balance</source>
         <translation>제로 밸런스</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="816"/>
+        <location filename="../gui/MainWindow.cpp" line="804"/>
         <source>You cannot generate balance proof of zero.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="835"/>
+        <location filename="../gui/MainWindow.cpp" line="823"/>
         <source>Backup wallet to...</source>
         <translation>지갑을 다음으로 백업합니다...</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="855"/>
+        <location filename="../gui/MainWindow.cpp" line="843"/>
         <source>Warning</source>
         <translation>경고</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="855"/>
+        <location filename="../gui/MainWindow.cpp" line="843"/>
         <source>Your wallet will be reset and restored from blockchain.
 Are you sure?</source>
         <translation>지갑이 블록체인에서 재설정 및 복구되었습니다. 계속 진행하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1061"/>
+        <location filename="../gui/MainWindow.cpp" line="1049"/>
         <source>Wallet error</source>
         <translation>지갑 오류</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1064"/>
+        <location filename="../gui/MainWindow.cpp" line="1052"/>
         <source>Wallet</source>
         <translation>지갑</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1120"/>
+        <location filename="../gui/MainWindow.cpp" line="1108"/>
         <source>Incorrect password</source>
         <translation>잘못된 비밀번호</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1120"/>
+        <location filename="../gui/MainWindow.cpp" line="1108"/>
         <source>Wrong password.</source>
         <translation>잘못된 비밀번호.</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1136"/>
+        <location filename="../gui/MainWindow.cpp" line="1124"/>
         <source>Encrypted</source>
         <translation>암호화됨</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1136"/>
+        <location filename="../gui/MainWindow.cpp" line="1124"/>
         <source>Not encrypted</source>
         <translation>암호화되지 않음</translation>
     </message>
     <message numerus="yes">
-        <location filename="../gui/MainWindow.cpp" line="1145"/>
+        <location filename="../gui/MainWindow.cpp" line="1133"/>
         <source>%n active connection(s)</source>
         <translation>
             <numerusform>%n개의 활성화된 연결</numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1153"/>
+        <location filename="../gui/MainWindow.cpp" line="1141"/>
         <source>Synchronization in progress</source>
         <translation>진행 중인 동기화</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1171"/>
+        <location filename="../gui/MainWindow.cpp" line="1159"/>
         <source>Not synchronized</source>
         <translation>동기화되지 않음</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1171"/>
+        <location filename="../gui/MainWindow.cpp" line="1159"/>
         <source>Synchronized</source>
         <translation>동기화됨</translation>
     </message>
