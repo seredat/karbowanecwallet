@@ -156,8 +156,25 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>m_keyEdit</sender>
+   <signal>textChanged()</signal>
+   <receiver>ImportTrackingKeyDialog</receiver>
+   <slot>onTextChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>323</x>
+     <y>62</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>323</x>
+     <y>118</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>selectPathClicked()</slot>
+  <slot>onTextChanged()</slot>
  </slots>
 </ui>

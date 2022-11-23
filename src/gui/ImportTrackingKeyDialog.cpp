@@ -21,6 +21,7 @@ namespace WalletGui {
 
 ImportTrackingKeyDialog::ImportTrackingKeyDialog(QWidget* _parent) : QDialog(_parent), m_ui(new Ui::ImportTrackingKeyDialog) {
   m_ui->setupUi(this);
+  m_ui->m_okButton->setEnabled(false);
 }
 
 ImportTrackingKeyDialog::~ImportTrackingKeyDialog() {
@@ -58,6 +59,14 @@ void ImportTrackingKeyDialog::selectPathClicked() {
   }
 
   m_ui->m_pathEdit->setText(filePath);
+}
+
+void ImportTrackingKeyDialog::onTextChanged() {
+  if (getKeyString().isEmpty()) {
+    m_ui->m_okButton->setEnabled(false);
+  } else {
+    m_ui->m_okButton->setEnabled(true);
+  }
 }
 
 void ImportTrackingKeyDialog::onAccept() {

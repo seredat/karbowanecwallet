@@ -175,8 +175,41 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>m_spendKeyEdit</sender>
+   <signal>textEdited(QString)</signal>
+   <receiver>ImportKeysDialog</receiver>
+   <slot>onTextChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>323</x>
+     <y>45</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>323</x>
+     <y>141</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_viewKeyEdit</sender>
+   <signal>textEdited(QString)</signal>
+   <receiver>ImportKeysDialog</receiver>
+   <slot>onTextChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>323</x>
+     <y>99</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>323</x>
+     <y>141</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>selectPathClicked()</slot>
+  <slot>onTextChanged(QString)</slot>
  </slots>
 </ui>

@@ -22,6 +22,7 @@ namespace WalletGui {
 
 ImportKeyDialog::ImportKeyDialog(QWidget* _parent) : QDialog(_parent), m_ui(new Ui::ImportKeyDialog) {
   m_ui->setupUi(this);
+  m_ui->m_okButton->setEnabled(false);
 }
 
 ImportKeyDialog::~ImportKeyDialog() {
@@ -59,6 +60,14 @@ void ImportKeyDialog::selectPathClicked() {
   }
 
   m_ui->m_pathEdit->setText(filePath);
+}
+
+void ImportKeyDialog::onTextChanged() {
+  if (getKeyString().isEmpty()) {
+    m_ui->m_okButton->setEnabled(false);
+  } else {
+    m_ui->m_okButton->setEnabled(true);
+  }
 }
 
 void ImportKeyDialog::onAccept() {

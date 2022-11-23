@@ -23,6 +23,7 @@ namespace WalletGui {
 
 RestoreFromMnemonicSeedDialog::RestoreFromMnemonicSeedDialog(QWidget* _parent) : QDialog(_parent), m_ui(new Ui::RestoreFromMnemonicSeedDialog) {
   m_ui->setupUi(this);
+  m_ui->m_okButton->setEnabled(false);
 }
 
 RestoreFromMnemonicSeedDialog::~RestoreFromMnemonicSeedDialog() {
@@ -78,8 +79,9 @@ void RestoreFromMnemonicSeedDialog::onTextChanged() {
 }
 
 void RestoreFromMnemonicSeedDialog::onAccept() {
-  std::string seed_language = "English";
-  if (!Crypto::ElectrumWords::words_to_bytes(getSeedString().toStdString(), m_keys.spendSecretKey, seed_language)) {
+  std::string seed_language = "";
+  QString seedString = getSeedString();
+  if (!Crypto::ElectrumWords::words_to_bytes(seedString.toStdString(), m_keys.spendSecretKey, seed_language)) {
     QMessageBox::critical(nullptr, tr("Mnemonic seed is not correct"), tr("There must be an error in mnemonic seed. Make sure you entered it correctly."), QMessageBox::Ok);
     return;
   } else {

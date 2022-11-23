@@ -34,6 +34,7 @@ private:
   CryptoNote::AccountKeys m_keys;
 
   Q_SLOT void selectPathClicked();
+  Q_SLOT void onTextChanged(QString _text);
   Q_SLOT void onAccept();
 };
 
