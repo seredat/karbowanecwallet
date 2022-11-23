@@ -63,7 +63,7 @@ void ImportKeyDialog::selectPathClicked() {
 }
 
 void ImportKeyDialog::onTextChanged() {
-  if (getKeyString().isEmpty()) {
+  if (getKeyString().isEmpty() || getKeyString().size() != 183) {
     m_ui->m_okButton->setEnabled(false);
   } else {
     m_ui->m_okButton->setEnabled(true);

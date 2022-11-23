@@ -62,7 +62,7 @@ void ImportTrackingKeyDialog::selectPathClicked() {
 }
 
 void ImportTrackingKeyDialog::onTextChanged() {
-  if (getKeyString().isEmpty()) {
+  if (getKeyString().isEmpty()  || getKeyString().size() != 256) {
     m_ui->m_okButton->setEnabled(false);
   } else {
     m_ui->m_okButton->setEnabled(true);
