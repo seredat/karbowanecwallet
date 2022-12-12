@@ -80,18 +80,18 @@ jobs:
           Compress-Archive -Path "$release_name/" -DestinationPath "$release_name.zip"
           $sha256a = (Get-FileHash "$release_name.zip").Hash
           $asset_path_archive = "./$build_folder/$release_folder/$release_name.zip"
-          echo "sha256a=${sha256a}" >> $GITHUB_OUTPUT
-          echo "release_name_archive=${release_name}.zip" >> $GITHUB_OUTPUT
-          echo "asset_path_archive=${asset_path_archive}" >> $GITHUB_OUTPUT
+          echo "sha256a=${sha256a}" >> $env:GITHUB_OUTPUT
+          echo "release_name_archive=${release_name}.zip" >> $env:GITHUB_OUTPUT
+          echo "asset_path_archive=${asset_path_archive}" >> $env:GITHUB_OUTPUT
           cd ../
           makensis WindowsInstall.nsi
           cd "$release_folder"
           Compress-Archive -Path "KarbowanecWallet-Setup.exe" -DestinationPath "$release_name-install.zip"
           $sha256i = (Get-FileHash "$release_name-install.zip").Hash
           $asset_path_install = "./$build_folder/$release_folder/$release_name-install.zip"
-          echo "sha256i=${sha256i}" >> $GITHUB_OUTPUT
-          echo "release_name_install=${release_name}-install.zip" >> $GITHUB_OUTPUT
-          echo "asset_path_install=${asset_path_install}" >> $GITHUB_OUTPUT
+          echo "sha256i=${sha256i}" >> $env:GITHUB_OUTPUT
+          echo "release_name_install=${release_name}-install.zip" >> $env:GITHUB_OUTPUT
+          echo "asset_path_install=${asset_path_install}" >> $env:GITHUB_OUTPUT
 
       - name: Create Archive Artifact
         uses: actions/upload-artifact@v1.0.0

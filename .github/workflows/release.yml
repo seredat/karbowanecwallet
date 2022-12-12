@@ -62,9 +62,9 @@ jobs:
           Start-Process cmake -ArgumentList "-DBOOST_ROOT=""$env:BOOST_ROOT"" -DBOOST_INCLUDE_DIRS=""$env:BOOST_ROOT/include"" -G ""Visual Studio 16 2019"" -A x64 -DARCH=default",".." -NoNewWindow -Wait
           Start-Process msbuild -ArgumentList "KarbowanecWallet.sln","/p:Configuration=Release" -NoNewWindow -Wait
           $build_path = "./$build_folder"
-          echo "build_path=${build_path}" >> $GITHUB_OUTPUT
-          echo "release_name=${release_name}" >> $GITHUB_OUTPUT
-          echo "krb_ver=${krb_ver}" >> $GITHUB_OUTPUT
+          echo "build_path=${build_path}" >> $env:GITHUB_OUTPUT
+          echo "release_name=${release_name}" >> $env:GITHUB_OUTPUT
+          echo "krb_ver=${krb_ver}" >> $env:GITHUB_OUTPUT
   
       - name: Pack
         shell: powershell
@@ -90,19 +90,19 @@ jobs:
           Compress-Archive -Path "$release_name/" -DestinationPath "$release_name.zip"
           $sha256a = (Get-FileHash "$release_name.zip").Hash
           $asset_path_archive = "./$build_folder/$release_folder/$release_name.zip"
-          echo "sha256a=${sha256a}" >> $GITHUB_OUTPUT
-          echo "release_name_archive=${release_name}.zip" >> $GITHUB_OUTPUT
-          echo "asset_path_archive=${asset_path_archive}" >> $GITHUB_OUTPUT
+          echo "sha256a=${sha256a}" >> $env:GITHUB_OUTPUT
+          echo "release_name_archive=${release_name}.zip" >> $env:GITHUB_OUTPUT
+          echo "asset_path_archive=${asset_path_archive}" >> $env:GITHUB_OUTPUT
           cd ../
           makensis WindowsInstall.nsi
           cd "$release_folder"
           Compress-Archive -Path "KarbowanecWallet-Setup.exe" -DestinationPath "$release_name-install.zip"
           $sha256i = (Get-FileHash "$release_name-install.zip").Hash
           $asset_path_install = "./$build_folder/$release_folder/$release_name-install.zip"
-          echo "sha256i=${sha256i}" >> $GITHUB_OUTPUT
-          echo "release_name_install=${release_name}-install.zip" >> $GITHUB_OUTPUT
-          echo "asset_path_install=${asset_path_install}" >> $GITHUB_OUTPUT
-          echo "krb_ver=${krb_ver}" >> $GITHUB_OUTPUT
+          echo "sha256i=${sha256i}" >> $env:GITHUB_OUTPUT
+          echo "release_name_install=${release_name}-install.zip" >> $env:GITHUB_OUTPUT
+          echo "asset_path_install=${asset_path_install}" >> $env:GITHUB_OUTPUT
+          echo "krb_ver=${krb_ver}" >> $env:GITHUB_OUTPUT
 
       - name: Create Release Archive
         uses: softprops/action-gh-release@v0.1.15
