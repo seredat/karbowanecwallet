@@ -35,7 +35,7 @@ jobs:
         run: choco install openssl
 
       - name: Install Qt
-        uses: jurplel/install-qt-action@v2
+        uses: jurplel/install-qt-action@v3
         with:
           version: '5.15.1'
           host: 'windows'
@@ -120,7 +120,7 @@ jobs:
           ref: ${{ github.ref }}
 
       - name: Install Qt
-        uses: jurplel/install-qt-action@v2
+        uses: jurplel/install-qt-action@v3
         with:
           version: '5.15.2'
           modules: 'qttools5'
