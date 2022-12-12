@@ -35,7 +35,6 @@ jobs:
           version: '5.15.2'
           host: 'windows'
           target: 'desktop'
-          modules: 'qttools'
           install-deps: 'true'
 
       - name: Install NSIS
@@ -140,7 +139,6 @@ jobs:
         uses: jurplel/install-qt-action@v3
         with:
           version: '5.15.2'
-          modules: 'qttools'
           install-deps: 'true'
 
       - name: Setup Xcode
