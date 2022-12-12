@@ -43,7 +43,7 @@ jobs:
           install-deps: 'true'
 
       - name: Install NSIS
-        uses: joncloud/makensis-action@v1
+        uses: joncloud/makensis-action@v3.7
         with:
           just-include: true
 
