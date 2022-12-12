@@ -37,11 +37,6 @@ jobs:
           target: 'desktop'
           install-deps: 'true'
 
-      - name: Install NSIS
-        uses: joncloud/makensis-action@v3.7
-        with:
-          just-include: true
-
       - name: Build
         shell: powershell
         id: build
