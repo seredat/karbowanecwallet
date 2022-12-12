@@ -140,7 +140,7 @@ jobs:
         id: build
         run: |
           build_folder="build/release"
-          krb_ver = git describe --tags --abbrev=0
+          krb_ver=$(git describe --tags --abbrev=0)
           release_name="Karbo-wallet-macOS-$krb_ver"
           app_name="KarbowanecWallet.app"
           lang_folder="/Contents/Resources/languages"
@@ -186,7 +186,7 @@ jobs:
           sudo apt update -y
           sudo apt install -y qtbase5-dev qttools5-dev qttools5-dev-tools libboost-all-dev
           build_folder="build/release"
-          krb_ver = git describe --tags --abbrev=0
+          krb_ver=$(git describe --tags --abbrev=0)
           release_name=Karbo-wallet-ubuntu-22.04-$krb_ver
           app_name="KarbowanecWallet"
           mkdir -p "$build_folder"
@@ -226,7 +226,7 @@ jobs:
           sudo apt update -y
           sudo apt install -y qt5-default qttools5-dev qttools5-dev-tools libboost-all-dev
           build_folder="build/release"
-          krb_ver = git describe --tags --abbrev=0
+          krb_ver=$(git describe --tags --abbrev=0)
           release_name=Karbo-wallet-ubuntu-20.04-$krb_ver
           app_name="KarbowanecWallet"
           mkdir -p "$build_folder"
@@ -267,7 +267,7 @@ jobs:
           sudo apt update -y
           sudo apt install -y qt5-default qttools5-dev qttools5-dev-tools libboost1.62-all-dev
           build_folder="build/release"
-          krb_ver = git describe --tags --abbrev=0
+          krb_ver=$(git describe --tags --abbrev=0)
           release_name=Karbo-wallet-ubuntu-18.04-$krb_ver
           app_name="KarbowanecWallet"
           mkdir -p "$build_folder"
