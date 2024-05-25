@@ -46,6 +46,7 @@ jobs:
         env:
           GIT_REDIRECT_STDERR: '2>&1'
           VCINSTALLDIR: 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\'
+          BOOST_ROOT: ${{ steps.install-boost.outputs.BOOST_ROOT }}
         run: |
           $build_folder = "build"
           $krb_ver = git describe --tags --abbrev=0
