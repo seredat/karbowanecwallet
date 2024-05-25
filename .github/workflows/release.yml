@@ -9,22 +9,20 @@ jobs:
   build-windows:
     name: Windows
     runs-on: windows-2019
-    env:
-      BOOST_ROOT: C:\thirdparties\boost-1.72.0
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
       - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1.1
+        uses: microsoft/setup-msbuild@v2
 
-      - name: Install Boost
-        shell: cmd
-        run: |
-          choco install wget --no-progress
-          wget -nv -O boost-installer.exe "https://sourceforge.net/projects/boost/files/boost-binaries/1.72.0/boost_1_72_0-msvc-14.2-64.exe/download"
-          boost-installer.exe /dir=%BOOST_ROOT% /sp- /verysilent /suppressmsgboxes /norestart
+      - name: Install boost
+        uses: MarkusJx/install-boost@v2.4.5
+        id: install-boost
+        with:
+          boost_version: 1.84.0
+          toolset: msvc
 
       - name: Install OpenSSL
         run: choco install openssl
@@ -99,7 +97,7 @@ jobs:
           echo "krb_ver=${krb_ver}" >> $env:GITHUB_OUTPUT
 
       - name: Create Release Archive
-        uses: softprops/action-gh-release@v0.1.15
+        uses: softprops/action-gh-release@v2
         with:
           files: ${{ steps.pack.outputs.asset_path_archive }}
           name: Karbo Wallet ${{ steps.pack.outputs.krb_ver }}
@@ -111,7 +109,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create Release Installer
-        uses: softprops/action-gh-release@v0.1.15
+        uses: softprops/action-gh-release@v2
         with:
           files: ${{ steps.pack.outputs.asset_path_install }}
           name: Karbo Wallet ${{ steps.pack.outputs.krb_ver }}
@@ -124,7 +122,7 @@ jobs:
 
   build-macos:
     name: macOS
-    runs-on: macos-11
+    runs-on: macos-12
     steps:
       - uses: actions/checkout@v3
         with:
@@ -175,7 +173,7 @@ jobs:
           MACOSX_DEPLOYMENT_TARGET: '10.12'
 
       - name: Create Release
-        uses: softprops/action-gh-release@v0.1.15
+        uses: softprops/action-gh-release@v2
         with:
           files: ${{ steps.build.outputs.asset_path }}
           name: Karbo Wallet ${{ steps.build.outputs.krb_ver }}
@@ -219,7 +217,7 @@ jobs:
           echo "krb_ver=${krb_ver}" >> $GITHUB_OUTPUT
 
       - name: Create Release
-        uses: softprops/action-gh-release@v0.1.15
+        uses: softprops/action-gh-release@v2
         with:
           files: ${{ steps.build.outputs.asset_path }}
           name: Karbo Wallet ${{ steps.build.outputs.krb_ver }}
@@ -263,7 +261,7 @@ jobs:
           echo "krb_ver=${krb_ver}" >> $GITHUB_OUTPUT
 
       - name: Create Release
-        uses: softprops/action-gh-release@v0.1.15
+        uses: softprops/action-gh-release@v2
         with:
           files: ${{ steps.build.outputs.asset_path }}
           name: Karbo Wallet ${{ steps.build.outputs.krb_ver }}
