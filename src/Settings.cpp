@@ -89,7 +89,7 @@ void Settings::load() {
   }
 
   QStringList defaultPoolList;
-  defaultPoolList << "pool.befrank.site:3333" << "pool2.befrank.site:3333";
+  defaultPoolList << "pool.befrank.site:3333" << "us.eat-sleep-mine.com:2211" << "bfr.youpool.io:5559";
   if (!m_settings.contains(OPTION_MINING_POOLS)) {
     setMiningPoolList(QStringList() << defaultPoolList);
   } else {
@@ -103,7 +103,7 @@ void Settings::load() {
   }
 
   QStringList defaultNodesList;
-  defaultNodesList << "seed.befrank.site:18320" << "seed2.befrank.site:18320" << "seed3.befrank.site";
+  defaultNodesList << "us.eat-sleep-mine.com:18320" << "eu.eat-sleep-mine.com:18320" <<  "seed.befrank.site:18320" << "seed2.befrank.site:18320" << "seed3.befrank.site:18320" << "seed4.befrank.site:18320" << "master.befrank.site:18320" << "seed6.befrank.site:18320";
   if (!m_settings.contains(OPTION_RPCNODES)) {
     setRpcNodesList(QStringList() << defaultNodesList);
   } else {

@@ -23,6 +23,7 @@
 #include "AddressProvider.h"
 #include "OpenUriDialog.h"
 #include "ConfirmSendDialog.h"
+#include "ITransaction.h"
 
 namespace WalletGui {
 

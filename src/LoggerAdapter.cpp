@@ -16,12 +16,12 @@ LoggerAdapter& LoggerAdapter::instance() {
 
 void LoggerAdapter::init() {
   Common::JsonValue loggerConfiguration(Common::JsonValue::OBJECT);
-  loggerConfiguration.insert("globalLevel", static_cast<int64_t>(Logging::INFO));
+  loggerConfiguration.insert("globalLevel", static_cast<int64_t>(Logging::DEBUGGING));
   Common::JsonValue& cfgLoggers = loggerConfiguration.insert("loggers", Common::JsonValue::ARRAY);
   Common::JsonValue& fileLogger = cfgLoggers.pushBack(Common::JsonValue::OBJECT);
   fileLogger.insert("type", "file");
   fileLogger.insert("filename", Settings::instance().getDataDir().absoluteFilePath(QCoreApplication::applicationName() + ".log").toStdString());
-  fileLogger.insert("level", static_cast<int64_t>(Logging::INFO));
+  fileLogger.insert("level", static_cast<int64_t>(Logging::DEBUGGING));
   m_logManager.configure(loggerConfiguration);
 }
 

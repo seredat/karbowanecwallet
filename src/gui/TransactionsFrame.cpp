@@ -172,7 +172,7 @@ void TransactionsFrame::computeSelected() {
     QModelIndexList selection = m_ui->m_transactionsView->selectionModel()->selectedRows();
 
     foreach (QModelIndex index, selection){
-        QString amountstring = index.sibling(index.row(), TransactionsModel::COLUMN_AMOUNT).data().toString().remove(',');
+        QString amountstring = index.sibling(index.row(), TransactionsModel::COLUMN_AMOUNT).data().toString();
         amount += amountstring.toDouble();
     }
     QString amountText = QString::number(amount, 'f', 12) + " " + CurrencyAdapter::instance().getCurrencyTicker().toUpper();
