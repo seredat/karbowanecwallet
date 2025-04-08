@@ -155,4 +155,8 @@
    </hints>
   </connection>
  </connections>
+ <slots>
+  <slot>copyTx()</slot>
+  <slot>saveTxToFile()</slot>
+ </slots>
 </ui>

@@ -250,5 +250,6 @@
   <slot>addressBookClicked()</slot>
   <slot>pasteClicked()</slot>
   <slot>addressEdited(QString)</slot>
+  <slot>amountValueChange()</slot>
  </slots>
 </ui>

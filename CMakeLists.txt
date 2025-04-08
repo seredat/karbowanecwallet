@@ -53,11 +53,7 @@ include_directories(${CMAKE_BINARY_DIR}
     external/libqrencode
     external/qcustomplot)
 
-find_package(Qt5Gui REQUIRED)
-find_package(Qt5Widgets REQUIRED)
-find_package(Qt5Network REQUIRED)
-find_package(Qt5PrintSupport REQUIRED)
-find_package(Qt5LinguistTools REQUIRED)
+find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui Network PrintSupport LinguistTools)
 
 # We have to look for Homebrew OpenSSL a bit differently
 # Borrowed from https://github.com/tarantool/tarantool/commit/6eab201af1843f53a833c8928dc58fceffa08147
@@ -293,16 +289,16 @@ set(QRC
 	src/qdarkstyle/style.qrc)
 set_source_files_properties(${TRANSLATION_FILES} PROPERTIES OUTPUT_LOCATION "${CMAKE_BINARY_DIR}/languages")
 
-qt5_wrap_ui(UIS ${FORMS})
-qt5_add_resources(RCC ${QRC})
+qt_wrap_ui(UIS ${FORMS})
+qt_add_resources(RCC ${QRC})
 #qt5_create_translation(TRANSLATION_MESSAGES ${FORMS} ${TRANSLATION_FILES})
-qt5_add_translation(TRANSLATION_QM ${TRANSLATION_FILES})
+qt_add_translation(TRANSLATION_QM ${TRANSLATION_FILES})
 
 add_custom_target(translations DEPENDS ${TRANSLATION_QM})
 #add_custom_target(translations_update DEPENDS ${TRANSLATION_MESSAGES})
 
 if (WIN32)
-  file(GLOB _TRANSLATION_FILES_DEFAULT ${_qt5Core_install_prefix}/translations/*.qm)
+  file(GLOB _TRANSLATION_FILES_DEFAULT ${_qt6Core_install_prefix}/translations/*.qm)
   list(FILTER _TRANSLATION_FILES_DEFAULT INCLUDE REGEX "\\/[a-z][a-z]_[a-z][a-z].qm$")
   add_custom_target(translations_delault)
   foreach(_qm_file_src ${_TRANSLATION_FILES_DEFAULT})
@@ -323,7 +319,6 @@ if (WIN32)
   set(PLATFORM_DIR Windows)
   set(BUILD_PLATFORM WIN32)
   set(BUILD_RESOURCES src/cryptonotewallet.rc)
-  set(QTMAIN Qt5::WinMain)
 
 elseif (UNIX)
   set(CRYPTONOTE_SOURCES ${CRYPTONOTE_SOURCES} cryptonote/external/miniupnpc/minissdpc.c)
@@ -338,7 +333,7 @@ elseif (UNIX)
     set(MACOSX_BUNDLE_SHORT_VERSION_STRING "${VERSION_VERSION}.${VERSION_MINOR}.${VERSION_PATCH}")
     set(MACOSX_BUNDLE_BUNDLE_VERSION "$${VERSION_VERSION}.${VERSION_MINOR}.${VERSION_PATCH}")
 
-    find_package(Qt5PrintSupport REQUIRED)
+    find_package(Qt6PrintSupport REQUIRED)
 
     include_directories(/usr/include/malloc)
 
@@ -353,7 +348,7 @@ elseif (UNIX)
     set(BUILD_PLATFORM MACOSX_BUNDLE)
     set(BUILD_RESOURCES ${APPLICATION_ICON})
 	
-    GET_TARGET_PROPERTY(QT_LIB_DIR "${Qt5Widgets_LIBRARIES}" LOCATION)
+    GET_TARGET_PROPERTY(QT_LIB_DIR "${Qt6Widgets_LIBRARIES}" LOCATION)
     GET_FILENAME_COMPONENT(QT_LIB_DIR "${QT_LIB_DIR}" PATH)
   else()
     include(TestCXXAcceptsFlag)
@@ -499,7 +494,7 @@ endif ()
 set_target_properties(Mnemonics PROPERTIES COMPILE_DEFINITIONS _GNU_SOURCE)
 target_link_libraries(Mnemonics ${Boost_LIBRARIES})
 set_target_properties(QCustomPlot PROPERTIES COMPILE_DEFINITIONS _GNU_SOURCE)
-target_link_libraries(QCustomPlot Qt5::Core Qt5::PrintSupport)
+target_link_libraries(QCustomPlot Qt6::Core Qt6::PrintSupport)
 
 add_executable(${PROJECT_NAME} ${BUILD_PLATFORM} ${BUILD_RESOURCES} ${SOURCES} ${HEADERS} ${UIS} ${RCC})
 set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_DEFINITIONS _GNU_SOURCE)
@@ -522,14 +517,15 @@ if (APPLE)
   MACOSX_BUNDLE TRUE
   MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_BINARY_DIR}/Info.plist)
   
-  target_link_libraries(${PROJECT_NAME} Qt5::PrintSupport) 
+  target_link_libraries(${PROJECT_NAME} Qt6::PrintSupport)
 elseif (UNIX)
   target_link_libraries(${PROJECT_NAME} -lpthread)
 elseif (WIN32)
   target_link_libraries(${PROJECT_NAME} Imm32 Iphlpapi Winmm)
 endif (APPLE)
 
-qt5_use_modules(${PROJECT_NAME} Core Widgets Gui Network PrintSupport)
+#qt5_use_modules(${PROJECT_NAME} Core Widgets Gui Network PrintSupport)
+target_link_libraries(${PROJECT_NAME} Qt6::Core Qt6::Widgets Qt6::Gui Qt6::Network Qt6::PrintSupport)
 
 # Installation
 

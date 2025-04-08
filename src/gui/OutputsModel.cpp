@@ -4,6 +4,7 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+#include <algorithm>
 #include <QMetaEnum>
 
 #include "CryptoNoteCore/CryptoNoteTools.h"
@@ -52,7 +53,7 @@ int OutputsModel::columnCount(const QModelIndex& _parent) const {
 }
 
 int OutputsModel::rowCount(const QModelIndex& _parent) const {
-  return m_utputs.size();
+  return m_outputs.size();
 }
 
 QVariant OutputsModel::headerData(int _section, Qt::Orientation _orientation, int _role) const {
@@ -105,7 +106,7 @@ QVariant OutputsModel::data(const QModelIndex& _index, int _role) const {
     return QVariant();
   }
 
-  CryptoNote::TransactionSpentOutputInformation _output = m_utputs.value(_index.row());
+  CryptoNote::TransactionSpentOutputInformation _output = m_outputs.value(_index.row());
 
   switch(_role) {
   case Qt::DisplayRole:
@@ -413,7 +414,7 @@ QVariant OutputsModel::getUserRole(const QModelIndex& _index, int _role, CryptoN
     return _output.spendingBlockHeight;
 
   case ROLE_TIMESTAMP:
-    return (_output.timestamp > 0 ? QDateTime::fromTime_t(_output.timestamp) : QDateTime());
+    return (_output.timestamp > 0 ? QDateTime::fromSecsSinceEpoch(_output.timestamp) : QDateTime());
 
   case ROLE_SPENDING_TRANSACTION_HASH:
     return QByteArray(reinterpret_cast<char*>(&_output.spendingTransactionHash), 32);
@@ -435,11 +436,14 @@ void OutputsModel::reloadWalletTransactions() {
   reset();
   std::vector<CryptoNote::TransactionOutputInformation> unspent = WalletAdapter::instance().getOutputs();
   std::vector<CryptoNote::TransactionSpentOutputInformation> spent = WalletAdapter::instance().getSpentOutputs();
-  m_utputs = QVector<CryptoNote::TransactionSpentOutputInformation>::fromStdVector(spent);
+  for (const auto &item : spent) {
+    m_outputs.append(item);
+  }
+
   spent.clear();
   spent.shrink_to_fit();
 
-  quint32 outputsCount = unspent.size() + m_utputs.size();
+  quint32 outputsCount = unspent.size() + m_outputs.size();
 
   for (const auto& o : unspent) {
     //CryptoNote::TransactionSpentOutputInformation s = *static_cast<const CryptoNote::TransactionSpentOutputInformation *>(&o); // crashes here
@@ -459,12 +463,12 @@ void OutputsModel::reloadWalletTransactions() {
     s.keyImage = {};
     s.inputInTransaction = std::numeric_limits<uint32_t>::max();
 
-    m_utputs.append(s);
+    m_outputs.append(s);
   }
   unspent.clear();
 
   // need to sort them
-  qSort(m_utputs.begin(), m_utputs.end(), transactionSpentOutputInformationLessThan);
+  std::sort(m_outputs.begin(), m_outputs.end(), transactionSpentOutputInformationLessThan);
 
   beginInsertRows(QModelIndex(), 0, outputsCount - 1);
   endInsertRows();
@@ -477,7 +481,7 @@ void OutputsModel::appendTransaction(CryptoNote::TransactionId _id) {
 
 void OutputsModel::reset() {
   beginResetModel();
-  m_utputs.clear();
+  m_outputs.clear();
   endResetModel();
 }
 

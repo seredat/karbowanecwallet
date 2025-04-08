@@ -11,7 +11,6 @@
 #include <QJsonDocument>
 #include <QSettings>
 #include <QStandardPaths>
-#include <QTextCodec>
 #include <QUrl>
 #include <Common/Util.h>
 #include "CommandLineParser.h"

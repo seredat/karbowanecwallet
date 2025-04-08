@@ -1487,6 +1487,7 @@
   <slot>importKey()</slot>
   <slot>resetWallet()</slot>
   <slot>showPrivateKeys()</slot>
+  <slot>DisplayCmdLineHelp()</slot>
   <slot>openConnectionSettings()</slot>
   <slot>openOptimizationSettings()</slot>
   <slot>openWalletRpcSettings()</slot>
@@ -1495,5 +1496,16 @@
   <slot>lockWalletWithPassword()</slot>
   <slot>hideFusionTransactions(bool)</slot>
   <slot>hideEverythingOnLocked(bool)</slot>
+  <slot>exportTrackingKey()</slot>
+  <slot>importTrackingKey()</slot>
+  <slot>showMnemonicSeed()</slot>
+  <slot>restoreFromMnemonicSeed()</slot>
+  <slot>openLogFile()</slot>
+  <slot>closeWallet()</slot>
+  <slot>createNonDeterministicWallet()</slot>
+  <slot>signMessage()</slot>
+  <slot>verifyMessage()</slot>
+  <slot>setMiningOnLaunch(bool)</slot>
+  <slot>importKeys()</slot>
  </slots>
 </ui>

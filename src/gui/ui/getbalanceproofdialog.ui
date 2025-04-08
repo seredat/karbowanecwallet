@@ -248,4 +248,9 @@
    </hints>
   </connection>
  </connections>
+ <slots>
+  <slot>genProof()</slot>
+  <slot>copyProof()</slot>
+  <slot>saveProof()</slot>
+ </slots>
 </ui>

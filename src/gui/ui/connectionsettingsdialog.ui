@@ -411,5 +411,7 @@
  </connections>
  <slots>
   <slot>saveSettingClicked()</slot>
+  <slot>addNodeClicked()</slot>
+  <slot>removeNodeClicked()</slot>
  </slots>
 </ui>

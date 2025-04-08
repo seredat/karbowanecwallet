@@ -72,7 +72,7 @@ MiningFrame::MiningFrame(QWidget* _parent) :
 
   m_ui->m_hashRateChart->setBackground(QBrush(QRgb(0x19232d)));
 
-  addPoint(QDateTime::currentDateTime().toTime_t(), 0);
+  addPoint(QDateTime::currentDateTime().toSecsSinceEpoch(), 0);
   plot();
 
   connect(&WalletAdapter::instance(), &WalletAdapter::walletCloseCompletedSignal, this, &MiningFrame::walletClosed, Qt::QueuedConnection);
@@ -120,16 +120,12 @@ void MiningFrame::timerEvent(QTimerEvent* _event) {
     }
     m_ui->m_soloLabel->setText(tr("Mining"));
     m_ui->m_hashratelcdNumber->display(hashRate);
-    addPoint(QDateTime::currentDateTime().toTime_t(), hashRate);
+    addPoint(QDateTime::currentDateTime().toSecsSinceEpoch(), hashRate);
     plot();
 
     return;
   }
   if (_event->timerId() == m_minerRoutineTimerId) {
-    QDateTime date = QDateTime::currentDateTime();
-    QString formattedTime = date.toString("dd.MM.yyyy hh:mm:ss");
-    qDebug() << formattedTime << "Event, requesting block template";
-
     m_miner->on_block_chain_update();
   }
 
@@ -186,7 +182,7 @@ void MiningFrame::startSolo() {
   m_ui->m_soloLabel->setText(tr("Starting..."));
   m_soloHashRateTimerId = startTimer(HASHRATE_TIMER_INTERVAL);
   m_minerRoutineTimerId = startTimer(MINER_ROUTINE_TIMER_INTERVAL);
-  addPoint(QDateTime::currentDateTime().toTime_t(), 0);
+  addPoint(QDateTime::currentDateTime().toSecsSinceEpoch(), 0);
   m_ui->m_startSolo->setChecked(true);
   m_ui->m_startSolo->setEnabled(false);
   m_ui->m_stopSolo->setEnabled(true);
@@ -202,7 +198,7 @@ void MiningFrame::stopSolo() {
     killTimer(m_minerRoutineTimerId);
     m_minerRoutineTimerId = -1;
     m_miner->stop();
-    addPoint(QDateTime::currentDateTime().toTime_t(), 0);
+    addPoint(QDateTime::currentDateTime().toSecsSinceEpoch(), 0);
     m_ui->m_soloLabel->setText(tr("Stopped"));
     m_ui->m_hashratelcdNumber->display(0.0);
     if (!m_wallet_closed) {
@@ -243,11 +239,9 @@ void MiningFrame::setMiningThreads() {
 }
 
 void MiningFrame::onBlockHeightUpdated() {
-  QDateTime date = QDateTime::currentDateTime();
-  QString formattedTime = date.toString("dd.MM.yyyy hh:mm:ss");
-  qDebug() << formattedTime << "Blockchain update, requesting block template";
-
-  m_miner->on_block_chain_update();
+  if (m_miner->is_mining()) {
+    m_miner->on_block_chain_update();
+  }
 
   quint64 difficulty = NodeAdapter::instance().getDifficulty();
   m_ui->m_difficulty->setText(QString(tr("%1")).arg(difficulty));
@@ -287,11 +281,9 @@ void MiningFrame::coreDealTurned(int _cores) {
 }
 
 void MiningFrame::poolChanged() {
-  QDateTime date = QDateTime::currentDateTime();
-  QString formattedTime = date.toString("dd.MM.yyyy hh:mm:ss");
-  qDebug() << formattedTime << "Mempool changed, requesting block template";
-
-  m_miner->on_block_chain_update();
+  if (m_miner->is_mining()) {
+    m_miner->on_block_chain_update();
+  }
 }
 
 }

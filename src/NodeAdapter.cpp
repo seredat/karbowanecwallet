@@ -231,7 +231,7 @@ quint64 NodeAdapter::getLastLocalBlockHeight() const {
 
 QDateTime NodeAdapter::getLastLocalBlockTimestamp() const {
   Q_CHECK_PTR(m_node);
-  return QDateTime::fromTime_t(m_node->getLastLocalBlockTimestamp(), Qt::UTC);
+  return QDateTime::fromSecsSinceEpoch(m_node->getLastLocalBlockTimestamp(), Qt::UTC);
 }
 
 quint64 NodeAdapter::getDifficulty() {

@@ -38,6 +38,8 @@ extern "C"
 #include "crypto/crypto-ops.h"
 }
 
+#undef ERROR
+
 namespace WalletGui {
 
 const quint32 MSECS_IN_HOUR = 60 * 60 * 1000;
@@ -157,24 +159,6 @@ void WalletAdapter::open(const QString& _password) {
 
   } else {
     //createWallet();
-  }
-
-  if (Settings::instance().runWalletRpc()) {
-    const std::string walletFilename = Settings::instance().getWalletFile().toStdString();
-    m_wallet_rpc = new Tools::wallet_rpc_server(LoggerAdapter::instance().getLoggerManager(),
-                                                *m_wallet,
-                                                *NodeAdapter::instance().getNode(),
-                                                CurrencyAdapter::instance().getCurrency(),
-                                                walletFilename);
-    if (!m_wallet_rpc->init(m_wrpcOptions))
-      m_logger(Logging::ERROR) << "Failed to initialize wallet rpc server";
-    bool enable_ssl;
-    std::string bind_address, bind_address_ssl, ssl_info;
-    m_wallet_rpc->getServerConf(bind_address, bind_address_ssl, enable_ssl);
-    if (enable_ssl) ssl_info += std::string(", SSL on address ") + bind_address_ssl;
-      m_logger(Logging::INFO) << "Starting wallet rpc server on address " << bind_address << ssl_info;
-
-    m_wallet_rpc->run();
   }
 }
 
@@ -582,6 +566,26 @@ void WalletAdapter::initCompleted(std::error_code _error) {
   Q_EMIT walletInitCompletedSignal(_error.value(), QString::fromStdString(_error.message()));
 }
 
+void WalletAdapter::runWalletRpc() {
+  auto& dispatcher = NodeAdapter::instance().getDispatcher();
+  const std::string walletFilename = Settings::instance().getWalletFile().toStdString();
+  m_wallet_rpc = new Tools::wallet_rpc_server(/*dispatcher,*/
+                                              LoggerAdapter::instance().getLoggerManager(),
+                                              *m_wallet,
+                                              *NodeAdapter::instance().getNode(),
+                                              CurrencyAdapter::instance().getCurrency(),
+                                              walletFilename);
+  if (!m_wallet_rpc->init(m_wrpcOptions))
+    m_logger(Logging::ERROR) << "Failed to initialize wallet rpc server";
+  bool enable_ssl;
+  std::string bind_address, bind_address_ssl, ssl_info;
+  m_wallet_rpc->getServerConf(bind_address, bind_address_ssl, enable_ssl);
+  if (enable_ssl) ssl_info += std::string(", SSL on address ") + bind_address_ssl;
+    m_logger(Logging::INFO) << "Starting wallet rpc server on address " << bind_address << ssl_info;
+
+  m_wallet_rpc->run();
+}
+
 void WalletAdapter::onWalletInitCompleted(int _error, const QString& _errorText) {
   switch(_error) {
   case 0: {
@@ -594,6 +598,10 @@ void WalletAdapter::onWalletInitCompleted(int _error, const QString& _errorText)
     QTimer::singleShot(5000, this, SLOT(updateBlockStatusText()));
     if (!QFile::exists(Settings::instance().getWalletFile())) {
       save(true, true);
+    }
+
+    if (Settings::instance().runWalletRpc()) {
+      runWalletRpc();
     }
 
     break;
@@ -666,7 +674,7 @@ void WalletAdapter::synchronizationProgressUpdated(uint32_t _current, uint32_t _
   m_perfData.push_back(std::move(perfData));
   QString perfMess = "";
   if (m_syncPeriod > 0) {
-    QDateTime leftTime = QDateTime::fromTime_t(m_syncPeriod).toUTC();
+    QDateTime leftTime = QDateTime::fromSecsSinceEpoch(m_syncPeriod).toUTC();
     perfMess += "(";
     perfMess += QString(tr("%n blocks per second", "", m_syncSpeed));
     if (m_syncPeriod < syncPeriodMax) {
