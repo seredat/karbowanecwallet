@@ -3054,12 +3054,17 @@ Jesteś pewien?</translation>
         <translation type="vanished">Błąd: %1</translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="182"/>
+        <location filename="../gui/MiningFrame.cpp" line="61"/>
+        <source>Hashrate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/MiningFrame.cpp" line="198"/>
         <source>Starting...</source>
         <translation>Uruchamiam...</translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="202"/>
+        <location filename="../gui/MiningFrame.cpp" line="218"/>
         <source>Stopped</source>
         <translation>Zatrzymano</translation>
     </message>
@@ -3076,14 +3081,14 @@ Jesteś pewien?</translation>
         <translation type="vanished">Trwa karbowanie w kopalni. Hashrate: %1 H/s</translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="121"/>
+        <location filename="../gui/MiningFrame.cpp" line="137"/>
         <source>Mining</source>
         <translation>Karbowanie</translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="161"/>
-        <location filename="../gui/MiningFrame.cpp" line="179"/>
-        <location filename="../gui/MiningFrame.cpp" line="247"/>
+        <location filename="../gui/MiningFrame.cpp" line="177"/>
+        <location filename="../gui/MiningFrame.cpp" line="195"/>
+        <location filename="../gui/MiningFrame.cpp" line="263"/>
         <source>%1</source>
         <translation type="unfinished">%1</translation>
     </message>

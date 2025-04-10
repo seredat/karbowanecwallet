@@ -3057,12 +3057,17 @@ Are you sure?</source>
         <translation type="vanished">Erreur: %1</translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="182"/>
+        <location filename="../gui/MiningFrame.cpp" line="61"/>
+        <source>Hashrate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/MiningFrame.cpp" line="198"/>
         <source>Starting...</source>
         <translation>Départ...</translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="202"/>
+        <location filename="../gui/MiningFrame.cpp" line="218"/>
         <source>Stopped</source>
         <translation>Arrêté</translation>
     </message>
@@ -3079,14 +3084,14 @@ Are you sure?</source>
         <translation type="vanished">L&apos;extraction en groupment. Hashrate: %1 H/s</translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="121"/>
+        <location filename="../gui/MiningFrame.cpp" line="137"/>
         <source>Mining</source>
         <translation>Mining</translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="161"/>
-        <location filename="../gui/MiningFrame.cpp" line="179"/>
-        <location filename="../gui/MiningFrame.cpp" line="247"/>
+        <location filename="../gui/MiningFrame.cpp" line="177"/>
+        <location filename="../gui/MiningFrame.cpp" line="195"/>
+        <location filename="../gui/MiningFrame.cpp" line="263"/>
         <source>%1</source>
         <translation type="unfinished">%1</translation>
     </message>

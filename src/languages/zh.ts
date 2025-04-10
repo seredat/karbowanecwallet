@@ -2938,24 +2938,29 @@ Are you sure?</source>
         <translation type="obsolete">错误: %1</translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="121"/>
+        <location filename="../gui/MiningFrame.cpp" line="61"/>
+        <source>Hashrate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/MiningFrame.cpp" line="137"/>
         <source>Mining</source>
         <translation>挖矿</translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="161"/>
-        <location filename="../gui/MiningFrame.cpp" line="179"/>
-        <location filename="../gui/MiningFrame.cpp" line="247"/>
+        <location filename="../gui/MiningFrame.cpp" line="177"/>
+        <location filename="../gui/MiningFrame.cpp" line="195"/>
+        <location filename="../gui/MiningFrame.cpp" line="263"/>
         <source>%1</source>
         <translation type="unfinished">%1</translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="182"/>
+        <location filename="../gui/MiningFrame.cpp" line="198"/>
         <source>Starting...</source>
         <translation>开始中...</translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="202"/>
+        <location filename="../gui/MiningFrame.cpp" line="218"/>
         <source>Stopped</source>
         <translation>已停止</translation>
     </message>

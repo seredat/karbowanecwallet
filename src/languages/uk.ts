@@ -3042,12 +3042,17 @@ Are you sure?</source>
         <translation type="vanished">Помилка: %1</translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="182"/>
+        <location filename="../gui/MiningFrame.cpp" line="61"/>
+        <source>Hashrate</source>
+        <translation>Хешрейт</translation>
+    </message>
+    <message>
+        <location filename="../gui/MiningFrame.cpp" line="198"/>
         <source>Starting...</source>
         <translation>Запуск...</translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="202"/>
+        <location filename="../gui/MiningFrame.cpp" line="218"/>
         <source>Stopped</source>
         <translation>Зупинено</translation>
     </message>
@@ -3064,14 +3069,14 @@ Are you sure?</source>
         <translation type="vanished">Карбування в пулі. Швидкість: %1 H/s</translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="121"/>
+        <location filename="../gui/MiningFrame.cpp" line="137"/>
         <source>Mining</source>
         <translation>Карбування</translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="161"/>
-        <location filename="../gui/MiningFrame.cpp" line="179"/>
-        <location filename="../gui/MiningFrame.cpp" line="247"/>
+        <location filename="../gui/MiningFrame.cpp" line="177"/>
+        <location filename="../gui/MiningFrame.cpp" line="195"/>
+        <location filename="../gui/MiningFrame.cpp" line="263"/>
         <source>%1</source>
         <translation type="unfinished">%1</translation>
     </message>
