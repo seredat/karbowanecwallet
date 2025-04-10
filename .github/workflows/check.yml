@@ -62,7 +62,7 @@ jobs:
           $qt5_cmake = "${{ env.Qt5_Dir }}/lib/cmake" -replace '[/]', '\\'
           mkdir "$build_folder"
           cd "$build_folder"
-          Start-Process cmake -ArgumentList "-DBOOST_ROOT=""$env:BOOST_ROOT"" -DBOOST_INCLUDE_DIRS=""$env:BOOST_ROOT/include"" -G ""Visual Studio 16 2019"" -A x64 -DARCH=default",".." -NoNewWindow -Wait
+          Start-Process cmake -ArgumentList "-DBOOST_ROOT=""$env:BOOST_ROOT"" -DBOOST_INCLUDE_DIRS=""$env:BOOST_ROOT/include"" -DCMAKE_BUILD_TYPE=Release -G ""Visual Studio 16 2019"" -A x64 -DARCH=default",".." -NoNewWindow -Wait
           Start-Process msbuild -ArgumentList "KarbowanecWallet.sln","/p:Configuration=Release" -NoNewWindow -Wait
           $build_path = "./$build_folder"
           mkdir "$release_folder/$release_name"
