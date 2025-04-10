@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 2.8)
 # Required for finding Threads on ARM
 enable_language(C)
 enable_language(CXX)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include(CryptoNoteWallet.cmake)
 include(external/ext.cmake)

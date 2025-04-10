@@ -198,7 +198,7 @@ jobs:
           app_name="KarbowanecWallet"
           mkdir -p "$build_folder"
           cd "$build_folder"
-          cmake -D ARCH=default -D CMAKE_BUILD_TYPE=Release -D CMAKE_POSITION_INDEPENDENT_CODE:BOOL=true -D BOOST_IGNORE_SYSTEM_PATHS_DEFAULT=ON -D BOOST_ROOT=/usr ../..
+          cmake -D ARCH=default -D CMAKE_BUILD_TYPE=Release -DCMAKE_CXX_STANDARD=17 -D CMAKE_POSITION_INDEPENDENT_CODE:BOOL=true -D BOOST_IGNORE_SYSTEM_PATHS_DEFAULT=ON -D BOOST_ROOT=/usr ../..
           make
           cpack
           tar -czf "$release_name".tar.gz *.deb
