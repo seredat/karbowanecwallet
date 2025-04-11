@@ -58,9 +58,14 @@ MiningFrame::MiningFrame(QWidget* _parent) :
   dateTicker->setDateTimeFormat("hh:mm:ss");
   m_ui->m_hashRateChart->xAxis->setTicker(dateTicker);
   m_ui->m_hashRateChart->yAxis->setRange(0, m_maxHr);
-  m_ui->m_hashRateChart->yAxis->setLabel("Hashrate");
-  m_ui->m_hashRateChart->xAxis->setTickPen(QPen(QRgb(0xe3e1e3)));
-  m_ui->m_hashRateChart->xAxis->setLabelColor(QRgb(0xe3e1e3));
+  m_ui->m_hashRateChart->yAxis->setLabel(tr("Hashrate"));
+  m_ui->m_hashRateChart->xAxis->setLabelColor(Qt::white);
+  m_ui->m_hashRateChart->yAxis->setLabelColor(Qt::white);
+  m_ui->m_hashRateChart->xAxis->setTickLabelColor(Qt::white);
+  m_ui->m_hashRateChart->yAxis->setTickLabelColor(Qt::white);
+  if (m_ui->m_hashRateChart->legend) {
+      m_ui->m_hashRateChart->legend->setTextColor(Qt::white);
+  }
 
   // make top and right axes visible but without ticks and labels
   m_ui->m_hashRateChart->xAxis2->setVisible(true);
@@ -70,9 +75,20 @@ MiningFrame::MiningFrame(QWidget* _parent) :
   m_ui->m_hashRateChart->xAxis2->setTickLabels(false);
   m_ui->m_hashRateChart->yAxis2->setTickLabels(false);
 
+  m_ui->m_hashRateChart->xAxis->setTickPen(QPen(Qt::white));
+  m_ui->m_hashRateChart->yAxis->setTickPen(QPen(Qt::white));
+
+  m_ui->m_hashRateChart->xAxis->setSubTickPen(QPen(Qt::gray));
+  m_ui->m_hashRateChart->yAxis->setSubTickPen(QPen(Qt::gray));
+
+  m_ui->m_hashRateChart->xAxis->setBasePen(QPen(Qt::gray));
+  m_ui->m_hashRateChart->yAxis->setBasePen(QPen(Qt::gray));
+  m_ui->m_hashRateChart->xAxis2->setBasePen(QPen(Qt::gray));
+  m_ui->m_hashRateChart->yAxis2->setBasePen(QPen(Qt::gray));
+
   m_ui->m_hashRateChart->setBackground(QBrush(QRgb(0x19232d)));
 
-  addPoint(QDateTime::currentDateTime().toTime_t(), 0);
+  addPoint(QDateTime::currentDateTime().toSecsSinceEpoch(), 0);
   plot();
 
   connect(&WalletAdapter::instance(), &WalletAdapter::walletCloseCompletedSignal, this, &MiningFrame::walletClosed, Qt::QueuedConnection);
@@ -120,7 +136,7 @@ void MiningFrame::timerEvent(QTimerEvent* _event) {
     }
     m_ui->m_soloLabel->setText(tr("Mining"));
     m_ui->m_hashratelcdNumber->display(hashRate);
-    addPoint(QDateTime::currentDateTime().toTime_t(), hashRate);
+    addPoint(QDateTime::currentDateTime().toSecsSinceEpoch(), hashRate);
     plot();
 
     return;
@@ -182,7 +198,7 @@ void MiningFrame::startSolo() {
   m_ui->m_soloLabel->setText(tr("Starting..."));
   m_soloHashRateTimerId = startTimer(HASHRATE_TIMER_INTERVAL);
   m_minerRoutineTimerId = startTimer(MINER_ROUTINE_TIMER_INTERVAL);
-  addPoint(QDateTime::currentDateTime().toTime_t(), 0);
+  addPoint(QDateTime::currentDateTime().toSecsSinceEpoch(), 0);
   m_ui->m_startSolo->setChecked(true);
   m_ui->m_startSolo->setEnabled(false);
   m_ui->m_stopSolo->setEnabled(true);
@@ -198,7 +214,7 @@ void MiningFrame::stopSolo() {
     killTimer(m_minerRoutineTimerId);
     m_minerRoutineTimerId = -1;
     m_miner->stop();
-    addPoint(QDateTime::currentDateTime().toTime_t(), 0);
+    addPoint(QDateTime::currentDateTime().toSecsSinceEpoch(), 0);
     m_ui->m_soloLabel->setText(tr("Stopped"));
     m_ui->m_hashratelcdNumber->display(0.0);
     if (!m_wallet_closed) {

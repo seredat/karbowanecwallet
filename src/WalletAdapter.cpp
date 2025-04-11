@@ -674,7 +674,7 @@ void WalletAdapter::synchronizationProgressUpdated(uint32_t _current, uint32_t _
   m_perfData.push_back(std::move(perfData));
   QString perfMess = "";
   if (m_syncPeriod > 0) {
-    QDateTime leftTime = QDateTime::fromTime_t(m_syncPeriod).toUTC();
+    QDateTime leftTime = QDateTime::fromSecsSinceEpoch(m_syncPeriod).toUTC();
     perfMess += "(";
     perfMess += QString(tr("%n blocks per second", "", m_syncSpeed));
     if (m_syncPeriod < syncPeriodMax) {

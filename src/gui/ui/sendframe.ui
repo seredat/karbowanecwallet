@@ -802,6 +802,7 @@
   <slot>sendAllClicked()</slot>
   <slot>clearAllClicked()</slot>
   <slot>addRecipientClicked()</slot>
+  <slot>generatePaymentIdClicked()</slot>
   <slot>mixinValueChanged(int)</slot>
   <slot>priorityValueChanged(int)</slot>
   <slot>feeValueChanged(double)</slot>
@@ -810,5 +811,6 @@
   <slot>dontRelayToggled(bool)</slot>
   <slot>donateToggled(bool)</slot>
   <slot>feeOverrideToggled(bool)</slot>
+  <slot>setEnabled(bool)</slot>
  </slots>
 </ui>

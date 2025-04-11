@@ -4,7 +4,8 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <QRegExpValidator>
+#include <QRegularExpressionValidator>
+#include <QRegularExpression>
 #include <QInputDialog>
 #include <QMessageBox>
 #include <QUrlQuery>
@@ -75,8 +76,8 @@ SendFrame::SendFrame(QWidget* _parent) : QFrame(_parent), m_ui(new Ui::SendFrame
   m_ui->m_prioritySlider->setStyleSheet(".QSlider { margin: 0 10px; padding: 0;}");
   m_ui->m_mixinSlider->setStyleSheet(".QSlider { margin: 0 10px; padding: 0;}");
 
-  QRegExp hexMatcher("^[0-9A-F]{64}$", Qt::CaseInsensitive);
-  QValidator *validator = new QRegExpValidator(hexMatcher, this);
+  QRegularExpression hexMatcher("^[0-9A-F]{64}$", QRegularExpression::CaseInsensitiveOption);
+  QValidator *validator = new QRegularExpressionValidator(hexMatcher, this);
   m_ui->m_paymentIdEdit->setValidator(validator);
 
   QString connection = Settings::instance().getConnection();
@@ -84,7 +85,7 @@ SendFrame::SendFrame(QWidget* _parent) : QFrame(_parent), m_ui(new Ui::SendFrame
     m_nodeFeeAddress  = NodeAdapter::instance().getNodeFeeAddress();
     m_flatRateNodeFee = std::min<quint64>(NodeAdapter::instance().getNodeFeeAmount(), CryptoNote::parameters::COIN);
 
-    m_ui->m_remote_label->setText(QString(tr("Node fee: %1 %2")).arg(CurrencyAdapter::instance().formatAmount(m_flatRateNodeFee).remove(QRegExp("0+$"))).arg(CurrencyAdapter::instance().getCurrencyTicker().toUpper()));
+    m_ui->m_remote_label->setText(QString(tr("Node fee: %1 %2")).arg(CurrencyAdapter::instance().formatAmount(m_flatRateNodeFee).remove(QRegularExpression("0+$"))).arg(CurrencyAdapter::instance().getCurrencyTicker().toUpper()));
     m_ui->m_remote_label->show();
     amountValueChanged();
   }
@@ -205,7 +206,7 @@ void SendFrame::amountValueChanged() {
   m_ui->m_donateSpin->setValue(QString::number(donation_amount).toDouble());
 
   if(!m_nodeFeeAddress.isEmpty()) {
-    m_ui->m_remote_label->setText(QString(tr("Node fee: %1 %2")).arg(CurrencyAdapter::instance().formatAmount(m_nodeFee).remove(QRegExp("0+$"))).arg(CurrencyAdapter::instance().getCurrencyTicker().toUpper()));
+    m_ui->m_remote_label->setText(QString(tr("Node fee: %1 %2")).arg(CurrencyAdapter::instance().formatAmount(m_nodeFee).remove(QRegularExpression("0+$"))).arg(CurrencyAdapter::instance().getCurrencyTicker().toUpper()));
   }
 }
 
@@ -425,10 +426,14 @@ void SendFrame::sendClicked() {
     dlg.confirmNoPaymentId();
   }
   if (dlg.exec() == QDialog::Accepted) {
+    std::list<CryptoNote::TransactionOutputInformation> selectedOutputsList;
+    for (const auto &item : m_selectedOutputs) {
+      selectedOutputsList.push_back(item);
+    }
     if (WalletAdapter::instance().isOpen()) {
       if (!m_ui->dontRelayCheckBox->isChecked()) {
         if (m_selectedOutputsAmount > 0) {
-          WalletAdapter::instance().sendTransaction(walletTransfers, m_selectedOutputs.toStdList(), fee, m_ui->m_paymentIdEdit->text(), m_ui->m_mixinSlider->value());
+          WalletAdapter::instance().sendTransaction(walletTransfers, selectedOutputsList, fee, m_ui->m_paymentIdEdit->text(), m_ui->m_mixinSlider->value());
         } else {
           WalletAdapter::instance().sendTransaction(walletTransfers, fee, m_ui->m_paymentIdEdit->text(), m_ui->m_mixinSlider->value());
         }
@@ -436,7 +441,7 @@ void SendFrame::sendClicked() {
         QString rawTx;
 
         if (m_selectedOutputsAmount > 0) {
-          rawTx = WalletAdapter::instance().prepareRawTransaction(walletTransfers, m_selectedOutputs.toStdList(), fee, m_ui->m_paymentIdEdit->text(), m_ui->m_mixinSlider->value());
+          rawTx = WalletAdapter::instance().prepareRawTransaction(walletTransfers, selectedOutputsList, fee, m_ui->m_paymentIdEdit->text(), m_ui->m_mixinSlider->value());
         } else {
           rawTx = WalletAdapter::instance().prepareRawTransaction(walletTransfers, fee, m_ui->m_paymentIdEdit->text(), m_ui->m_mixinSlider->value());
         }

@@ -8,6 +8,10 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QStandardPaths>
+#include <QRegularExpressionValidator>
+#include <QRegularExpression>
+#include <QString>
+#include <QStringList>
 #include "RestoreFromMnemonicSeedDialog.h"
 #include "Mnemonics/electrum-words.h"
 
@@ -64,8 +68,9 @@ void RestoreFromMnemonicSeedDialog::selectPathClicked() {
 }
 
 void RestoreFromMnemonicSeedDialog::onTextChanged() {
-  wordCount = m_ui->m_seedEdit->toPlainText().split(QRegExp("(\\s|\\n|\\r)+")
-                                                  , QString::SkipEmptyParts).count();
+  QRegularExpression regExp("(\\s|\\n|\\r)+");
+  wordCount = m_ui->m_seedEdit->toPlainText().split(QRegularExpression("(\\s|\\n|\\r)+")
+                                                  , Qt::SkipEmptyParts).count();
   if(wordCount != 25) {
     m_ui->m_okButton->setEnabled(false);
     m_ui->m_errorLabel->setText(QString::number(wordCount));

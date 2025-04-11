@@ -3,7 +3,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <iostream>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QHeaderView>
 #include "ui_connectionsettingsdialog.h"
 #include "ConnectionSettings.h"
@@ -133,9 +133,13 @@ void ConnectionSettingsDialog::addNodeClicked() {
     nodeSetting.port = dlg.getPort();
     nodeSetting.path = dlg.getPath();
     nodeSetting.ssl = dlg.getEnableSSL();
-    if (QRegExp("^([a-z|A-Z|0-9]|[a-z|A-Z|0-9]-[a-z|A-Z|0-9]|[a-z|A-Z|0-9]\\.)+$").exactMatch(nodeSetting.host) &&
-        (nodeSetting.port > 0 && nodeSetting.port < 65535) &&
-        QRegExp("^(/([\\w|-]+/)+|/)$").exactMatch(nodeSetting.path)) {
+    QRegularExpression hostRegex("^([a-zA-Z0-9]|[a-zA-Z0-9]-[a-zA-Z0-9]|[a-zA-Z0-9]\\.)+$");
+    QRegularExpressionMatch host_match = hostRegex.match(nodeSetting.host);
+    bool hostMatch = host_match.hasMatch();
+    QRegularExpression pathRegex("^(/([\\w|-]+/)+|/)$");
+    QRegularExpressionMatch path_match = pathRegex.match(nodeSetting.path);
+    bool pathMatch = path_match.hasMatch();
+    if (hostMatch && (nodeSetting.port > 0 && nodeSetting.port < 65535) && pathMatch) {
       m_nodeModel->addNode(nodeSetting);
     }
   }

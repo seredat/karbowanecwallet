@@ -392,7 +392,7 @@ QVariant TransactionsModel::getUserRole(const QModelIndex& _index, int _role, Cr
     return static_cast<quint8>(_transaction.state);
 
   case ROLE_DATE:
-    return (_transaction.timestamp > 0 ? QDateTime::fromTime_t(_transaction.timestamp) : QDateTime());
+    return (_transaction.timestamp > 0 ? QDateTime::fromSecsSinceEpoch(_transaction.timestamp) : QDateTime());
 
   case ROLE_TYPE: {
     QString transactionAddress = _index.data(ROLE_ADDRESS).toString();

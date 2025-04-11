@@ -491,5 +491,6 @@
  </connections>
  <slots>
   <slot>copyAddress()</slot>
+  <slot>showQR()</slot>
  </slots>
 </ui>

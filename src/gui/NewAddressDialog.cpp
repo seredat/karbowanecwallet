@@ -3,7 +3,8 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <QRegExpValidator>
+#include <QRegularExpressionValidator>
+#include <QRegularExpression>
 #include "NewAddressDialog.h"
 
 #include "ui_newaddressdialog.h"
@@ -13,8 +14,8 @@ namespace WalletGui {
 NewAddressDialog::NewAddressDialog(QWidget* _parent) : QDialog(_parent), m_ui(new Ui::NewAddressDialog) {
   m_ui->setupUi(this);
 
-  QRegExp hexMatcher("^[0-9A-F]{64}$", Qt::CaseInsensitive);
-  QValidator *validator = new QRegExpValidator(hexMatcher, this);
+  QRegularExpression hexMatcher("^[0-9A-F]{64}$", QRegularExpression::CaseInsensitiveOption);
+  QValidator *validator = new QRegularExpressionValidator(hexMatcher, this);
   m_ui->m_contactPaymentIdEdit->setValidator(validator);
 }
 

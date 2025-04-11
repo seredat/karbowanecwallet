@@ -314,5 +314,7 @@
  </connections>
  <slots>
   <slot>copyAddress()</slot>
+  <slot>generatePaymentIdClicked()</slot>
+  <slot>createRequestPaymentClicked()</slot>
  </slots>
 </ui>

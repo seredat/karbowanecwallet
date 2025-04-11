@@ -13,7 +13,6 @@
 #include <QSplashScreen>
 #include <QStyleFactory>
 #include <QSettings>
-#include <QTextCodec>
 
 #include "CommandLineParser.h"
 #include "CurrencyAdapter.h"

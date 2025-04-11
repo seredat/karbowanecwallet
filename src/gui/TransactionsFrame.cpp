@@ -108,7 +108,8 @@ void TransactionsFrame::exportToCsv() {
       foreach (QModelIndex index, all){
         res.append("\"").append(index.sibling(index.row(), TransactionsModel::COLUMN_DATE).data().toString().toUtf8()).append("\",");
         res.append("\"").append(index.sibling(index.row(), TransactionsModel::COLUMN_AMOUNT).data().toString().toUtf8()).append("\",");
-        res.append("\"").append(CurrencyAdapter::instance().formatAmount(index.data(TransactionsModel::ROLE_FEE).value<quint64>())).append("\",");
+        //res.append("\"").append(CurrencyAdapter::instance().formatAmount(index.data(TransactionsModel::ROLE_FEE).value<quint64>())).append("\",");
+        res.append("\"").append(index.sibling(index.row(), TransactionsModel::COLUMN_FEE).data().toString().toUtf8()).append("\",");
         res.append("\"").append(index.sibling(index.row(), TransactionsModel::COLUMN_HASH).data().toString().toUtf8()).append("\",");
         res.append("\"").append(index.data(TransactionsModel::ROLE_HEIGHT).toString().toUtf8()).append("\",");
         res.append("\"").append(index.sibling(index.row(), TransactionsModel::COLUMN_ADDRESS).data().toString().toUtf8()).append("\",");
@@ -120,7 +121,8 @@ void TransactionsFrame::exportToCsv() {
       foreach (QModelIndex index, selection){
         res.append("\"").append(index.sibling(index.row(), TransactionsModel::COLUMN_DATE).data().toString().toUtf8()).append("\",");
         res.append("\"").append(index.sibling(index.row(), TransactionsModel::COLUMN_AMOUNT).data().toString().toUtf8()).append("\",");
-        res.append("\"").append(CurrencyAdapter::instance().formatAmount(index.data(TransactionsModel::ROLE_FEE).value<quint64>())).append("\",");
+        //res.append("\"").append(CurrencyAdapter::instance().formatAmount(index.data(TransactionsModel::ROLE_FEE).value<quint64>())).append("\",");
+        res.append("\"").append(index.sibling(index.row(), TransactionsModel::COLUMN_FEE).data().toString().toUtf8()).append("\",");
         res.append("\"").append(index.sibling(index.row(), TransactionsModel::COLUMN_HASH).data().toString().toUtf8()).append("\",");
         res.append("\"").append(index.data(TransactionsModel::ROLE_HEIGHT).toString().toUtf8()).append("\",");
         res.append("\"").append(index.sibling(index.row(), TransactionsModel::COLUMN_ADDRESS).data().toString().toUtf8()).append("\",");
@@ -235,8 +237,8 @@ void TransactionsFrame::dateRangeChanged()
     if(!m_transactionsModel)
         return;
     SortedTransactionsModel::instance().setDateRange(
-            QDateTime(dateFrom->date()),
-            QDateTime(dateTo->date()).addDays(1));
+            dateFrom->dateTime(),
+            dateTo->dateTime().addDays(1));
 }
 
 void TransactionsFrame::chooseDate(int idx)
@@ -245,54 +247,54 @@ void TransactionsFrame::chooseDate(int idx)
         return;
     QDate current = QDate::currentDate();
     dateRangeWidget->setVisible(false);
-    switch(m_ui->m_dateSelect->itemData(idx).toInt())
+    switch (m_ui->m_dateSelect->itemData(idx).toInt())
     {
     case Unconfirmed:
         SortedTransactionsModel::instance().setDateRange(
-                QDateTime(),
-                QDateTime());
+            QDateTime(), QDateTime());
         break;
 
     case All:
         SortedTransactionsModel::instance().setDateRange(
-                QDateTime(),
-                SortedTransactionsModel::MAX_DATE);
+            QDateTime(), SortedTransactionsModel::MAX_DATE);
         break;
+
     case Today:
         SortedTransactionsModel::instance().setDateRange(
-                QDateTime(current),
-                SortedTransactionsModel::MAX_DATE);
+            QDateTime(current.startOfDay()), SortedTransactionsModel::MAX_DATE);
         break;
-    case ThisWeek: {
-        // Find last Monday
-        QDate startOfWeek = current.addDays(-(current.dayOfWeek()-1));
-        SortedTransactionsModel::instance().setDateRange(
-                QDateTime(startOfWeek),
-                SortedTransactionsModel::MAX_DATE);
 
-        } break;
+    case ThisWeek: {
+        QDate startOfWeek = current.addDays(-(current.dayOfWeek() - 1));
+        SortedTransactionsModel::instance().setDateRange(
+            QDateTime(startOfWeek.startOfDay()), SortedTransactionsModel::MAX_DATE);
+        break;
+    }
+
     case ThisMonth:
         SortedTransactionsModel::instance().setDateRange(
-                QDateTime(QDate(current.year(), current.month(), 1)),
-                SortedTransactionsModel::MAX_DATE);
+            QDateTime(QDate(current.year(), current.month(), 1).startOfDay()),
+            SortedTransactionsModel::MAX_DATE);
         break;
+
     case LastMonth:
-        if (current.month() == 1){
+        if (current.month() == 1) {
             SortedTransactionsModel::instance().setDateRange(
-                QDateTime(QDate(current.year()-1, 12, 1)),
-                QDateTime(QDate(current.year(), current.month(), 1)));
-        }
-        else {
+                QDateTime(QDate(current.year() - 1, 12, 1).startOfDay()),
+                QDateTime(QDate(current.year(), current.month(), 1).startOfDay()));
+        } else {
             SortedTransactionsModel::instance().setDateRange(
-                QDateTime(QDate(current.year(), current.month()-1, 1)),
-                QDateTime(QDate(current.year(), current.month(), 1)));
+                QDateTime(QDate(current.year(), current.month() - 1, 1).startOfDay()),
+                QDateTime(QDate(current.year(), current.month(), 1).startOfDay()));
         }
         break;
+
     case ThisYear:
         SortedTransactionsModel::instance().setDateRange(
-                QDateTime(QDate(current.year(), 1, 1)),
-                SortedTransactionsModel::MAX_DATE);
+            QDateTime(QDate(current.year(), 1, 1).startOfDay()),
+            SortedTransactionsModel::MAX_DATE);
         break;
+
     case Range:
         dateRangeWidget->setVisible(true);
         dateRangeChanged();
