@@ -533,6 +533,22 @@ target_link_libraries(${PROJECT_NAME} Qt6::Core Qt6::Widgets Qt6::Gui Qt6::Netwo
 
 set(CPACK_PACKAGE_NAME ${WALLET_NAME})
 set(CPACK_PACKAGE_VERSION ${WALLET_VERSION})
+# Parse the version into components
+string(REGEX MATCH "([0-9]+)\\.([0-9]+)\\.([0-9]+)" VERSION_MATCHED ${CPACK_PACKAGE_VERSION})
+if(VERSION_MATCHED)
+    string(REGEX REPLACE "([0-9]+)\\.([0-9]+)\\.([0-9]+)" "\\1" CPACK_PACKAGE_VERSION_MAJOR ${CPACK_PACKAGE_VERSION})
+    string(REGEX REPLACE "([0-9]+)\\.([0-9]+)\\.([0-9]+)" "\\2" CPACK_PACKAGE_VERSION_MINOR ${CPACK_PACKAGE_VERSION})
+    string(REGEX REPLACE "([0-9]+)\\.([0-9]+)\\.([0-9]+)" "\\3" CPACK_PACKAGE_VERSION_PATCH ${CPACK_PACKAGE_VERSION})
+else()
+    # Fallback in case of a missing or invalid version
+    set(CPACK_PACKAGE_VERSION_MAJOR "1")
+    set(CPACK_PACKAGE_VERSION_MINOR "8")
+    set(CPACK_PACKAGE_VERSION_PATCH "8")
+endif()
+
+# Print version for debugging
+message(STATUS "CPACK PACKAGE VERSION: ${CPACK_PACKAGE_VERSION}")
+message(STATUS "MAJOR: ${CPACK_PACKAGE_VERSION_MAJOR}, MINOR: ${CPACK_PACKAGE_VERSION_MINOR}, PATCH: ${CPACK_PACKAGE_VERSION_PATCH}")
 set(CPACK_PACKAGE_VENDOR "Karbowanec-project")
 set(CPACK_PACKAGE_CONTACT "https://karbo.org")
 set(CPACK_STRIP_FILES ON)
@@ -557,7 +573,7 @@ elseif (UNIX)
         set(CPACK_RPM_PACKAGE_RELEASE ${WALLET_VERSION})
         set(CPACK_RPM_PACKAGE_LICENSE "MIT")
         set(CPACK_RPM_PACKAGE_GROUP Office)
-        set(CPACK_RPM_PACKAGE_REQUIRES "qt5-qtbase >= 5.3.2, qt5-qtbase-gui >= 5.3.2")
+        set(CPACK_RPM_PACKAGE_REQUIRES "qt6-base >= 6.0.0, qt6-base-gui >= 6.0.0")
         set(CPACK_RPM_PACKAGE_SUMMARY "Karbowanec KRB wallet")
         set(CPACK_RPM_PACKAGE_DESCRIPTION "Karbowanec KRB wallet
  Karbowanec is Ukrainian decentrilized, privacy oriented peer-to-peer
@@ -565,6 +581,7 @@ elseif (UNIX)
  and everyone can take part.")
     else ()
 		set(CPACK_GENERATOR DEB)
+		set(CPACK_DEBIAN_PACKAGE_DEPENDS "libqt6svg6, other-dependencies")
 	endif ()
 	
 	set(CPACK_SYSTEM_NAME 64-bit)
@@ -585,9 +602,7 @@ elseif (WIN32)
  Karbowanec is Ukrainian decentralized, privacy oriented peer-to-peer
  cryptocurrency. It is open-source, nobody owns or controls Karbowanec
  and everyone can take part.")
-    set (CPACK_PACKAGE_VERSION_MAJOR "1")
-    set (CPACK_PACKAGE_VERSION_MINOR "4")
-    set (CPACK_PACKAGE_VERSION_PATCH "1")
+
     set (CPACK_PACKAGE_INSTALL_DIRECTORY "Karbowanec")
 
     # Define components and their display names
