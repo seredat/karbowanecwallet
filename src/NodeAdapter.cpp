@@ -93,6 +93,7 @@ NodeAdapter::NodeAdapter() : QObject(), m_node(nullptr), m_nodeInitializerThread
   qRegisterMetaType<CryptoNote::CoreConfig>("CryptoNote::CoreConfig");
   qRegisterMetaType<CryptoNote::NetNodeConfig>("CryptoNote::NetNodeConfig");
   qRegisterMetaType<CryptoNote::RpcServerConfig>("CryptoNote::RpcServerConfig");
+  qRegisterMetaType<Logging::LoggerManager*>("Logging::LoggerManager*");
 
   connect(m_nodeInitializer, &InProcessNodeInitializer::nodeInitCompletedSignal, this, &NodeAdapter::nodeInitCompletedSignal, Qt::QueuedConnection);
   connect(this, &NodeAdapter::initNodeSignal, m_nodeInitializer, &InProcessNodeInitializer::start, Qt::QueuedConnection);
