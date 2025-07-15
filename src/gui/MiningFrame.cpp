@@ -22,6 +22,10 @@
 #include "Logging/LoggerManager.h"
 #include "LoggerAdapter.h"
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 #include "ui_miningframe.h"
 
 namespace WalletGui {
@@ -148,9 +152,25 @@ void MiningFrame::timerEvent(QTimerEvent* _event) {
   QFrame::timerEvent(_event);
 }
 
+int getCpuCoreCount() {
+#ifdef _WIN32
+    // Use processor group-aware logic on Windows
+    DWORD total = 0;
+    WORD groupCount = GetActiveProcessorGroupCount();
+    for (WORD i = 0; i < groupCount; ++i) {
+        total += GetActiveProcessorCount(i);
+    }
+    return static_cast<int>(total);
+#else
+    // Cross-platform standard C++ fallback
+    unsigned int count = std::thread::hardware_concurrency();
+    return count > 0 ? static_cast<int>(count) : 2;
+#endif
+}
+
 void MiningFrame::initCpuCoreList() {
   quint16 threads = Settings::instance().getMiningThreads();
-  int cpuCoreCount = QThread::idealThreadCount();
+  int cpuCoreCount = getCpuCoreCount();
   if (cpuCoreCount == -1) {
       cpuCoreCount = 2;
   }
