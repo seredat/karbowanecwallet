@@ -11,11 +11,12 @@ on:
 jobs:
   build-windows:
     name: Windows
-    runs-on: windows-2019
+    runs-on: windows-2022
     env:
       BOOST_ROOT: C:\thirdparties\boost-1.83.0
+      VCINSTALLDIR: 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\'
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v4
         with:
           submodules: true
           fetch-depth: 0
@@ -31,9 +32,9 @@ jobs:
         run: |
           choco install curl -y
 
-      - name: Download and Install Boost 1.83
+      - name: Download and Install Boost 1.83 for MSVC 14.3 (VS 2022)
         run: |
-          $Url = "https://sourceforge.net/projects/boost/files/boost-binaries/1.83.0/boost_1_83_0-msvc-14.2-64.exe"
+          $Url = "https://sourceforge.net/projects/boost/files/boost-binaries/1.83.0/boost_1_83_0-msvc-14.3-64.exe"
           $OutputPath = "C:\\Users\\runneradmin\\AppData\\Local\\Temp\\boost-installer.exe"
           curl -L $Url -o $OutputPath
           Start-Process -Wait -FilePath $OutputPath "/SILENT","/SP-","/SUPPRESSMSGBOXES","/DIR=C:\\thirdparties\\boost-1.83.0"
@@ -51,18 +52,18 @@ jobs:
         id: build
         env:
           GIT_REDIRECT_STDERR: '2>&1'
-          VCINSTALLDIR: 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\'
+          VCINSTALLDIR: 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\'
         run: |
           $build_folder = "build"
           $krb_ver = git describe --tags --abbrev=0
           $release_name = "Karbo-wallet-win64-${krb_ver}"
           $release_folder = "Release"
           echo "$release_name"
-          set CMAKE_PREFIX_PATH="$($qt5_cmake)"
           $qt5_cmake = "${{ env.Qt5_Dir }}/lib/cmake" -replace '[/]', '\\'
+          set CMAKE_PREFIX_PATH="$($qt5_cmake)"
           mkdir "$build_folder"
           cd "$build_folder"
-          Start-Process cmake -ArgumentList "-DBOOST_ROOT=""$env:BOOST_ROOT"" -DBOOST_INCLUDE_DIRS=""$env:BOOST_ROOT/include"" -DCMAKE_BUILD_TYPE=Release -G ""Visual Studio 16 2019"" -A x64 -DARCH=default",".." -NoNewWindow -Wait
+          Start-Process cmake -ArgumentList "-DBOOST_ROOT=""$env:BOOST_ROOT"" -DBOOST_INCLUDE_DIRS=""$env:BOOST_ROOT/include"" -DCMAKE_BUILD_TYPE=Release -G ""Visual Studio 17 2022"" -A x64 -DARCH=default",".." -NoNewWindow -Wait
           Start-Process msbuild -ArgumentList "KarbowanecWallet.sln","/p:Configuration=Release" -NoNewWindow -Wait
           $build_path = "./$build_folder"
           mkdir "$release_folder/$release_name"
