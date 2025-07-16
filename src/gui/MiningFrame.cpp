@@ -24,6 +24,8 @@
 
 #ifdef _WIN32
 #include <windows.h>
+#include <processthreadsapi.h>
+#include <winbase.h>
 #endif
 
 #include "ui_miningframe.h"
@@ -154,27 +156,23 @@ void MiningFrame::timerEvent(QTimerEvent* _event) {
 
 int getCpuCoreCount() {
 #ifdef _WIN32
-    // Use processor group-aware logic on Windows
-    DWORD total = 0;
-    WORD groupCount = GetActiveProcessorGroupCount();
-    for (WORD i = 0; i < groupCount; ++i) {
-        total += GetActiveProcessorCount(i);
-    }
+#if (_WIN32_WINNT >= 0x0601)
+    DWORD total = GetActiveProcessorCount(ALL_PROCESSOR_GROUPS);
     return static_cast<int>(total);
 #else
-    // Cross-platform standard C++ fallback
-    unsigned int count = std::thread::hardware_concurrency();
-    return count > 0 ? static_cast<int>(count) : 2;
+    SYSTEM_INFO sysinfo;
+    GetSystemInfo(&sysinfo);
+    return static_cast<int>(sysinfo.dwNumberOfProcessors);
+#endif
+#else
+    int count = QThread::idealThreadCount();
+    return count > 0 ? count : 2;
 #endif
 }
 
 void MiningFrame::initCpuCoreList() {
   quint16 threads = Settings::instance().getMiningThreads();
   int cpuCoreCount = getCpuCoreCount();
-  if (cpuCoreCount == -1) {
-      cpuCoreCount = 2;
-  }
-
   if (threads > 0) {
     m_ui->m_cpuCoresSpin->setValue(threads);
   } else {
