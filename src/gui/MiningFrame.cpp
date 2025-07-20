@@ -22,6 +22,12 @@
 #include "Logging/LoggerManager.h"
 #include "LoggerAdapter.h"
 
+#ifdef _WIN32
+#include <windows.h>
+#include <processthreadsapi.h>
+#include <winbase.h>
+#endif
+
 #include "ui_miningframe.h"
 
 namespace WalletGui {
@@ -148,13 +154,25 @@ void MiningFrame::timerEvent(QTimerEvent* _event) {
   QFrame::timerEvent(_event);
 }
 
+int getCpuCoreCount() {
+#ifdef _WIN32
+#if (_WIN32_WINNT >= 0x0601)
+    DWORD total = GetActiveProcessorCount(ALL_PROCESSOR_GROUPS);
+    return static_cast<int>(total);
+#else
+    SYSTEM_INFO sysinfo;
+    GetSystemInfo(&sysinfo);
+    return static_cast<int>(sysinfo.dwNumberOfProcessors);
+#endif
+#else
+    int count = QThread::idealThreadCount();
+    return count > 0 ? count : 2;
+#endif
+}
+
 void MiningFrame::initCpuCoreList() {
   quint16 threads = Settings::instance().getMiningThreads();
-  int cpuCoreCount = QThread::idealThreadCount();
-  if (cpuCoreCount == -1) {
-      cpuCoreCount = 2;
-  }
-
+  int cpuCoreCount = getCpuCoreCount();
   if (threads > 0) {
     m_ui->m_cpuCoresSpin->setValue(threads);
   } else {
