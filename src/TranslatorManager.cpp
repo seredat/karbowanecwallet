@@ -28,6 +28,15 @@ TranslatorManager::TranslatorManager()
   m_langPath = "/opt/karbo/languages";
 #endif
 
+    // If running as AppImage, adjust path
+    if (std::getenv("APPIMAGE") != nullptr) {
+        QString appDir = QCoreApplication::applicationDirPath();
+        QString appImageLangs = appDir + "/../share/karbo/languages";
+        if (QDir(appImageLangs).exists()) {
+            m_langPath = appImageLangs;
+        }
+    }
+
     QDir dir(m_langPath);
     QStringList resources = dir.entryList(QStringList("??.qm"));
     for (int j = 0; j < resources.size(); j++)
@@ -114,10 +123,10 @@ TranslatorManager* TranslatorManager::instance()
 
 void TranslatorManager::switchTranslator(QTranslator& translator, const QString& filename)
 {
-  // remove the old translator
-  qApp->removeTranslator(&translator);
+    // remove the old translator
+    qApp->removeTranslator(&translator);
 
-  // load the new translator
-  if(translator.load(filename))
-   qApp->installTranslator(&translator);
+    // load the new translator
+    if (translator.load(filename))
+        qApp->installTranslator(&translator);
 }
