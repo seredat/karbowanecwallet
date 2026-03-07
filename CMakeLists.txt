@@ -214,10 +214,12 @@ set(CRYPTONOTE_SOURCES
   cryptonote/src/CryptoNoteProtocol/CryptoNoteProtocolHandler.cpp
   cryptonote/src/InProcessNode/InProcessNode.cpp
   cryptonote/src/InProcessNode/InProcessNodeErrors.cpp
-  cryptonote/src/HTTP/httplib.h
-  cryptonote/src/HTTP/HttpRequest.cpp
+  cryptonote/src/HTTP/HttpServer.cpp
+  cryptonote/src/HTTP/HttpClient.cpp
+  cryptonote/src/HTTP/HttpConnection.cpp
   cryptonote/src/HTTP/HttpParser.cpp
   cryptonote/src/HTTP/HttpParserErrorCodes.cpp
+  cryptonote/src/HTTP/HttpRequest.cpp
   cryptonote/src/HTTP/HttpResponse.cpp
   cryptonote/src/Logging/ILogger.cpp
   cryptonote/src/Logging/LoggerGroup.cpp
@@ -255,10 +257,10 @@ set(CRYPTONOTE_SOURCES
   cryptonote/src/System/Ipv4Address.cpp
   cryptonote/src/System/SocketStream.cpp
   cryptonote/src/System/TcpStream.cpp
+  cryptonote/src/System/SslTcpStreambuf.cpp
   cryptonote/src/System/TcpConnection.cpp
   cryptonote/src/System/TcpListener.cpp
   cryptonote/src/System/TcpConnector.cpp
-  cryptonote/src/System/Timer.cpp
   cryptonote/src/Transfers/BlockchainSynchronizer.cpp
   cryptonote/src/Transfers/SynchronizationState.cpp
   cryptonote/src/Transfers/TransfersConsumer.cpp
