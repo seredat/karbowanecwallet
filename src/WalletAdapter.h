@@ -108,6 +108,7 @@ private:
   std::atomic<bool> m_isSynchronized;
   std::atomic<quint64> m_lastWalletTransactionId;
   QTimer m_newTransactionsNotificationTimer;
+  QTimer* m_dispatcherTimer = nullptr;
   QPushButton* m_closeButton;
   Logging::LoggerRef m_logger;
   uint32_t m_syncSpeed;
@@ -132,6 +133,7 @@ private:
   void notifyAboutLastTransaction();
   QString walletErrorMessage(int _error_code);
   void runWalletRpc();
+  void stopWalletRpc();
 
   static void renameFile(const QString& _old_name, const QString& _new_name);
   Q_SLOT void updateBlockStatusText();

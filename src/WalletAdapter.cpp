@@ -278,11 +278,7 @@ void WalletAdapter::close() {
   Q_EMIT walletCloseCompletedSignal();
   QCoreApplication::processEvents();
 
-  if (m_wallet_rpc != nullptr) {
-    m_wallet_rpc->stop();
-    delete m_wallet_rpc;
-    m_wallet_rpc = nullptr;
-  }
+  stopWalletRpc();
 
   delete m_wallet;
   m_wallet = nullptr;
@@ -567,7 +563,7 @@ void WalletAdapter::initCompleted(std::error_code _error) {
 }
 
 void WalletAdapter::runWalletRpc() {
-  qDebug() << "Initialize wallet rpc server";
+  m_logger(Logging::INFO) << "Initialize wallet RPC server";
   auto& dispatcher = NodeAdapter::instance().getDispatcher();
   const std::string walletFilename = Settings::instance().getWalletFile().toStdString();
   m_wallet_rpc = new Tools::wallet_rpc_server(dispatcher,
@@ -577,15 +573,44 @@ void WalletAdapter::runWalletRpc() {
                                               CurrencyAdapter::instance().getCurrency(),
                                               walletFilename);
   if (!m_wallet_rpc->init(m_wrpcOptions))
-    m_logger(Logging::ERROR) << "Failed to initialize wallet rpc server";
+    m_logger(Logging::ERROR) << "Failed to initialize wallet RPC server";
   bool enable_ssl;
   std::string bind_address, bind_address_ssl, ssl_info;
   m_wallet_rpc->getServerConf(bind_address, bind_address_ssl, enable_ssl);
   if (enable_ssl) ssl_info += std::string(", SSL on address ") + bind_address_ssl;
-    m_logger(Logging::INFO) << "Starting wallet rpc server on address " << bind_address << ssl_info;
+    m_logger(Logging::INFO) << "Starting wallet RPC server on address " << bind_address << ssl_info;
 
-  qDebug() << "Run wallet rpc server on " << QString::fromStdString(bind_address);
   m_wallet_rpc->run();
+
+  m_dispatcherTimer = new QTimer(this);
+  connect(m_dispatcherTimer, &QTimer::timeout, [&dispatcher]() {
+      dispatcher.yield();  // Process events without blocking
+  });
+  m_dispatcherTimer->start(1);  // Run every 1ms
+}
+
+void WalletAdapter::stopWalletRpc() {
+  if (!m_wallet_rpc) {
+    return;
+  }
+
+  m_logger(Logging::INFO) << "Stopping wallet RPC server";
+
+  // Stop the timer first
+  if (m_dispatcherTimer) {
+      m_dispatcherTimer->stop();
+      delete m_dispatcherTimer;
+      m_dispatcherTimer = nullptr;
+  }
+
+  // Stop the RPC server
+  if (m_wallet_rpc) {
+      m_wallet_rpc->stop();
+      delete m_wallet_rpc;
+      m_wallet_rpc = nullptr;
+  }
+
+  m_logger(Logging::INFO) << "Wallet RPC server stopped";
 }
 
 void WalletAdapter::onWalletInitCompleted(int _error, const QString& _errorText) {
