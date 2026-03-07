@@ -26,7 +26,7 @@ jobs:
         uses: microsoft/setup-msbuild@v1.1
 
       - name: Install OpenSSL
-        run: choco install openssl --version=3.5.4 -y
+        run: choco install openssl
 
       - name: Install curl
         run: |
@@ -110,7 +110,7 @@ jobs:
 
   build-macos:
     name: macOS
-    runs-on: macos-13
+    runs-on: macos-15
     steps:
       - uses: actions/checkout@master
         with:
@@ -129,13 +129,15 @@ jobs:
         with:
           xcode-version: latest-stable
 
-      - name: Install boost
+      - name: Install Boost (ARM64)
         uses: MarkusJx/install-boost@v2
         id: install-boost
         with:
-          boost_version: 1.83.0
-          platform_version: 13
+          boost_version: 1.86.0
+          platform: macos
+          platform_version: 15
           toolset: clang
+          arch: aarch64
 
       - name: Install other deps
         run: |
@@ -154,7 +156,20 @@ jobs:
           lang_folder="/Contents/Resources/languages"
           mkdir -p "$build_folder"
           cd "$build_folder"
-          cmake -D ARCH=default -D CMAKE_C_FLAGS="-mmacosx-version-min=10.15" -D CMAKE_CXX_FLAGS="-mmacosx-version-min=10.15" -D CMAKE_BUILD_TYPE=Release -DBOOST_ROOT=$BOOST_ROOT -DBoost_INCLUDE_DIR=$Boost_INCLUDE_DIR -DBoost_LIBRARY_DIR=$Boost_LIBRARY_DIR -DBoost_NO_SYSTEM_PATHS=ON -DBoost_USE_STATIC_LIBS=ON -DBoost_LIBRARYDIR=$BOOST_LIBRARY_DIR -DBoost_COMPILER=-clang -DBoost_ARCHITECTURE=-x64 ../..
+          cmake ../.. \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
+            -DCMAKE_OSX_ARCHITECTURES=arm64 \
+            -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0 \
+            -DOPENSSL_USE_STATIC_LIBS=ON \
+            -DBOOST_ROOT="$BOOST_ROOT" \
+            -DBoost_INCLUDE_DIR="$Boost_INCLUDE_DIR" \
+            -DBoost_LIBRARY_DIR="$Boost_LIBRARY_DIR" \
+            -DBoost_NO_SYSTEM_PATHS=ON \
+            -DBoost_USE_STATIC_LIBS=ON \
+            -DBoost_COMPILER=-clang \
+            -DBoost_ARCHITECTURE=-a64 \
+            -DBoost_THREADAPI=pthread
           make
           mkdir "$app_name$lang_folder"
           cp languages/*.qm "$app_name$lang_folder"
@@ -167,8 +182,6 @@ jobs:
           echo "release_name=${release_name}.zip" >> $GITHUB_OUTPUT
           echo "asset_path=${asset_path}" >> $GITHUB_OUTPUT
           echo "krb_ver=${krb_ver}" >> $GITHUB_OUTPUT
-        env:
-          MACOSX_DEPLOYMENT_TARGET: '10.15'
 
       - name: Create Artifact
         uses: actions/upload-artifact@v4
