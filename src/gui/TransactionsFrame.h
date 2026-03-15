@@ -51,8 +51,7 @@ public:
           Incoming,
           Outgoing,
           Mining,
-          InOut,
-          Fusion
+          InOut
       };
 
   void scrollToTransaction(const QModelIndex& _index);

@@ -1,7 +1,7 @@
 // Copyright (c) 2011-2016 The Cryptonote developers
 // Copyright (c) 2011-2013 The Bitcoin Core developers
 // Copyright (c) 2015-2016 XDN developers
-// Copyright (c) 2016-2021 The Karbo developers
+// Copyright (c) 2016-2026 The Karbo developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -31,7 +31,6 @@
 #include "AddressBookModel.h"
 #include "ChangePasswordDialog.h"
 #include "ConnectionSettings.h"
-#include "OptimizationSettings.h"
 #include "WalletRpcSettings.h"
 #include "PrivateKeysDialog.h"
 #include "ImportKeyDialog.h"
@@ -75,7 +74,7 @@ MainWindow& MainWindow::instance() {
 
 MainWindow::MainWindow() : QMainWindow(),
   m_ui(new Ui::MainWindow), m_trayIcon(nullptr), m_tabActionGroup(new QActionGroup(this)), m_isAboutToQuit(false), paymentServer(0),
-  optimizationManager(nullptr), maxRecentFiles(10), trayIconMenu(0), toggleHideAction(0), maxProgressBar(100), m_statusBarText("") {
+  maxRecentFiles(10), trayIconMenu(0), toggleHideAction(0), maxProgressBar(100), m_statusBarText("") {
   m_ui->setupUi(this);
   m_connectionStateIconLabel = new QPushButton();
   m_connectionStateIconLabel->setFlat(true); // Make the button look like a label, but clickable
@@ -95,8 +94,6 @@ MainWindow::MainWindow() : QMainWindow(),
 MainWindow::~MainWindow() {
     delete paymentServer;
     paymentServer = 0;
-    delete optimizationManager;
-    optimizationManager = 0;
     //if(m_trayIcon) // Hide tray icon, as deleting will let it linger until quit (on Ubuntu)
     //  m_trayIcon->hide();
     #ifdef Q_OS_MAC
@@ -215,7 +212,6 @@ void MainWindow::initUi() {
 
   m_ui->m_miningOnLaunchAction->setChecked(Settings::instance().isMiningOnLaunchEnabled());
   m_ui->m_startOnLoginAction->setChecked(Settings::instance().isStartOnLoginEnabled());
-  m_ui->m_hideFusionTransactions->setChecked(Settings::instance().skipFusionTransactions());
   m_ui->m_hideEverythingOnLocked->setChecked(Settings::instance().hideEverythingOnLocked());
   m_ui->m_lockWalletAction->setEnabled(false);
 
@@ -250,7 +246,6 @@ void MainWindow::initUi() {
   m_ui->m_closeToTrayAction->deleteLater();
 #endif
 
-  OptimizationManager* optimizationManager = new OptimizationManager(this);
   createTrayIconMenu();
 }
 
@@ -556,7 +551,6 @@ void MainWindow::isTrackingMode() {
   m_ui->m_sendAction->setEnabled(false);
   m_ui->m_openUriAction->setEnabled(false);
   m_ui->m_showMnemonicSeedAction->setEnabled(false);
-  m_ui->m_optimizationAction->setEnabled(false);
   m_ui->m_proofBalanceAction->setEnabled(false);
   m_trackingModeIconLabel->show();
 }
@@ -691,11 +685,6 @@ void MainWindow::openConnectionSettings() {
 
     QMessageBox::information(this, tr("Connection settings changed"), tr("Connection mode will be changed after restarting the wallet."), QMessageBox::Ok);
   }
-}
-
-void MainWindow::openOptimizationSettings() {
-  OptimizationSettingsDialog dlg(&MainWindow::instance());
-  dlg.exec();
 }
 
 void MainWindow::openWalletRpcSettings() {
@@ -921,13 +910,6 @@ void MainWindow::setCloseToTray(bool _on) {
 #endif
 }
 
-void MainWindow::hideFusionTransactions(bool _on) {
-  Settings::instance().setSkipFusionTransactions(_on);
-  m_ui->m_hideFusionTransactions->setChecked(Settings::instance().skipFusionTransactions());
-  m_ui->m_transactionsFrame->reloadTransactions();
-  m_ui->m_overviewFrame->reloadTransactions();
-}
-
 void MainWindow::hideEverythingOnLocked(bool _on) {
   Settings::instance().setHideEverythingOnLocked(_on);
   m_ui->m_hideEverythingOnLocked->setChecked(Settings::instance().hideEverythingOnLocked());
@@ -1083,7 +1065,6 @@ void MainWindow::walletOpened(bool _error, const QString& _error_text) {
     m_ui->m_showPrivateKey->setEnabled(true);
     m_ui->m_resetAction->setEnabled(true);
     m_ui->m_openUriAction->setEnabled(true);
-    m_ui->m_optimizationAction->setEnabled(true);
     m_ui->m_signMessageAction->setEnabled(true);
     m_ui->m_verifySignedMessageAction->setEnabled(true);
     if (WalletAdapter::instance().getActualBalance() != 0)
@@ -1128,7 +1109,6 @@ void MainWindow::walletClosed() {
   m_ui->m_showPrivateKey->setEnabled(false);
   m_ui->m_resetAction->setEnabled(false);
   m_ui->m_showMnemonicSeedAction->setEnabled(false);
-  m_ui->m_optimizationAction->setEnabled(false);
   m_ui->m_signMessageAction->setEnabled(false);
   m_ui->m_verifySignedMessageAction->setEnabled(false);
   m_ui->m_proofBalanceAction->setEnabled(false);

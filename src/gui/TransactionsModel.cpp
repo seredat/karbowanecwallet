@@ -1,5 +1,5 @@
 // Copyright (c) 2011-2015 The Cryptonote developers
-// Copyright (c) 2016-2019 The Karbowanec developers
+// Copyright (c) 2016-2026 The Karbowanec developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -11,7 +11,6 @@
 
 #include "crypto/crypto.h"
 #include "CryptoNoteCore/CryptoNoteBasic.h"
-#include "Common/StringTools.h"
 #include "CurrencyAdapter.h"
 #include "NodeAdapter.h"
 #include "TransactionsModel.h"
@@ -30,8 +29,6 @@ QPixmap getTransactionIcon(TransactionType _transactionType) {
     return QPixmap(":icons/tx-input");
   case TransactionType::OUTPUT:
     return QPixmap(":icons/tx-output");
-  case TransactionType::FUSION:
-    return QPixmap(":icons/tx-fusion");
   case TransactionType::INOUT:
     return QPixmap(":icons/tx-inout");
   default:
@@ -318,9 +315,6 @@ QVariant TransactionsModel::getToolTipRole(const QModelIndex& _index) const {
     if (transactionType == TransactionType::MINED)
       return QString(tr("Mined, confirmations"));
 
-    if (transactionType == TransactionType::FUSION)
-      return QString(tr("Wallet optimization transaction, unconfirmed"));
-
     if (transactionType == TransactionType::INOUT)
       return QString(tr("Sent to yourself, unconfirmed"));
 
@@ -332,9 +326,6 @@ QVariant TransactionsModel::getToolTipRole(const QModelIndex& _index) const {
 
     if (transactionType == TransactionType::MINED)
       return QString(tr("Mined, %n confirmation(s)", "", numberOfConfirmations));
-
-    if (transactionType == TransactionType::FUSION)
-      return QString(tr("Wallet optimization transaction, %n confirmation(s)", "", numberOfConfirmations));
 
     if (transactionType == TransactionType::INOUT)
       return QString(tr("Sent to yourself, %n confirmation(s)", "", numberOfConfirmations));
@@ -398,8 +389,6 @@ QVariant TransactionsModel::getUserRole(const QModelIndex& _index, int _role, Cr
     QString transactionAddress = _index.data(ROLE_ADDRESS).toString();
     if(_transaction.isCoinbase) {
       return static_cast<quint8>(TransactionType::MINED);
-    } else if (WalletAdapter::instance().isFusionTransaction(_transaction)) {
-      return static_cast<quint8>(TransactionType::FUSION);
     } else if (!transactionAddress.compare(WalletAdapter::instance().getAddress())) {
       return static_cast<quint8>(TransactionType::INOUT);
     } else if (_transaction.totalAmount < 0) {

@@ -69,7 +69,6 @@ TransactionsFrame::TransactionsFrame(QWidget* _parent) : QFrame(_parent), m_ui(n
   m_ui->m_typeSelect->addItem(tr("Incoming"), Incoming);
   m_ui->m_typeSelect->addItem(tr("Outgoing"), Outgoing);
   m_ui->m_typeSelect->addItem(tr("Mined"), Mining);
-  m_ui->m_typeSelect->addItem(tr("Optimization"), Fusion);
   m_ui->m_typeSelect->addItem(tr("Sent to myself"), InOut);
 
   m_ui->m_dateRangeArea->addWidget(createDateRangeWidget());
@@ -320,9 +319,6 @@ void TransactionsFrame::chooseType(int idx)
         } break;
     case Mining:
         SortedTransactionsModel::instance().setTxType(0);
-        break;
-    case Fusion:
-        SortedTransactionsModel::instance().setTxType(4);
         break;
     case InOut:
         SortedTransactionsModel::instance().setTxType(3);

@@ -1,5 +1,5 @@
 // Copyright (c) 2011-2015 The Cryptonote developers
-// Copyright (c) 2016-2022 Karbowanec developers
+// Copyright (c) 2016-2026 Karbowanec developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -65,14 +65,6 @@ public:
   quint16 getMiningThreads() const;
   QString getCurrentTheme() const;
 
-  bool isOptimizationEnabled() const;
-  bool isOptimizationTimeSetManually() const;
-  QTime getOptimizationStartTime() const;
-  QTime getOptimizationStopTime() const;
-  quint64 getOptimizationInterval() const;
-  quint64 getOptimizationThreshold() const;
-  quint64 getOptimizationMixin() const;
-
   quint32 getRollBack() const;
 
   bool runWalletRpc() const;
@@ -85,7 +77,6 @@ public:
   bool isStartOnLoginEnabled() const;
   bool isMiningOnLaunchEnabled() const;
   bool isTrackingMode() const;
-  bool skipFusionTransactions() const;
   bool hideEverythingOnLocked() const;
 
 #ifdef Q_OS_WIN
@@ -111,14 +102,6 @@ public:
   void setCloseToTrayEnabled(bool _enable);
 #endif
 
-  void setOptimizationEnabled(bool _enable);
-  void setOptimizationTimeSetManually(bool _enable);
-  void setOptimizationStartTime(const QTime& _startTime);
-  void setOptimizationStopTime(const QTime& _stopTime);
-  void setOptimizationInterval(quint64 _interval);
-  void setOptimizationThreshold(quint64 _threshold);
-  void setOptimizationMixin(quint64 _mixin);
-  void setSkipFusionTransactions(bool _skip);
   void setHideEverythingOnLocked(bool _hide);
 
   void setRunWalletRpc(bool _enable);

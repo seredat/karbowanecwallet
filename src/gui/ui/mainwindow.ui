@@ -269,10 +269,8 @@
     </widget>
     <addaction name="menuLanguage"/>
     <addaction name="m_connectionSettingsAction"/>
-    <addaction name="m_optimizationAction"/>
     <addaction name="m_walletRpcAction"/>
     <addaction name="separator"/>
-    <addaction name="m_hideFusionTransactions"/>
     <addaction name="m_hideEverythingOnLocked"/>
     <addaction name="m_miningOnLaunchAction"/>
     <addaction name="separator"/>
@@ -691,11 +689,6 @@
     <string>Verify signed message</string>
    </property>
   </action>
-  <action name="m_optimizationAction">
-   <property name="text">
-    <string>Optimization</string>
-   </property>
-  </action>
   <action name="m_proofBalanceAction">
    <property name="text">
     <string>Get proof of balance</string>
@@ -704,14 +697,6 @@
   <action name="m_importKeysAction">
    <property name="text">
     <string>Import keys</string>
-   </property>
-  </action>
-  <action name="m_hideFusionTransactions">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Don't show wallet optimization transactions</string>
    </property>
   </action>
   <action name="m_lockWalletAction">
@@ -1330,22 +1315,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>m_optimizationAction</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>openOptimizationSettings()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>489</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>m_miningAction</sender>
    <signal>triggered()</signal>
    <receiver>m_noWalletFrame</receiver>
@@ -1382,22 +1351,6 @@
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
    <slot>importKeys()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>489</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>m_hideFusionTransactions</sender>
-   <signal>triggered(bool)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>hideFusionTransactions(bool)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -1489,12 +1442,10 @@
   <slot>showPrivateKeys()</slot>
   <slot>DisplayCmdLineHelp()</slot>
   <slot>openConnectionSettings()</slot>
-  <slot>openOptimizationSettings()</slot>
   <slot>openWalletRpcSettings()</slot>
   <slot>showStatusInfo()</slot>
   <slot>getBalanceProof()</slot>
   <slot>lockWalletWithPassword()</slot>
-  <slot>hideFusionTransactions(bool)</slot>
   <slot>hideEverythingOnLocked(bool)</slot>
   <slot>exportTrackingKey()</slot>
   <slot>importTrackingKey()</slot>

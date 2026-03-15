@@ -186,8 +186,6 @@ void CoinsFrame::sendClicked() {
 
     if (o.type == CryptoNote::TransactionTypes::OutputType::Key)
         o.outputKey = *reinterpret_cast<const Crypto::PublicKey*>(index.data(OutputsModel::ROLE_OUTPUT_KEY).value<QByteArray>().data());
-    else if (o.type == CryptoNote::TransactionTypes::OutputType::Multisignature)
-        o.requiredSignatures = index.data(OutputsModel::ROLE_REQ_SIG).value<quint32>();
 
     if (index.data(OutputsModel::ROLE_STATE).value<quint8>() != static_cast<quint8>(OutputsModel::OutputState::SPENT)) {
       selectedOutputs.push_back(o);

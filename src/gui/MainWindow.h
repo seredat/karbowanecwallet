@@ -1,6 +1,6 @@
 // Copyright (c) 2011-2016 The Cryptonote developers
 // Copyright (c) 2015-2016 XDN developers
-// Copyright (c) 2016-2021 The Karbo developers
+// Copyright (c) 2016-2026 The Karbo developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -15,11 +15,10 @@
 #include <QSystemTrayIcon>
 #include <QTimer>
 #include "CommandLineParser.h"
+#include "ITransfersContainer.h"
 #include "PaymentServer.h"
-#include "OptimizationManager.h"
 
 class QActionGroup;
-class OptimizationManager;
 
 namespace Ui {
 class MainWindow;
@@ -52,7 +51,6 @@ private slots:
 
 private:
   PaymentServer* paymentServer;
-  OptimizationManager* optimizationManager;
 
   QScopedPointer<Ui::MainWindow> m_ui;
   QProgressBar* m_syncProgressBar;
@@ -125,12 +123,10 @@ private:
   Q_SLOT void setMinimizeToTray(bool _on);
   Q_SLOT void setMiningOnLaunch(bool _on);
   Q_SLOT void setCloseToTray(bool _on);
-  Q_SLOT void hideFusionTransactions(bool _on);
   Q_SLOT void hideEverythingOnLocked(bool _on);
   Q_SLOT void showPrivateKeys();
   Q_SLOT void DisplayCmdLineHelp();
   Q_SLOT void openConnectionSettings();
-  Q_SLOT void openOptimizationSettings();
   Q_SLOT void exportTrackingKey();
   Q_SLOT void importTrackingKey();
   Q_SLOT void signMessage();

@@ -1,6 +1,6 @@
 // Copyright (c) 2011-2016 The Cryptonote developers
 // Copyright (c) 2015-2016 XDN developers
-// Copyright (c) 2016-2021 The Karbo developers
+// Copyright (c) 2016-2026 The Karbo developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -485,40 +485,6 @@ QString WalletAdapter::prepareRawTransaction(const std::vector<CryptoNote::Walle
     unlock();
   }
   return QString();
-}
-
-quint64 WalletAdapter::estimateFusion(quint64 _threshold) {
-  Q_CHECK_PTR(m_wallet);
-  try {
-    return m_wallet->estimateFusion(_threshold);
-  } catch (std::system_error&) {
-  }
-  return 0;
-}
-
-std::list<CryptoNote::TransactionOutputInformation> WalletAdapter::getFusionTransfersToSend(quint64 _threshold, size_t _min_input_count, size_t _max_input_count) {
-  Q_CHECK_PTR(m_wallet);
-  try {
-    return m_wallet->selectFusionTransfersToSend(_threshold, _min_input_count, _max_input_count);
-  } catch (std::system_error&) {
-  }
-  return {};
-}
-
-void WalletAdapter::sendFusionTransaction(const std::list<CryptoNote::TransactionOutputInformation>& _fusion_inputs, quint64 _fee, const QString& _extra, quint64 _mixin) {
-  Q_CHECK_PTR(m_wallet);
-  try {
-    lock();
-    Q_EMIT walletStateChangedSignal(tr("Optimizing wallet"));
-    m_wallet->sendFusionTransaction(_fusion_inputs, _fee, _extra.toStdString(), _mixin, 0);
-  } catch (std::system_error&) {
-    unlock();
-  }
-}
-
-bool WalletAdapter::isFusionTransaction(const CryptoNote::WalletLegacyTransaction& walletTx) const {
-  Q_CHECK_PTR(m_wallet);
-  return m_wallet->isFusionTransaction(walletTx);
 }
 
 bool WalletAdapter::changePassword(const QString& _oldPassword, const QString& _newPassword) {
