@@ -493,15 +493,32 @@ include_directories(cryptonote/src/Platform/Posix)
 file(GLOB PLATFORM_SOURCES cryptonote/src/Platform/${PLATFORM_DIR}/System/*)
 set(CRYPTONOTE_SOURCES ${CRYPTONOTE_SOURCES} ${PLATFORM_SOURCES})
 
+if (MSVC)
+  set(LMDB_SOURCES
+    "${_lmdb_mdb_patched}"
+    cryptonote/external/liblmdb/midl.c)
+else()
+  set(LMDB_SOURCES
+    cryptonote/external/liblmdb/mdb.c
+    cryptonote/external/liblmdb/midl.c)
+endif()
+add_library(lmdb STATIC ${LMDB_SOURCES})
+target_include_directories(lmdb PUBLIC cryptonote/external/liblmdb)
+set_target_properties(lmdb PROPERTIES AUTOMOC OFF AUTOUIC OFF AUTORCC OFF)
+if (NOT MSVC)
+  set_property(TARGET lmdb APPEND PROPERTY COMPILE_FLAGS "-fPIC")
+endif()
+include_directories(cryptonote/external/liblmdb)
+
 add_library(${CRYPTONOTE_LIB} STATIC ${CRYPTONOTE_SOURCES})
 add_library(Mnemonics ${Mnemonics})
 add_library(QCustomPlot ${QCustomPlot})
 set_target_properties(${CRYPTONOTE_LIB} PROPERTIES COMPILE_DEFINITIONS _GNU_SOURCE)
 
 if (APPLE OR ${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
-target_link_libraries(${CRYPTONOTE_LIB} ${Boost_LIBRARIES} -lresolv)
+target_link_libraries(${CRYPTONOTE_LIB} ${Boost_LIBRARIES} lmdb -lresolv)
 else ()
-target_link_libraries(${CRYPTONOTE_LIB} ${Boost_LIBRARIES})
+target_link_libraries(${CRYPTONOTE_LIB} ${Boost_LIBRARIES} lmdb)
 endif ()
 set_target_properties(Mnemonics PROPERTIES COMPILE_DEFINITIONS _GNU_SOURCE)
 target_link_libraries(Mnemonics ${Boost_LIBRARIES})
