@@ -530,9 +530,16 @@ void WalletAdapter::initCompleted(std::error_code _error) {
 
 void WalletAdapter::runWalletRpc() {
   m_logger(Logging::INFO) << "Initialize wallet RPC server";
-  auto& dispatcher = NodeAdapter::instance().getDispatcher();
+
+  // Use a dedicated dispatcher owned by the GUI thread so that the QTimer-driven
+  // yield() calls are always on the same thread that created the dispatcher.
+  // Using the InprocessNode's dispatcher here would be wrong: that dispatcher is
+  // created on m_nodeInitializerThread, and calling yield() on it from the GUI
+  // thread causes the hang observed with InprocessNode.
+  m_rpcDispatcher = std::make_unique<System::Dispatcher>();
+
   const std::string walletFilename = Settings::instance().getWalletFile().toStdString();
-  m_wallet_rpc = new Tools::wallet_rpc_server(dispatcher,
+  m_wallet_rpc = new Tools::wallet_rpc_server(*m_rpcDispatcher,
                                               LoggerAdapter::instance().getLoggerManager(),
                                               *m_wallet,
                                               *NodeAdapter::instance().getNode(),
@@ -544,13 +551,13 @@ void WalletAdapter::runWalletRpc() {
   std::string bind_address, bind_address_ssl, ssl_info;
   m_wallet_rpc->getServerConf(bind_address, bind_address_ssl, enable_ssl);
   if (enable_ssl) ssl_info += std::string(", SSL on address ") + bind_address_ssl;
-    m_logger(Logging::INFO) << "Starting wallet RPC server on address " << bind_address << ssl_info;
+  m_logger(Logging::INFO) << "Starting wallet RPC server on address " << bind_address << ssl_info;
 
   m_wallet_rpc->run();
 
   m_dispatcherTimer = new QTimer(this);
-  connect(m_dispatcherTimer, &QTimer::timeout, [&dispatcher]() {
-      dispatcher.yield();  // Process events without blocking
+  connect(m_dispatcherTimer, &QTimer::timeout, [this]() {
+      m_rpcDispatcher->yield();  // Drive the RPC server's event loop
   });
   m_dispatcherTimer->start(1);  // Run every 1ms
 }
@@ -575,6 +582,8 @@ void WalletAdapter::stopWalletRpc() {
       delete m_wallet_rpc;
       m_wallet_rpc = nullptr;
   }
+
+  m_rpcDispatcher.reset();
 
   m_logger(Logging::INFO) << "Wallet RPC server stopped";
 }

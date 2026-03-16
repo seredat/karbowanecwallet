@@ -19,7 +19,9 @@
 
 #include <boost/program_options.hpp>
 
+#include <memory>
 #include <IWalletLegacy.h>
+#include "System/Dispatcher.h"
 #include "Wallet/WalletRpcServer.h"
 
 namespace WalletGui {
@@ -98,6 +100,7 @@ private:
   std::fstream m_file;
   CryptoNote::IWalletLegacy* m_wallet;
   Tools::wallet_rpc_server* m_wallet_rpc;
+  std::unique_ptr<System::Dispatcher> m_rpcDispatcher;
   QMutex m_mutex;
   std::atomic<bool> m_isBackupInProgress;
   std::atomic<bool> m_isSynchronized;
