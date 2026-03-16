@@ -495,7 +495,7 @@ set(CRYPTONOTE_SOURCES ${CRYPTONOTE_SOURCES} ${PLATFORM_SOURCES})
 
 if (MSVC)
   set(LMDB_SOURCES
-    "${_lmdb_mdb_patched}"
+    cryptonote/external/liblmdb/mdb.c
     cryptonote/external/liblmdb/midl.c)
 else()
   set(LMDB_SOURCES
