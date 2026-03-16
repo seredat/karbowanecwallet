@@ -349,7 +349,7 @@ elseif (UNIX)
 
     include_directories(/usr/include/malloc)
 
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -maes -stdlib=libc++")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -maes -std=c++11 -stdlib=libc++")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -maes -D_DARWIN_C_SOURCE")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -framework Cocoa -framework OpenGL -framework CoreFoundation -framework Carbon -framework IOKit -L/usr/lib")
 
@@ -382,7 +382,7 @@ elseif (UNIX)
       set(ARCH_FLAG "-march=${ARCH}")
     endif()
 
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_GNU_SOURCE")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -D_GNU_SOURCE")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -D_GNU_SOURCE")
 
     if (NOT ARM AND NOT PPC64LE)
@@ -493,19 +493,25 @@ include_directories(cryptonote/src/Platform/Posix)
 file(GLOB PLATFORM_SOURCES cryptonote/src/Platform/${PLATFORM_DIR}/System/*)
 set(CRYPTONOTE_SOURCES ${CRYPTONOTE_SOURCES} ${PLATFORM_SOURCES})
 
-if (MSVC)
-  set(LMDB_SOURCES
-    cryptonote/external/liblmdb/mdb.c
-    cryptonote/external/liblmdb/midl.c)
-else()
-  set(LMDB_SOURCES
-    cryptonote/external/liblmdb/mdb.c
-    cryptonote/external/liblmdb/midl.c)
-endif()
+set(LMDB_SOURCES
+  cryptonote/external/liblmdb/mdb.c
+  cryptonote/external/liblmdb/midl.c)
 add_library(lmdb STATIC ${LMDB_SOURCES})
 target_include_directories(lmdb PUBLIC cryptonote/external/liblmdb)
 set_target_properties(lmdb PROPERTIES AUTOMOC OFF AUTOUIC OFF AUTORCC OFF)
-if (NOT MSVC)
+if (MSVC)
+  # mdb.c has GCC-style function-type typedefs: typedef NTSTATUS (WINAPI FuncName)(...)
+  # MSVC rejects WINAPI (__stdcall) as a calling-convention in this typedef position.
+  # Fix: pre-define WINAPI as empty for mdb.c only via a per-source compile flag.
+  # With WINAPI="", the typedefs become valid plain C function-type typedefs, and the
+  # accompanying pointer declarations/casts are already correct for that form.
+  # Safe on x64: the Microsoft x64 ABI has a single calling convention.
+  set_source_files_properties(
+    cryptonote/external/liblmdb/mdb.c
+    PROPERTIES COMPILE_FLAGS "/DWINAPI=")
+  target_include_directories(lmdb PRIVATE cryptonote/src/platform/msc)
+  target_compile_options(lmdb PRIVATE /D_CRT_SECURE_NO_WARNINGS /wd4996 /wd4244 /wd4267)
+else()
   set_property(TARGET lmdb APPEND PROPERTY COMPILE_FLAGS "-fPIC")
 endif()
 include_directories(cryptonote/external/liblmdb)
