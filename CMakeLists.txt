@@ -493,25 +493,54 @@ include_directories(cryptonote/src/Platform/Posix)
 file(GLOB PLATFORM_SOURCES cryptonote/src/Platform/${PLATFORM_DIR}/System/*)
 set(CRYPTONOTE_SOURCES ${CRYPTONOTE_SOURCES} ${PLATFORM_SOURCES})
 
-set(LMDB_SOURCES
-  cryptonote/external/liblmdb/mdb.c
-  cryptonote/external/liblmdb/midl.c)
-add_library(lmdb STATIC ${LMDB_SOURCES})
-target_include_directories(lmdb PUBLIC cryptonote/external/liblmdb)
-set_target_properties(lmdb PROPERTIES AUTOMOC OFF AUTOUIC OFF AUTORCC OFF)
 if (MSVC)
-  # mdb.c has GCC-style function-type typedefs: typedef NTSTATUS (WINAPI FuncName)(...)
-  # MSVC rejects WINAPI (__stdcall) as a calling-convention in this typedef position.
-  # Fix: pre-define WINAPI as empty for mdb.c only via a per-source compile flag.
-  # With WINAPI="", the typedefs become valid plain C function-type typedefs, and the
-  # accompanying pointer declarations/casts are already correct for that form.
-  # Safe on x64: the Microsoft x64 ABI has a single calling convention.
-  set_source_files_properties(
-    cryptonote/external/liblmdb/mdb.c
-    PROPERTIES COMPILE_FLAGS "/DWINAPI=")
-  target_include_directories(lmdb PRIVATE cryptonote/src/platform/msc)
-  target_compile_options(lmdb PRIVATE /D_CRT_SECURE_NO_WARNINGS /wd4996 /wd4244 /wd4267)
+  # Build lmdb externally using the Visual Studio generator — this matches how the karbowanec
+  # standalone project (which is the same source) builds lmdb.lib successfully with MSVC.
+  set(_lmdb_src_dir "${CMAKE_SOURCE_DIR}/cryptonote/external/liblmdb")
+  set(_lmdb_build_dir "${CMAKE_BINARY_DIR}/lmdb_external")
+  if(CMAKE_BUILD_TYPE)
+    set(_lmdb_config "${CMAKE_BUILD_TYPE}")
+  else()
+    set(_lmdb_config "Release")
+  endif()
+
+  message(STATUS "Configuring lmdb externally (${_lmdb_config}) in ${_lmdb_build_dir}")
+  execute_process(
+    COMMAND "${CMAKE_COMMAND}"
+      -G "Visual Studio 17 2022"
+      -A x64
+      -S "${_lmdb_src_dir}"
+      -B "${_lmdb_build_dir}"
+    RESULT_VARIABLE _lmdb_configure_result
+    OUTPUT_QUIET
+    ERROR_VARIABLE _lmdb_configure_error
+  )
+  if(NOT _lmdb_configure_result EQUAL 0)
+    message(FATAL_ERROR "lmdb configure failed:\n${_lmdb_configure_error}")
+  endif()
+
+  message(STATUS "Building lmdb externally...")
+  execute_process(
+    COMMAND "${CMAKE_COMMAND}" --build "${_lmdb_build_dir}" --config "${_lmdb_config}"
+    RESULT_VARIABLE _lmdb_build_result
+    OUTPUT_QUIET
+    ERROR_VARIABLE _lmdb_build_error
+  )
+  if(NOT _lmdb_build_result EQUAL 0)
+    message(FATAL_ERROR "lmdb build failed:\n${_lmdb_build_error}")
+  endif()
+
+  add_library(lmdb STATIC IMPORTED GLOBAL)
+  set_target_properties(lmdb PROPERTIES
+    IMPORTED_LOCATION "${_lmdb_build_dir}/${_lmdb_config}/lmdb.lib"
+    INTERFACE_INCLUDE_DIRECTORIES "${_lmdb_src_dir}"
+  )
 else()
+  set(LMDB_SOURCES
+    cryptonote/external/liblmdb/mdb.c
+    cryptonote/external/liblmdb/midl.c)
+  add_library(lmdb STATIC ${LMDB_SOURCES})
+  target_include_directories(lmdb PUBLIC cryptonote/external/liblmdb)
   set_property(TARGET lmdb APPEND PROPERTY COMPILE_FLAGS "-fPIC")
 endif()
 include_directories(cryptonote/external/liblmdb)
