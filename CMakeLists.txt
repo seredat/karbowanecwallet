@@ -349,13 +349,24 @@ elseif (UNIX)
 
     include_directories(/usr/include/malloc)
 
+    # Force CMake to skip AGL if it's being erroneously detected
+    set(OPENGL_agl_LIBRARY "" CACHE STRING "" FORCE)
+    
+    # Ensure we are using the modern Cocoa-based OpenGL
+    find_library(OPENGL_LIBRARY OpenGL)
+    find_library(COCOA_LIBRARY Cocoa)
+    find_library(IOKIT_LIBRARY IOKit)
+    
+    target_link_libraries(${PROJECT_NAME} 
+        PRIVATE 
+        ${OPENGL_LIBRARY} 
+        ${COCOA_LIBRARY} 
+        ${IOKIT_LIBRARY}
+    )
+
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -stdlib=libc++")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -D_DARWIN_C_SOURCE")
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} \
-    -framework Cocoa \
-    -framework OpenGL \
-    -framework CoreFoundation \
-    -framework IOKit")
+    
     set(MACOSX_BUNDLE_ICON_FILE karbowanec.icns)
     set(APPLICATION_ICON src/images/karbowanec.icns)
     set_source_files_properties(${APPLICATION_ICON} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
