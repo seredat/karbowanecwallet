@@ -121,7 +121,7 @@ jobs:
       - name: Install Qt
         uses: jurplel/install-qt-action@v4
         with:
-          version: '6.8.4'
+          version: '6.9.0'
           install-deps: 'true'
 
       - name: Setup Xcode
