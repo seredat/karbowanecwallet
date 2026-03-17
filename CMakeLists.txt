@@ -357,13 +357,6 @@ elseif (UNIX)
     find_library(COCOA_LIBRARY Cocoa)
     find_library(IOKIT_LIBRARY IOKit)
     
-    target_link_libraries(${PROJECT_NAME} 
-        PRIVATE 
-        ${OPENGL_LIBRARY} 
-        ${COCOA_LIBRARY} 
-        ${IOKIT_LIBRARY}
-    )
-
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -stdlib=libc++")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -D_DARWIN_C_SOURCE")
     
@@ -594,7 +587,13 @@ if (APPLE)
   set_target_properties(${PROJECT_NAME} PROPERTIES
   MACOSX_BUNDLE TRUE
   MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_BINARY_DIR}/Info.plist)
-  
+  target_link_libraries(${PROJECT_NAME} PRIVATE
+    "-framework Cocoa"
+    "-framework OpenGL"
+    "-framework CoreFoundation"
+    "-framework IOKit"
+    "-framework QuartzCore"
+)
   target_link_libraries(${PROJECT_NAME} Qt6::PrintSupport)
 elseif (UNIX)
   target_link_libraries(${PROJECT_NAME} -lpthread)
