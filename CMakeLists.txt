@@ -587,7 +587,7 @@ if (APPLE)
   set_target_properties(${PROJECT_NAME} PROPERTIES
   MACOSX_BUNDLE TRUE
   MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_BINARY_DIR}/Info.plist)
-  target_link_libraries(${PROJECT_NAME} PRIVATE
+  target_link_libraries(${PROJECT_NAME}
     "-framework Cocoa"
     "-framework OpenGL"
     "-framework CoreFoundation"
