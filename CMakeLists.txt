@@ -1,16 +1,10 @@
 cmake_minimum_required(VERSION 3.8)
 
-if(APPLE)
-    set(OPENGL_agl_LIBRARY "" CACHE STRING "" FORCE)
-endif()
-
 # Required for finding Threads on ARM
 enable_language(C)
 enable_language(CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-project(${WALLET_NAME})
 
 include(CryptoNoteWallet.cmake)
 include(external/ext.cmake)
@@ -44,6 +38,8 @@ endif()
 if(ARCH_ID STREQUAL "ppc64le")
   set(PPC64LE 1)
 endif()
+
+project(${WALLET_NAME})
 
 execute_process(COMMAND git log -1 --pretty=format:%h
 WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
@@ -343,7 +339,6 @@ elseif (UNIX)
     file(GLOB_RECURSE OBJC_SOURCES src/*.mm)
     set(SOURCES ${SOURCES} ${OBJC_SOURCES})
     set(PLATFORM_DIR OSX)
-
     set(MACOSX_BUNDLE_INFO_STRING "Karbowanec GUI Wallet")
     set(MACOSX_BUNDLE_LONG_VERSION_STRING "${VERSION_VERSION}.${VERSION_MINOR}.${VERSION_PATCH}")
     set(MACOSX_BUNDLE_BUNDLE_NAME "Karbo Wallet")
@@ -354,6 +349,9 @@ elseif (UNIX)
 
     include_directories(/usr/include/malloc)
 
+    # Force CMake to skip AGL if it's being erroneously detected
+    set(OPENGL_agl_LIBRARY "" CACHE STRING "" FORCE)
+    
     # Ensure we are using the modern Cocoa-based OpenGL
     find_library(OPENGL_LIBRARY OpenGL)
     find_library(COCOA_LIBRARY Cocoa)
@@ -589,7 +587,7 @@ if (APPLE)
   set_target_properties(${PROJECT_NAME} PROPERTIES
   MACOSX_BUNDLE TRUE
   MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_BINARY_DIR}/Info.plist)
-  target_link_libraries(${PROJECT_NAME}
+  target_link_libraries(${PROJECT_NAME} PRIVATE
     "-framework Cocoa"
     "-framework OpenGL"
     "-framework CoreFoundation"
