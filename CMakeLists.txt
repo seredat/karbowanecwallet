@@ -1,5 +1,11 @@
 cmake_minimum_required(VERSION 3.8)
 
+project(${WALLET_NAME})
+
+if(APPLE)
+    set(OPENGL_agl_LIBRARY "" CACHE STRING "" FORCE)
+endif()
+
 # Required for finding Threads on ARM
 enable_language(C)
 enable_language(CXX)
@@ -38,8 +44,6 @@ endif()
 if(ARCH_ID STREQUAL "ppc64le")
   set(PPC64LE 1)
 endif()
-
-project(${WALLET_NAME})
 
 execute_process(COMMAND git log -1 --pretty=format:%h
 WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
@@ -339,6 +343,7 @@ elseif (UNIX)
     file(GLOB_RECURSE OBJC_SOURCES src/*.mm)
     set(SOURCES ${SOURCES} ${OBJC_SOURCES})
     set(PLATFORM_DIR OSX)
+
     set(MACOSX_BUNDLE_INFO_STRING "Karbowanec GUI Wallet")
     set(MACOSX_BUNDLE_LONG_VERSION_STRING "${VERSION_VERSION}.${VERSION_MINOR}.${VERSION_PATCH}")
     set(MACOSX_BUNDLE_BUNDLE_NAME "Karbo Wallet")
@@ -349,9 +354,6 @@ elseif (UNIX)
 
     include_directories(/usr/include/malloc)
 
-    # Force CMake to skip AGL if it's being erroneously detected
-    set(OPENGL_agl_LIBRARY "" CACHE STRING "" FORCE)
-    
     # Ensure we are using the modern Cocoa-based OpenGL
     find_library(OPENGL_LIBRARY OpenGL)
     find_library(COCOA_LIBRARY Cocoa)
