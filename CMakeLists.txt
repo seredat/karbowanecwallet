@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
 
-project(${WALLET_NAME})
-
 if(APPLE)
     set(OPENGL_agl_LIBRARY "" CACHE STRING "" FORCE)
 endif()
@@ -11,6 +9,8 @@ enable_language(C)
 enable_language(CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+project(${WALLET_NAME})
 
 include(CryptoNoteWallet.cmake)
 include(external/ext.cmake)
@@ -571,7 +571,7 @@ target_link_libraries(QCustomPlot Qt6::Core Qt6::PrintSupport)
 
 add_executable(${PROJECT_NAME} ${BUILD_PLATFORM} ${BUILD_RESOURCES} ${SOURCES} ${HEADERS} ${UIS} ${RCC})
 set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_DEFINITIONS _GNU_SOURCE)
-target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES} ${QT_LIBRARIES} ${CRYPTONOTE_LIB} ${QRENCODE_LIB} Mnemonics QCustomPlot)
+target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES} ${QTMAIN} ${CRYPTONOTE_LIB} ${QRENCODE_LIB} Mnemonics QCustomPlot)
 add_dependencies(${PROJECT_NAME} translations)
 if (WIN32)
   add_dependencies(${PROJECT_NAME} translations_delault)
