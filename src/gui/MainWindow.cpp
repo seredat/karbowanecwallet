@@ -308,7 +308,7 @@ void MainWindow::changeEvent(QEvent* _event) {
   // this event is send if a translator is loaded
   case QEvent::LanguageChange:
   {
-    //m_ui->retranslateUi(this);
+    m_ui->retranslateUi(this);
     setMainWindowTitle();
     break;
   }
@@ -627,29 +627,20 @@ void MainWindow::createLanguageMenu(void)
 
 void MainWindow::slotLanguageChanged(QAction* action)
 {
-  if(0 != action) {
-    // load the language dependant on the action content
+    if (!action)
+        return;
+
     QString lang = action->data().toString();
-    loadLanguage(lang);
-    // save is in settings
-    Settings::instance().setLanguage((lang));
-  }
+
+    TranslatorManager::instance()->switchLanguage(lang);
 }
 
 void MainWindow::loadLanguage(const QString& rLanguage)
 {
-  if(m_currLang != rLanguage) {
-    m_currLang = rLanguage;
-    QLocale locale = QLocale(m_currLang);
-    QLocale::setDefault(locale);
+    QLocale locale(rLanguage);
     QString languageName = QLocale::languageToString(locale.language());
-    //TranslatorManager::instance()->switchTranslator(m_translator, QString("%1.qm").arg(rLanguage));
-    //TranslatorManager::instance()->switchTranslator(m_translatorQt, QString("qt_%1.qm").arg(rLanguage));
-    Settings::instance().setLanguage((m_currLang));
-    setStatusBarText(QString(tr("Language changed to %1").arg(languageName)));
-    QMessageBox::information(this, tr("Language was changed"),
-       tr("Language changed to %1. The change will take effect after restarting the wallet.").arg(languageName), QMessageBox::Ok);
-  }
+
+    setStatusBarText(tr("Language changed to %1").arg(languageName));
 }
 
 void MainWindow::DisplayCmdLineHelp() {

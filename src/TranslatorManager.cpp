@@ -1,23 +1,25 @@
-// Copyright (c) 2016-2021 The Karbowanec developers
-// Distributed under the MIT/X11 software license, see the accompanying
-// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+// Copyright (c) 2016-2026 The Karbowanec developers
+// Distributed under the MIT/X11 software license
 
 #include <QApplication>
+#include <QDir>
+#include <QDebug>
+#include <QCoreApplication>
+#include <QEvent>
 #include <QLocale>
-#include <QTranslator>
+
 #include "Settings.h"
 #include "TranslatorManager.h"
 
 using namespace WalletGui;
 
-TranslatorManager* TranslatorManager::m_Instance = 0;
+TranslatorManager* TranslatorManager::m_Instance = nullptr;
 
 TranslatorManager::TranslatorManager()
 {
     QString lang = Settings::instance().getLanguage();
     if (lang.isEmpty()) {
-        lang = QLocale::system().name();
-        lang = lang.section('_', 0, 0); // cleaner truncate
+        lang = QLocale::system().name().section('_', 0, 0);
     }
 
 #if defined(_MSC_VER)
@@ -27,7 +29,6 @@ TranslatorManager::TranslatorManager()
     m_langPath = QApplication::applicationDirPath() + "/../Resources/languages/";
 
 #else
-    // Default: try relative to executable (works for AppImage + local builds)
     QString basePath = QApplication::applicationDirPath();
 
     QString appImagePath = basePath + "/../share/karbo/languages";
@@ -45,9 +46,46 @@ TranslatorManager::TranslatorManager()
 
     qDebug() << "Translation path:" << m_langPath;
 
-    QDir dir(m_langPath);
+    loadLanguageInternal(lang);
+}
 
+TranslatorManager::~TranslatorManager()
+{
+    clearTranslators();
+}
+
+TranslatorManager* TranslatorManager::instance()
+{
+    static QMutex mutex;
+
+    if (!m_Instance)
+    {
+        mutex.lock();
+        if (!m_Instance)
+            m_Instance = new TranslatorManager;
+        mutex.unlock();
+    }
+
+    return m_Instance;
+}
+
+void TranslatorManager::clearTranslators()
+{
+    for (auto it = m_translators.begin(); it != m_translators.end(); ++it)
+    {
+        qApp->removeTranslator(it.value());
+        delete it.value();
+    }
+    m_translators.clear();
+    m_keyLang.clear();
+}
+
+void TranslatorManager::loadLanguageInternal(const QString& lang)
+{
+    // --- App translations ---
+    QDir dir(m_langPath);
     QStringList resources = dir.entryList(QStringList("??.qm"));
+
     for (const QString& file : resources)
     {
         QString locale = file;
@@ -56,17 +94,20 @@ TranslatorManager::TranslatorManager()
         if (locale == lang)
         {
             QTranslator* translator = new QTranslator;
-            if (translator->load(file, m_langPath))
+
+            if (translator->load(file, m_langPath) ||
+                translator->load(":/translations/" + file)) // fallback
             {
                 qApp->installTranslator(translator);
                 m_keyLang = locale;
                 m_translators.insert(locale, translator);
                 break;
             }
+            delete translator;
         }
     }
 
-    // Qt translations
+    // --- Qt translations ---
     QString langPathSys;
 
 #if defined(_MSC_VER) || defined(Q_OS_MAC)
@@ -99,50 +140,33 @@ TranslatorManager::TranslatorManager()
         if (shortLang == lang)
         {
             QTranslator* translator = new QTranslator;
+
             if (translator->load(file, langPathSys))
             {
                 qApp->installTranslator(translator);
                 m_translators.insert(locale, translator);
+            } else {
+                delete translator;
             }
         }
     }
 }
 
-TranslatorManager::~TranslatorManager()
+void TranslatorManager::switchLanguage(const QString& lang)
 {
-    TranslatorMap::const_iterator i = m_translators.begin();
-    while (i != m_translators.end())
-    {
-        QTranslator* pTranslator = i.value();
-        delete pTranslator;
-        ++i;
-    }
+    if (lang == m_keyLang)
+        return;
 
-    m_translators.clear();
-}
+    qDebug() << "Switching language to:" << lang;
 
-TranslatorManager* TranslatorManager::instance()
-{
-    static QMutex mutex;
-    if (!m_Instance)
-    {
-        mutex.lock();
+    clearTranslators();
+    loadLanguageInternal(lang);
 
-        if (!m_Instance)
-            m_Instance = new TranslatorManager;
+    Settings::instance().setLanguage(lang);
 
-        mutex.unlock();
-    }
+    // Notify UI
+    QEvent event(QEvent::LanguageChange);
+    QCoreApplication::sendEvent(qApp, &event);
 
-    return m_Instance;
-}
-
-void TranslatorManager::switchTranslator(QTranslator& translator, const QString& filename)
-{
-    // remove the old translator
-    qApp->removeTranslator(&translator);
-
-    // load the new translator
-    if(translator.load(filename))
-       qApp->installTranslator(&translator);
+    emit languageChanged();
 }
