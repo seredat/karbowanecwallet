@@ -36,6 +36,9 @@ cp ../src/images/karbowanez.png \
 cp ../build/release/languages/*.qm \
    $APPDIR/usr/share/karbo/languages/
 
+# Define extra modules to ensure SVG support is bundled
+export EXTRA_QT_MODULES="svg"
+
 # Build AppImage
 ./linuxdeploy-x86_64.AppImage \
   --appdir $APPDIR \
