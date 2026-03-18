@@ -30,4 +30,4 @@ Icon=karbowanec
 MimeType=x-scheme-handler/karbowanec;
 Categories=Office;Finance;
 Version=1.0
-X-AppVersion=@WALLET_VERSION@
+X-AppImage-Version=@WALLET_VERSION@
