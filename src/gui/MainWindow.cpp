@@ -631,8 +631,8 @@ void MainWindow::slotLanguageChanged(QAction* action)
         return;
 
     QString lang = action->data().toString();
-
     TranslatorManager::instance()->switchLanguage(lang);
+    loadLanguage(lang);
 }
 
 void MainWindow::loadLanguage(const QString& rLanguage)
