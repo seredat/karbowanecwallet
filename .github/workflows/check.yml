@@ -205,7 +205,7 @@ jobs:
         id: build
         run: |
           sudo apt update -y
-          sudo apt install -y qt6-base-dev qt6-tools-dev qt6-tools-dev-tools t6-svg-dev libqt6svg6 libboost-all-dev
+          sudo apt install -y qt6-base-dev qt6-tools-dev qt6-tools-dev-tools qt6-svg-dev libqt6svg6 libboost-all-dev
           build_folder="build/release"
           krb_ver=$(git describe --tags --abbrev=0)
           release_name=Karbo-wallet-ubuntu-24.04-$krb_ver
@@ -245,7 +245,7 @@ jobs:
         id: build
         run: |
           sudo apt update -y
-          sudo apt install -y qt6-base-dev qt6-tools-dev qt6-tools-dev-tools libboost-all-dev
+          sudo apt install -y qt6-base-dev qt6-tools-dev qt6-tools-dev-tools qt6-svg-dev libqt6svg6 libboost-all-dev
           build_folder="build/release"
           krb_ver=$(git describe --tags --abbrev=0)
           release_name=Karbo-wallet-ubuntu-24.04-$krb_ver
