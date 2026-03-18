@@ -272,7 +272,7 @@ jobs:
           echo "asset_path=${asset_path}" >> $GITHUB_OUTPUT
 
       - name: Upload To GH Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.appimage.outputs.artifact_name }}
           path: ${{ steps.appimage.outputs.asset_path }}
