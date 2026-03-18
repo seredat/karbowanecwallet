@@ -641,6 +641,9 @@ void MainWindow::loadLanguage(const QString& rLanguage)
     QString languageName = QLocale::languageToString(locale.language());
 
     setStatusBarText(tr("Language changed to %1").arg(languageName));
+    setStatusBarText(QString(tr("Language changed to %1").arg(languageName)));
+    QMessageBox::information(this, tr("Language was changed"),
+                             tr("Language changed to %1. The change will take effect after restarting the wallet.").arg(languageName), QMessageBox::Ok);
 }
 
 void MainWindow::DisplayCmdLineHelp() {
