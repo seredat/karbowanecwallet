@@ -27,12 +27,12 @@ public:
     void checkForUpdate();
 
 signals:
-    
+
 public slots:
     void replyFinished (QNetworkReply *reply);
 
 private:
-   QNetworkAccessManager *manager;
+    QNetworkAccessManager *manager;
 
 };
 

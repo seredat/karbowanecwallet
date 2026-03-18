@@ -12,7 +12,7 @@
 
 namespace WalletGui {
 
-enum class TransactionType : quint8 {MINED, INPUT, OUTPUT, INOUT, FUSION};
+enum class TransactionType : quint8 {MINED, INPUT, OUTPUT, INOUT};
 
 enum class TransactionState : quint8 {ACTIVE, DELETED, SENDING, CANCELLED, FAILED};
 

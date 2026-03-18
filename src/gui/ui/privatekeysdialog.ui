@@ -139,4 +139,7 @@
    </hints>
   </connection>
  </connections>
+ <slots>
+  <slot>copyKey()</slot>
+ </slots>
 </ui>

@@ -155,4 +155,8 @@
    </hints>
   </connection>
  </connections>
+ <slots>
+  <slot>copyKey()</slot>
+  <slot>saveKeyToFile()</slot>
+ </slots>
 </ui>

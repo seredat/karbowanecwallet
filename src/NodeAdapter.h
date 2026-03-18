@@ -1,5 +1,5 @@
 // Copyright (c) 2011-2015 The Cryptonote developers
-// Copyright (c) 2016-2020 The Karbowanec developers
+// Copyright (c) 2016-2022 The Karbowanec developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -11,6 +11,8 @@
 #include <INode.h>
 #include <IWalletLegacy.h>
 #include "CryptoNoteWrapper.h"
+#include "Rpc/RpcServerConfig.h"
+#include "System/Dispatcher.h"
 
 namespace CryptoNote {
 
@@ -44,6 +46,7 @@ public:
   quint64 getLastLocalBlockHeight() const;
   QDateTime getLastLocalBlockTimestamp() const;
   quint64 getDifficulty();
+  quint64 getNextReward();
   quint64 getTxCount();
   quint64 getTxPoolSize();
   quint64 getAltBlocksCount();
@@ -59,11 +62,20 @@ public:
   quint64 getAlreadyGeneratedCoins();
   std::vector<CryptoNote::p2pConnection> getConnections();
   CryptoNote::BlockHeaderInfo getLastLocalBlockHeaderInfo();
+  bool getBlockTemplate(CryptoNote::Block& b, const CryptoNote::AccountKeys& acc, const CryptoNote::BinaryArray& extraNonce, CryptoNote::difficulty_type& difficulty, uint32_t& height);
+  bool handleBlockFound(CryptoNote::Block& b);
+  bool getBlockLongHash(Crypto::cn_context &context, const CryptoNote::Block& block, Crypto::Hash& res);
+  NodeType getNodeType() const;
+  bool isOffline();
+
   void peerCountUpdated(Node& _node, size_t _count) Q_DECL_OVERRIDE;
   void localBlockchainUpdated(Node& _node, uint64_t _height) Q_DECL_OVERRIDE;
   void lastKnownBlockHeightUpdated(Node& _node, uint64_t _height) Q_DECL_OVERRIDE;
   void connectionStatusUpdated(bool _connected) Q_DECL_OVERRIDE;
-  bool isOffline();
+  void poolChanged(Node& _node) Q_DECL_OVERRIDE;
+
+  CryptoNote::INode* getNode();
+  System::Dispatcher& getDispatcher();
 
 private:
   Node* m_node;
@@ -76,15 +88,17 @@ private:
   bool initInProcessNode();
   CryptoNote::CoreConfig makeCoreConfig() const;
   CryptoNote::NetNodeConfig makeNetNodeConfig() const;
+  CryptoNote::RpcServerConfig makeRpcServerConfig() const;
 
 Q_SIGNALS:
   void localBlockchainUpdatedSignal(quint64 _height);
   void lastKnownBlockHeightUpdatedSignal(quint64 _height);
   void nodeInitCompletedSignal();
   void peerCountUpdatedSignal(quintptr _count);
-  void initNodeSignal(Node** _node, const CryptoNote::Currency* currency, INodeCallback* _callback, Logging::LoggerManager* _loggerManager,
-    const CryptoNote::CoreConfig& _coreConfig, const CryptoNote::NetNodeConfig& _netNodeConfig);
-  void deinitNodeSignal(Node** _node);
+  void poolChangedSignal();
+  void initNodeSignal(WalletGui::Node** _node, const CryptoNote::Currency* currency, INodeCallback* _callback, Logging::LoggerManager* _loggerManager,
+    const CryptoNote::CoreConfig& _coreConfig, const CryptoNote::NetNodeConfig& _netNodeConfig, const CryptoNote::RpcServerConfig& _rpcServerConfig);
+  void deinitNodeSignal(WalletGui::Node** _node);
   void connectionFailedSignal();
   void connectionStatusUpdatedSignal(bool _connected);
 };

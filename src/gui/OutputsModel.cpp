@@ -1,9 +1,10 @@
 // Copyright (c) 2011-2016 The Cryptonote developers
 // Copyright (c) 2015-2016 XDN developers
-// Copyright (c) 2016-2021 Karbo developers
+// Copyright (c) 2016-2022 Karbo developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+#include <algorithm>
 #include <QMetaEnum>
 
 #include "CryptoNoteCore/CryptoNoteTools.h"
@@ -52,7 +53,7 @@ int OutputsModel::columnCount(const QModelIndex& _parent) const {
 }
 
 int OutputsModel::rowCount(const QModelIndex& _parent) const {
-  return m_spentOutputs.size();
+  return m_outputs.size();
 }
 
 QVariant OutputsModel::headerData(int _section, Qt::Orientation _orientation, int _role) const {
@@ -105,12 +106,16 @@ QVariant OutputsModel::data(const QModelIndex& _index, int _role) const {
     return QVariant();
   }
 
-  CryptoNote::TransactionSpentOutputInformation _output = m_spentOutputs.value(_index.row());
+  CryptoNote::TransactionSpentOutputInformation _output = m_outputs.value(_index.row());
 
   switch(_role) {
   case Qt::DisplayRole:
   case Qt::EditRole:
     return getDisplayRole(_index);
+
+  //case Qt::EditRole:
+  case 15:
+    return getEditRole(_index);
 
   case Qt::DecorationRole:
     return getDecorationRole(_index);
@@ -190,10 +195,111 @@ QVariant OutputsModel::getDisplayRole(const QModelIndex& _index) const {
   case COLUMN_TX_HASH:
     return _index.data(ROLE_TX_HASH).toByteArray().toHex().toUpper();
 
-  case COLUMN_AMOUNT: {
-    qint64 amount = _index.data(ROLE_AMOUNT).value<qint64>();
-    return CurrencyAdapter::instance().formatAmount(amount);
+  case COLUMN_AMOUNT:
+    return CurrencyAdapter::instance().formatAmount(_index.data(ROLE_AMOUNT).value<qint64>());
+
+  case COLUMN_GLOBAL_OUTPUT_INDEX: {
+    quint32 index = _index.data(ROLE_GLOBAL_OUTPUT_INDEX).value<qint32>();
+      if (index < 0 || index == std::numeric_limits<uint32_t>::max())
+        return tr("Pending");
+      else
+        return index;
   }
+
+  case COLUMN_OUTPUT_IN_TRANSACTION:
+    return _index.data(ROLE_OUTPUT_IN_TRANSACTION).value<qint32>();
+
+  case COLUMN_TX_PUBLIC_KEY: {
+    if (type == OutputType::Key)
+      return _index.data(ROLE_TX_PUBLIC_KEY).toByteArray().toHex().toUpper();
+    else if (type == OutputType::Multisignature)
+      return "-";
+  }
+
+  case COLUMN_SPENDING_BLOCK_HEIGHT: {
+    if (is_spent) {
+      quint32 height = _index.data(ROLE_SPENDING_BLOCK_HEIGHT).value<qint32>();
+      if (height < 0 || height == std::numeric_limits<uint32_t>::max())
+        return "Unconfirmed";
+      else
+        return height;
+    } else {
+      return "-";
+    }
+  }
+
+  case COLUMN_TIMESTAMP: {
+    if (is_spent) {
+      QDateTime date = _index.data(ROLE_TIMESTAMP).toDateTime();
+      return (date.isNull() || !date.isValid() ? "-" : date.toString("dd-MM-yy HH:mm"));
+    } else {
+      return "-";
+    }
+  }
+
+  case COLUMN_SPENDING_TRANSACTION_HASH: {
+    if (is_spent)
+      return _index.data(ROLE_SPENDING_TRANSACTION_HASH).toByteArray().toHex().toUpper();
+    else
+      return "-";
+  }
+
+  case COLUMN_KEY_IMAGE: {
+    if (is_spent)
+      return _index.data(ROLE_KEY_IMAGE).toByteArray().toHex().toUpper();
+    else
+      return "-";
+  }
+
+  case COLUMN_INPUT_IN_TRANSACTION: {
+    if (is_spent)
+      return _index.data(ROLE_INPUT_IN_TRANSACTION).value<qint32>();
+    else
+      return "-";
+  }
+
+  default:
+    break;
+  }
+
+  return QVariant();
+}
+
+QVariant OutputsModel::getEditRole(const QModelIndex& _index) const {
+  OutputState state = static_cast<OutputState>(_index.data(ROLE_STATE).value<quint8>());
+  bool is_spent = state == OutputState::SPENT;
+
+  OutputType type = static_cast<OutputType>(_index.data(ROLE_TYPE).value<quint8>());
+
+  switch(_index.column()) {
+
+  case COLUMN_STATE: {
+    if (is_spent) {
+      return tr("Spent");
+    } else {
+      return tr("Unspent");
+    }
+
+    return QVariant();
+  }
+
+  case COLUMN_TYPE: {
+    if (type == OutputType::Key)
+      return tr("Key");
+    else if (type == OutputType::Multisignature)
+      return tr("Multisignature");
+    else
+      return tr("Invalid");
+  }
+
+  case COLUMN_OUTPUT_KEY:
+    return _index.data(ROLE_OUTPUT_KEY).toByteArray().toHex().toUpper();
+
+  case COLUMN_TX_HASH:
+    return _index.data(ROLE_TX_HASH).toByteArray().toHex().toUpper();
+
+  case COLUMN_AMOUNT:
+    return _index.data(ROLE_AMOUNT).value<qint64>();
 
   case COLUMN_GLOBAL_OUTPUT_INDEX: {
     quint32 index = _index.data(ROLE_GLOBAL_OUTPUT_INDEX).value<qint32>();
@@ -308,7 +414,7 @@ QVariant OutputsModel::getUserRole(const QModelIndex& _index, int _role, CryptoN
     return _output.spendingBlockHeight;
 
   case ROLE_TIMESTAMP:
-    return (_output.timestamp > 0 ? QDateTime::fromTime_t(_output.timestamp) : QDateTime());
+    return (_output.timestamp > 0 ? QDateTime::fromSecsSinceEpoch(_output.timestamp) : QDateTime());
 
   case ROLE_SPENDING_TRANSACTION_HASH:
     return QByteArray(reinterpret_cast<char*>(&_output.spendingTransactionHash), 32);
@@ -329,30 +435,40 @@ QVariant OutputsModel::getUserRole(const QModelIndex& _index, int _role, CryptoN
 void OutputsModel::reloadWalletTransactions() {
   reset();
   std::vector<CryptoNote::TransactionOutputInformation> unspent = WalletAdapter::instance().getOutputs();
-  m_unspentOutputs = QVector<CryptoNote::TransactionOutputInformation>::fromStdVector(unspent);
-  unspent.clear();
-  unspent.shrink_to_fit();
   std::vector<CryptoNote::TransactionSpentOutputInformation> spent = WalletAdapter::instance().getSpentOutputs();
-  m_spentOutputs = QVector<CryptoNote::TransactionSpentOutputInformation>::fromStdVector(spent);
+  for (const auto &item : spent) {
+    m_outputs.append(item);
+  }
+
   spent.clear();
   spent.shrink_to_fit();
 
-  quint32 outputsCount = m_unspentOutputs.size() + m_spentOutputs.size();
+  quint32 outputsCount = unspent.size() + m_outputs.size();
 
-  for (const auto& o : m_unspentOutputs) {
-    CryptoNote::TransactionSpentOutputInformation s = *static_cast<const CryptoNote::TransactionSpentOutputInformation *>(&o);
+  for (const auto& o : unspent) {
+    //CryptoNote::TransactionSpentOutputInformation s = *static_cast<const CryptoNote::TransactionSpentOutputInformation *>(&o); // crashes here
+    CryptoNote::TransactionSpentOutputInformation s;
+    s.type = o.type;
+    s.amount = o.amount;
+    s.globalOutputIndex = o.globalOutputIndex;
+    s.outputInTransaction = o.outputInTransaction;
+    s.transactionHash = o.transactionHash;
+    s.transactionPublicKey = o.transactionPublicKey;
+    s.outputKey = o.outputKey;
+    s.requiredSignatures = o.requiredSignatures;
+
     s.spendingBlockHeight = std::numeric_limits<uint32_t>::max();
     s.spendingTransactionHash = CryptoNote::NULL_HASH;
     s.timestamp = 0;
     s.keyImage = {};
     s.inputInTransaction = std::numeric_limits<uint32_t>::max();
 
-    m_spentOutputs.append(s);
+    m_outputs.append(s);
   }
-  m_unspentOutputs.clear();
+  unspent.clear();
 
   // need to sort them
-  qSort(m_spentOutputs.begin(), m_spentOutputs.end(), transactionSpentOutputInformationLessThan);
+  std::sort(m_outputs.begin(), m_outputs.end(), transactionSpentOutputInformationLessThan);
 
   beginInsertRows(QModelIndex(), 0, outputsCount - 1);
   endInsertRows();
@@ -365,8 +481,7 @@ void OutputsModel::appendTransaction(CryptoNote::TransactionId _id) {
 
 void OutputsModel::reset() {
   beginResetModel();
-  m_unspentOutputs.clear();
-  m_spentOutputs.clear();
+  m_outputs.clear();
   endResetModel();
 }
 

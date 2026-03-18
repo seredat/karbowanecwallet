@@ -269,5 +269,6 @@
  <slots>
   <slot>exportToCsv()</slot>
   <slot>showTransactionDetails(QModelIndex)</slot>
+  <slot>resetFilterClicked()</slot>
  </slots>
 </ui>

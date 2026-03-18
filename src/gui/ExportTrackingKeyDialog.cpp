@@ -35,8 +35,12 @@ void ExportTrackingKeyDialog::walletOpened() {
   // trackingWalletKeys = QString::fromStdString(Tools::Base58::encode_addr(CurrencyAdapter::instance().getAddressPrefix(),
   //                     std::string(reinterpret_cast<char*>(&keys), sizeof(keys))));
 
-  // Bytecoin GUI style .trackingkey. Lets use this style to  prevent confusing with import of private key / paperwallet
-  trackingWalletKeys = QString::fromStdString(Common::podToHex(keys));
+  // Simplewallet-compatible tracking key format:
+  // spendPublicKey(32) | viewPublicKey(32) | viewSecretKey(32) = 192 hex chars
+  trackingWalletKeys = QString::fromStdString(
+    Common::podToHex(keys.address.spendPublicKey) +
+    Common::podToHex(keys.address.viewPublicKey) +
+    Common::podToHex(keys.viewSecretKey));
 
   m_ui->m_trackingKeyEdit->setText(trackingWalletKeys);
 //m_ui->m_qrLabel->showQRCode(trackingWalletKeys);

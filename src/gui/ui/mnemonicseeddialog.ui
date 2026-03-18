@@ -149,4 +149,7 @@
    </hints>
   </connection>
  </connections>
+ <slots>
+  <slot>languageChanged()</slot>
+ </slots>
 </ui>

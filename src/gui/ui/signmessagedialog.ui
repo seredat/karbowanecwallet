@@ -387,4 +387,9 @@
    </hints>
   </connection>
  </connections>
+ <slots>
+  <slot>messageChanged()</slot>
+  <slot>verifyMessage()</slot>
+  <slot>changeTitle(int)</slot>
+ </slots>
 </ui>

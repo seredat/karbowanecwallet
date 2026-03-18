@@ -233,5 +233,7 @@
   <signal>openWalletClickedSignal()</signal>
   <slot>okClicked()</slot>
   <slot>passwordChanged(QString)</slot>
+  <slot>createWallet()</slot>
+  <slot>openWallet()</slot>
  </slots>
 </ui>

@@ -1,6 +1,6 @@
 // Copyright (c) 2011-2016 The Cryptonote developers
 // Copyright (c) 2015-2016 XDN developers
-// Copyright (c) 2016-2021 Karbo developers
+// Copyright (c) 2016-2022 Karbo developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -29,6 +29,9 @@ CoinsFrame::CoinsFrame(QWidget* _parent) : QFrame(_parent), m_ui(new Ui::CoinsFr
   m_visibleOutputsModel(new VisibleOutputsModel)
 {
   m_ui->setupUi(this);
+  m_ui->m_outputsView->setSortingEnabled(true);
+  m_ui->m_outputsView->sortByColumn(4, Qt::DescendingOrder);
+  m_visibleOutputsModel->setSortRole(/*Qt::EditRole*/15);
   m_visibleOutputsModel->setDynamicSortFilter(true);
   m_ui->m_outputsView->setModel(m_visibleOutputsModel.data());
   m_ui->m_outputsView->header()->setSectionResizeMode(QHeaderView::Interactive);
@@ -183,8 +186,6 @@ void CoinsFrame::sendClicked() {
 
     if (o.type == CryptoNote::TransactionTypes::OutputType::Key)
         o.outputKey = *reinterpret_cast<const Crypto::PublicKey*>(index.data(OutputsModel::ROLE_OUTPUT_KEY).value<QByteArray>().data());
-    else if (o.type == CryptoNote::TransactionTypes::OutputType::Multisignature)
-        o.requiredSignatures = index.data(OutputsModel::ROLE_REQ_SIG).value<quint32>();
 
     if (index.data(OutputsModel::ROLE_STATE).value<quint8>() != static_cast<quint8>(OutputsModel::OutputState::SPENT)) {
       selectedOutputs.push_back(o);

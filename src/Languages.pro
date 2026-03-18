@@ -40,7 +40,6 @@ gui/MainWindow.cpp \
 gui/MiningFrame.cpp \
 gui/NewAddressDialog.cpp \
 gui/NewPasswordDialog.cpp \
-gui/NewPoolDialog.cpp \
 gui/OverviewFrame.cpp \
 gui/PasswordDialog.cpp \
 gui/PoolModel.cpp \
@@ -55,7 +54,7 @@ gui/TransactionsFrame.cpp \
 gui/TransactionsListModel.cpp \
 gui/TransactionsModel.cpp \
 gui/TransferFrame.cpp \
-update.cpp \
+Update.cpp \
 gui/ConnectionSettings.cpp \
 gui/NewNodeDialog.cpp \
 gui/NodeModel.cpp \
@@ -79,6 +78,7 @@ gui/ExportRawTxDialog.cpp \
 gui/CoinsFrame.cpp \
 gui/OutputsModel.cpp \
 gui/OutputDetailsDialog.cpp \
+gui/WalletRpcSettings.cpp \
  
 
 HEADERS = CommandLineParser.h \
@@ -147,6 +147,7 @@ gui/ExportRawTxDialog.h \
 gui/CoinsFrame.h \
 gui/OutputsModel.h \
 gui/OutputDetailsDialog.h \
+gui/WalletRpcSettings.h \
 
 
 FORMS = gui/ui/aboutdialog.ui \
@@ -191,10 +192,10 @@ gui/ui/getbalanceproofdialog.ui \
 gui/ui/exportrawtxdialog.ui \
 gui/ui/coinsframe.ui \
 gui/ui/outputdetailsdialog.ui \
+gui/ui/walletrpcsettingsdialog.ui \
 
 
 TRANSLATIONS = 	languages/uk.ts \
-				languages/ru.ts \
 				languages/pl.ts \
 				languages/be.ts \
 				languages/de.ts \
@@ -207,4 +208,3 @@ TRANSLATIONS = 	languages/uk.ts \
 				languages/zh.ts \
 				languages/hi.ts \
 				languages/ar.ts \
-				languages/fa.ts \

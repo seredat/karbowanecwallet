@@ -113,7 +113,7 @@ QVariant ConnectionsModel::data(const QModelIndex& _index, int _role) const {
     return getStateString(m_connections[_index.row()].connection_state);
 
   case ROLE_START: {
-    QDateTime date = QDateTime::fromTime_t(m_connections[_index.row()].started);
+    QDateTime date = QDateTime::fromSecsSinceEpoch(m_connections[_index.row()].started);
     return (date.isNull() || !date.isValid() ? "-" : date.toString("dd.MM.yy HH:mm"));
   }
 

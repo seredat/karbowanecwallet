@@ -1,5 +1,5 @@
 // Copyright (c) 2011-2015 The Cryptonote developers
-// Copyright (c) 2016-2020 The Karbowanec developers
+// Copyright (c) 2016-2022 The Karbowanec developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -9,15 +9,16 @@
 #include <QTimer>
 #include <QUrl>
 
-#include <CryptoNoteCore/CoreConfig.h>
-#include <P2p/NetNodeConfig.h>
-#include <Wallet/WalletErrors.h>
+#include <boost/filesystem.hpp>
+#include <boost/program_options.hpp>
 
+#include "CryptoNoteCore/CoreConfig.h"
 #include "CurrencyAdapter.h"
 #include "LoggerAdapter.h"
 #include "NodeAdapter.h"
+#include "P2p/NetNodeConfig.h"
 #include "Settings.h"
-#include <boost/program_options/variables_map.hpp>
+#include "Wallet/WalletErrors.h"
 
 namespace WalletGui {
 
@@ -51,8 +52,8 @@ public:
   }
 
   void start(Node** _node, const CryptoNote::Currency* currency,  INodeCallback* _callback, Logging::LoggerManager* _loggerManager,
-    const CryptoNote::CoreConfig& _coreConfig, const CryptoNote::NetNodeConfig& _netNodeConfig) {
-    (*_node) = createInprocessNode(*currency, *_loggerManager, _coreConfig, _netNodeConfig, *_callback);
+    const CryptoNote::CoreConfig& _coreConfig, const CryptoNote::NetNodeConfig& _netNodeConfig, const CryptoNote::RpcServerConfig& _rpcServerConfig) {
+    (*_node) = createInprocessNode(*currency, *_loggerManager, _coreConfig, _netNodeConfig, _rpcServerConfig, *_callback);
     try {
       (*_node)->init([this](std::error_code _err) {
           if (_err) {
@@ -91,6 +92,8 @@ NodeAdapter::NodeAdapter() : QObject(), m_node(nullptr), m_nodeInitializerThread
 
   qRegisterMetaType<CryptoNote::CoreConfig>("CryptoNote::CoreConfig");
   qRegisterMetaType<CryptoNote::NetNodeConfig>("CryptoNote::NetNodeConfig");
+  qRegisterMetaType<CryptoNote::RpcServerConfig>("CryptoNote::RpcServerConfig");
+  qRegisterMetaType<Logging::LoggerManager*>("Logging::LoggerManager*");
 
   connect(m_nodeInitializer, &InProcessNodeInitializer::nodeInitCompletedSignal, this, &NodeAdapter::nodeInitCompletedSignal, Qt::QueuedConnection);
   connect(this, &NodeAdapter::initNodeSignal, m_nodeInitializer, &InProcessNodeInitializer::start, Qt::QueuedConnection);
@@ -124,6 +127,10 @@ CryptoNote::IWalletLegacy* NodeAdapter::createWallet() const {
   return m_node->createWallet();
 }
 
+NodeType NodeAdapter::getNodeType() const {
+  return m_node == nullptr ? NodeType::UNKNOWN : m_node->getNodeType();
+}
+
 bool NodeAdapter::init() {
   Q_ASSERT(m_node == nullptr);
 
@@ -131,77 +138,83 @@ bool NodeAdapter::init() {
 
   if(connection.compare("embedded") == 0) {
 
-      m_node = nullptr;
-      return initInProcessNode();
+    LoggerAdapter::instance().log("Initializing embedded node...");
+    m_node = nullptr;
+    return initInProcessNode();
 
   } else if(connection.compare("local") == 0) {
-      QUrl localNodeUrl = QUrl::fromUserInput(QString("127.0.0.1:%1").arg(Settings::instance().getCurrentLocalDaemonPort()));
-      m_node = createRpcNode(CurrencyAdapter::instance().getCurrency(), *this, LoggerAdapter::instance().getLoggerManager(), localNodeUrl.host().toStdString(), localNodeUrl.port(), false);
-      QTimer initTimer;
-      initTimer.setInterval(3000);
-      initTimer.setSingleShot(true);
-      initTimer.start();
-          m_node->init([this](std::error_code _err) {
-              Q_UNUSED(_err);
-            });
-      QEventLoop waitLoop;
-      connect(&initTimer, &QTimer::timeout, &waitLoop, &QEventLoop::quit);
-      connect(this, &NodeAdapter::peerCountUpdatedSignal, &waitLoop, &QEventLoop::quit);
-      connect(this, &NodeAdapter::localBlockchainUpdatedSignal, &waitLoop, &QEventLoop::quit);
-      waitLoop.exec();
-      if (initTimer.isActive()) {
-        initTimer.stop();
-        Q_EMIT nodeInitCompletedSignal();
-        return true;
-      }
+
+    LoggerAdapter::instance().log("Initializing with local node...");
+    QUrl localNodeUrl = QUrl::fromUserInput(QString("127.0.0.1:%1").arg(Settings::instance().getCurrentLocalDaemonPort()));
+    m_node = createRpcNode(CurrencyAdapter::instance().getCurrency(), *this, LoggerAdapter::instance().getLoggerManager(), localNodeUrl.host().toStdString(), localNodeUrl.port(), false);
+    QTimer initTimer;
+    initTimer.setInterval(3000);
+    initTimer.setSingleShot(true);
+    initTimer.start();
+    m_node->init([this](std::error_code _err) {
+      Q_UNUSED(_err);
+    });
+    QEventLoop waitLoop;
+    connect(&initTimer, &QTimer::timeout, &waitLoop, &QEventLoop::quit);
+    connect(this, &NodeAdapter::peerCountUpdatedSignal, &waitLoop, &QEventLoop::quit);
+    connect(this, &NodeAdapter::localBlockchainUpdatedSignal, &waitLoop, &QEventLoop::quit);
+    waitLoop.exec();
+    if (initTimer.isActive()) {
+      initTimer.stop();
+      Q_EMIT nodeInitCompletedSignal();
+      return true;
+    }
 
   } else if(connection.compare("remote") == 0) {
-      const NodeSetting nodeSetting = Settings::instance().getCurrentRemoteNode();
-      m_node = createRpcNode(CurrencyAdapter::instance().getCurrency(), *this, LoggerAdapter::instance().getLoggerManager(), nodeSetting.host.toStdString(), nodeSetting.port, nodeSetting.ssl);
-      QTimer initTimer;
-      initTimer.setInterval(3000);
-      initTimer.setSingleShot(true);
-      initTimer.start();
-      m_node->init([this](std::error_code _err) {
-          Q_UNUSED(_err);
-        });
-      QEventLoop waitLoop;
-      connect(&initTimer, &QTimer::timeout, &waitLoop, &QEventLoop::quit);
-      connect(this, &NodeAdapter::peerCountUpdatedSignal, &waitLoop, &QEventLoop::quit);
-      connect(this, &NodeAdapter::localBlockchainUpdatedSignal, &waitLoop, &QEventLoop::quit);
-      waitLoop.exec();
-      if (initTimer.isActive()) {
-        initTimer.stop();
-        Q_EMIT nodeInitCompletedSignal();
-        return true;
-      }
+
+    LoggerAdapter::instance().log("Initializing with remote node...");
+    const NodeSetting nodeSetting = Settings::instance().getCurrentRemoteNode();
+    m_node = createRpcNode(CurrencyAdapter::instance().getCurrency(), *this, LoggerAdapter::instance().getLoggerManager(), nodeSetting.host.toStdString(), nodeSetting.port, nodeSetting.ssl);
+    QTimer initTimer;
+    initTimer.setInterval(3000);
+    initTimer.setSingleShot(true);
+    initTimer.start();
+    m_node->init([this](std::error_code _err) {
+      Q_UNUSED(_err);
+    });
+    QEventLoop waitLoop;
+    connect(&initTimer, &QTimer::timeout, &waitLoop, &QEventLoop::quit);
+    connect(this, &NodeAdapter::peerCountUpdatedSignal, &waitLoop, &QEventLoop::quit);
+    connect(this, &NodeAdapter::localBlockchainUpdatedSignal, &waitLoop, &QEventLoop::quit);
+    waitLoop.exec();
+    if (initTimer.isActive()) {
+      initTimer.stop();
+      Q_EMIT nodeInitCompletedSignal();
+      return true;
+    }
 
   } else {
-      // Trying to connect to local daemon...
-      QUrl localNodeUrl = QUrl::fromUserInput(QString("127.0.0.1:%1").arg(CryptoNote::RPC_DEFAULT_PORT));
-      m_node = createRpcNode(CurrencyAdapter::instance().getCurrency(), *this, LoggerAdapter::instance().getLoggerManager(), localNodeUrl.host().toStdString(), localNodeUrl.port(), false);
-      QTimer initTimer;
-      initTimer.setInterval(3000);
-      initTimer.setSingleShot(true);
-      initTimer.start();
-      m_node->init([this](std::error_code _err) {
-        Q_UNUSED(_err);
-      });
-      QEventLoop waitLoop;
-      connect(&initTimer, &QTimer::timeout, &waitLoop, &QEventLoop::quit);
-      connect(this, &NodeAdapter::peerCountUpdatedSignal, &waitLoop, &QEventLoop::quit);
-      connect(this, &NodeAdapter::localBlockchainUpdatedSignal, &waitLoop, &QEventLoop::quit);
-      connect(this, &NodeAdapter::connectionStatusUpdatedSignal, &waitLoop, &QEventLoop::quit);
-      waitLoop.exec();
-      if (initTimer.isActive()) {
-        initTimer.stop();
-        Q_EMIT nodeInitCompletedSignal();
-        return true;
-      }
-      delete m_node;
-      m_node = nullptr;
-      // Attempt connecting to local daemon timed out, launching builtin node...
-      return initInProcessNode();
+
+    LoggerAdapter::instance().log("Trying to connect to local daemon...");
+    QUrl localNodeUrl = QUrl::fromUserInput(QString("127.0.0.1:%1").arg(CryptoNote::RPC_DEFAULT_PORT));
+    m_node = createRpcNode(CurrencyAdapter::instance().getCurrency(), *this, LoggerAdapter::instance().getLoggerManager(), localNodeUrl.host().toStdString(), localNodeUrl.port(), false);
+    QTimer initTimer;
+    initTimer.setInterval(3000);
+    initTimer.setSingleShot(true);
+    initTimer.start();
+    m_node->init([this](std::error_code _err) {
+      Q_UNUSED(_err);
+    });
+    QEventLoop waitLoop;
+    connect(&initTimer, &QTimer::timeout, &waitLoop, &QEventLoop::quit);
+    connect(this, &NodeAdapter::peerCountUpdatedSignal, &waitLoop, &QEventLoop::quit);
+    connect(this, &NodeAdapter::localBlockchainUpdatedSignal, &waitLoop, &QEventLoop::quit);
+    waitLoop.exec();
+    if (initTimer.isActive()) {
+      initTimer.stop();
+      Q_EMIT nodeInitCompletedSignal();
+      return true;
+    }
+    delete m_node;
+    m_node = nullptr;
+    LoggerAdapter::instance().log("Attempt connecting to local daemon timed out, launching builtin node...");
+    return initInProcessNode();
+
   }
 
   return true;
@@ -219,12 +232,17 @@ quint64 NodeAdapter::getLastLocalBlockHeight() const {
 
 QDateTime NodeAdapter::getLastLocalBlockTimestamp() const {
   Q_CHECK_PTR(m_node);
-  return QDateTime::fromTime_t(m_node->getLastLocalBlockTimestamp(), Qt::UTC);
+  return QDateTime::fromSecsSinceEpoch(m_node->getLastLocalBlockTimestamp(), Qt::UTC);
 }
 
 quint64 NodeAdapter::getDifficulty() {
   Q_CHECK_PTR(m_node);
   return m_node->getDifficulty();
+}
+
+quint64 NodeAdapter::getNextReward() {
+  Q_CHECK_PTR(m_node);
+  return m_node->getNextReward();
 }
 
 quint64 NodeAdapter::getTxCount() {
@@ -302,6 +320,22 @@ std::vector<CryptoNote::p2pConnection> NodeAdapter::getConnections() {
   return m_node->getConnections();
 }
 
+bool NodeAdapter::getBlockTemplate(CryptoNote::Block& b, const CryptoNote::AccountKeys& acc, const CryptoNote::BinaryArray& extraNonce, CryptoNote::difficulty_type& difficulty, uint32_t& height) {
+  Q_CHECK_PTR(m_node);
+  return m_node->getBlockTemplate(b, acc, extraNonce, difficulty, height);
+}
+
+bool NodeAdapter::handleBlockFound(CryptoNote::Block& b) {
+  Q_CHECK_PTR(m_node);
+  return m_node->handleBlockFound(b);
+}
+
+bool NodeAdapter::getBlockLongHash(Crypto::cn_context &context, const CryptoNote::Block& block, Crypto::Hash& res) {
+  Q_CHECK_PTR(m_node);
+  return m_node->getBlockLongHash(context, block, res);
+}
+
+
 void NodeAdapter::peerCountUpdated(Node& _node, size_t _count) {
   Q_UNUSED(_node);
   Q_EMIT peerCountUpdatedSignal(_count);
@@ -321,12 +355,17 @@ void NodeAdapter::connectionStatusUpdated(bool _connected) {
   Q_EMIT connectionStatusUpdatedSignal(_connected);
 }
 
+void NodeAdapter::poolChanged(Node& _node) {
+  Q_EMIT poolChangedSignal();
+}
+
 bool NodeAdapter::initInProcessNode() {
   Q_ASSERT(m_node == nullptr);
   m_nodeInitializerThread.start();
   CryptoNote::CoreConfig coreConfig = makeCoreConfig();
   CryptoNote::NetNodeConfig netNodeConfig = makeNetNodeConfig();
-  Q_EMIT initNodeSignal(&m_node, &CurrencyAdapter::instance().getCurrency(), this, &LoggerAdapter::instance().getLoggerManager(), coreConfig, netNodeConfig);
+  CryptoNote::RpcServerConfig rpcServerConfig = makeRpcServerConfig();
+  Q_EMIT initNodeSignal(&m_node, &CurrencyAdapter::instance().getCurrency(), this, &LoggerAdapter::instance().getLoggerManager(), coreConfig, netNodeConfig, rpcServerConfig);
   QEventLoop waitLoop;
   connect(m_nodeInitializer, &InProcessNodeInitializer::nodeInitCompletedSignal, &waitLoop, &QEventLoop::quit);
   connect(m_nodeInitializer, &InProcessNodeInitializer::nodeInitFailedSignal, &waitLoop, &QEventLoop::exit);
@@ -373,10 +412,12 @@ CryptoNote::NetNodeConfig NodeAdapter::makeNetNodeConfig() const {
   boost::any p2pAllowLocalIp = Settings::instance().hasAllowLocalIpOption();
   boost::any dataDir = std::string(Settings::instance().getDataDir().absolutePath().toLocal8Bit().data());
   boost::any hideMyPort = Settings::instance().hasHideMyPortOption();
+  boost::any connectionsCount = static_cast<uint32_t>(Settings::instance().getConnectionsCount());
   options.insert(std::make_pair("p2p-bind-ip", boost::program_options::variable_value(p2pBindIp, false)));
   options.insert(std::make_pair("p2p-bind-port", boost::program_options::variable_value(p2pBindPort, false)));
   options.insert(std::make_pair("p2p-external-port", boost::program_options::variable_value(p2pExternalPort, false)));
   options.insert(std::make_pair("allow-local-ip", boost::program_options::variable_value(p2pAllowLocalIp, false)));
+  options.insert(std::make_pair("connections", boost::program_options::variable_value(connectionsCount, false)));
   std::vector<std::string> peerList = convertStringListToVector(Settings::instance().getPeers());
   if (!peerList.empty()) {
     options.insert(std::make_pair("add-peer", boost::program_options::variable_value(peerList, false)));
@@ -406,14 +447,55 @@ CryptoNote::NetNodeConfig NodeAdapter::makeNetNodeConfig() const {
   }
 
   options.insert(std::make_pair("data-dir", boost::program_options::variable_value(dataDir, false)));
-  int size = options.size();
   config.init(options);
   config.setTestnet(Settings::instance().isTestnet());
   return config;
 }
 
+CryptoNote::RpcServerConfig NodeAdapter::makeRpcServerConfig() const {
+  CryptoNote::RpcServerConfig config;
+  boost::filesystem::path dataDir = std::string(Settings::instance().getDataDir().absolutePath().toLocal8Bit().data());
+  config.setDataDir(dataDir.string());
+  boost::program_options::variables_map options;
+  boost::any rpcBindIp = Settings::instance().getRpcBindIp().toStdString();
+  boost::any rpcBindPort = static_cast<uint16_t>(Settings::instance().getRpcBindPort());
+
+  options.insert(std::make_pair("rpc-bind-ip", boost::program_options::variable_value(rpcBindIp, false)));
+  options.insert(std::make_pair("rpc-bind-port", boost::program_options::variable_value(rpcBindPort, false)));
+
+  // dummy defaults
+  std::string dummy = "", cors = "*";
+  uint16_t sslport = CryptoNote::RPC_DEFAULT_SSL_PORT;
+  bool no = false;
+  options.insert(std::make_pair("rpc-bind-ssl-port", boost::program_options::variable_value(sslport, false)));
+  options.insert(std::make_pair("rpc-bind-ssl-enable", boost::program_options::variable_value(no, false)));
+  options.insert(std::make_pair("rpc-chain-file", boost::program_options::variable_value(dummy, false)));
+  options.insert(std::make_pair("rpc-key-file", boost::program_options::variable_value(dummy, false)));
+  options.insert(std::make_pair("rpc-bind-ssl-enable", boost::program_options::variable_value(dummy, false)));
+  options.insert(std::make_pair("enable-cors", boost::program_options::variable_value(cors, false)));
+  options.insert(std::make_pair("contact", boost::program_options::variable_value(dummy, false)));
+  options.insert(std::make_pair("fee-address", boost::program_options::variable_value(dummy, false)));
+  options.insert(std::make_pair("fee-amount", boost::program_options::variable_value(dummy, false)));
+  options.insert(std::make_pair("view-key", boost::program_options::variable_value(dummy, false)));
+
+  options.insert(std::make_pair("restricted-rpc", boost::program_options::variable_value(Settings::instance().hasRestrictedRpc(), false)));
+
+  config.init(options);
+
+  return config;
+}
+
 bool NodeAdapter::isOffline() {
   return getConnectionsCount() == 0;
+}
+
+CryptoNote::INode* NodeAdapter::getNode() {
+  Q_CHECK_PTR(m_node);
+  return m_node->getNode();
+}
+
+System::Dispatcher &NodeAdapter::getDispatcher() {
+  return m_node->getDispatcher();
 }
 
 }

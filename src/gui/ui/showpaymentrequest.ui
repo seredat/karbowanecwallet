@@ -235,4 +235,9 @@
    </hints>
   </connection>
  </connections>
+ <slots>
+  <slot>copyUri()</slot>
+  <slot>saveUri()</slot>
+  <slot>saveQRcodeToFile()</slot>
+ </slots>
 </ui>

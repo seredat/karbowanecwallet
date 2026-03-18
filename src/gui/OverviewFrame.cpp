@@ -63,7 +63,6 @@ void OverviewFrame::layoutChanged() {
 }
 
 void OverviewFrame::reloadTransactions() {
-  // TODO: make dynamic filter of fusion txs here
 }
 
 }

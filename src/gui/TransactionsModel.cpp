@@ -1,5 +1,5 @@
 // Copyright (c) 2011-2015 The Cryptonote developers
-// Copyright (c) 2016-2019 The Karbowanec developers
+// Copyright (c) 2016-2026 The Karbowanec developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -7,11 +7,10 @@
 #include <QFont>
 #include <QMetaEnum>
 #include <QPixmap>
-#include <QDebug>
+#include <QPixmapCache>
 
 #include "crypto/crypto.h"
 #include "CryptoNoteCore/CryptoNoteBasic.h"
-#include "Common/StringTools.h"
 #include "CurrencyAdapter.h"
 #include "NodeAdapter.h"
 #include "TransactionsModel.h"
@@ -30,8 +29,6 @@ QPixmap getTransactionIcon(TransactionType _transactionType) {
     return QPixmap(":icons/tx-input");
   case TransactionType::OUTPUT:
     return QPixmap(":icons/tx-output");
-  case TransactionType::FUSION:
-    return QPixmap(":icons/tx-fusion");
   case TransactionType::INOUT:
     return QPixmap(":icons/tx-inout");
   default:
@@ -318,9 +315,6 @@ QVariant TransactionsModel::getToolTipRole(const QModelIndex& _index) const {
     if (transactionType == TransactionType::MINED)
       return QString(tr("Mined, confirmations"));
 
-    if (transactionType == TransactionType::FUSION)
-      return QString(tr("Wallet optimization transaction, unconfirmed"));
-
     if (transactionType == TransactionType::INOUT)
       return QString(tr("Sent to yourself, unconfirmed"));
 
@@ -332,9 +326,6 @@ QVariant TransactionsModel::getToolTipRole(const QModelIndex& _index) const {
 
     if (transactionType == TransactionType::MINED)
       return QString(tr("Mined, %n confirmation(s)", "", numberOfConfirmations));
-
-    if (transactionType == TransactionType::FUSION)
-      return QString(tr("Wallet optimization transaction, %n confirmation(s)", "", numberOfConfirmations));
 
     if (transactionType == TransactionType::INOUT)
       return QString(tr("Sent to yourself, %n confirmation(s)", "", numberOfConfirmations));
@@ -349,24 +340,31 @@ QVariant TransactionsModel::getDecorationRole(const QModelIndex& _index) const {
   if(_index.column() == COLUMN_STATE) {
     quint64 numberOfConfirmations = _index.data(ROLE_NUMBER_OF_CONFIRMATIONS).value<quint64>();
     TransactionState transactionState = static_cast<TransactionState>(_index.data(ROLE_STATE).value<quint8>());
-
+    QString file;
     if (transactionState != TransactionState::ACTIVE && transactionState != TransactionState::SENDING) {
-      return QPixmap(":icons/cancel");
+      file = QString(":icons/cancelled");
     } else if (numberOfConfirmations == 0) {
-      return QPixmap(":icons/unconfirmed");
+      file = QString(":icons/unconfirmed");
     } else if(numberOfConfirmations < 2) {
-      return QPixmap(":icons/clock1");
+      file = QString(":icons/clock1");
     } else if(numberOfConfirmations < 4) {
-      return QPixmap(":icons/clock2");
+      file = QString(":icons/clock2");
+    } else if(numberOfConfirmations < 5) {
+      file = QString(":icons/clock3");
     } else if(numberOfConfirmations < 6) {
-      return QPixmap(":icons/clock3");
-    } else if(numberOfConfirmations < 8) {
-      return QPixmap(":icons/clock4");
-    } else if(numberOfConfirmations < 10) {
-      return QPixmap(":icons/clock5");
+      file = QString(":icons/clock4");
+    } else if(numberOfConfirmations < 7) {
+      file = QString(":icons/clock5");
     } else {
-      return QPixmap(":icons/transaction");
+      file = QString(":icons/transaction");
     }
+    QPixmap pixmap;
+    if (!QPixmapCache::find(file, &pixmap)) {
+      pixmap.load(file);
+      QPixmapCache::insert(file, pixmap);
+    }
+    return pixmap.scaled(16, 16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+
   } else if (_index.column() == COLUMN_ADDRESS) {
     return _index.data(ROLE_ICON).value<QPixmap>().scaled(20, 20, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
   }
@@ -385,14 +383,12 @@ QVariant TransactionsModel::getUserRole(const QModelIndex& _index, int _role, Cr
     return static_cast<quint8>(_transaction.state);
 
   case ROLE_DATE:
-    return (_transaction.timestamp > 0 ? QDateTime::fromTime_t(_transaction.timestamp) : QDateTime());
+    return (_transaction.timestamp > 0 ? QDateTime::fromSecsSinceEpoch(_transaction.timestamp) : QDateTime());
 
   case ROLE_TYPE: {
     QString transactionAddress = _index.data(ROLE_ADDRESS).toString();
     if(_transaction.isCoinbase) {
       return static_cast<quint8>(TransactionType::MINED);
-    } else if (WalletAdapter::instance().isFusionTransaction(_transaction)) {
-      return static_cast<quint8>(TransactionType::FUSION);
     } else if (!transactionAddress.compare(WalletAdapter::instance().getAddress())) {
       return static_cast<quint8>(TransactionType::INOUT);
     } else if (_transaction.totalAmount < 0) {
@@ -509,6 +505,7 @@ void TransactionsModel::updateWalletTransaction(CryptoNote::TransactionId _id) {
   quint32 firstRow = m_transactionRow.value(_id).first;
   quint32 lastRow = firstRow + m_transactionRow.value(_id).second - 1;
   Q_EMIT dataChanged(index(firstRow, COLUMN_DATE), index(lastRow, COLUMN_DATE));
+  Q_EMIT dataChanged(index(firstRow, COLUMN_STATE), index(lastRow, COLUMN_STATE));
 }
 
 void TransactionsModel::localBlockchainUpdated(quint64 _height) {

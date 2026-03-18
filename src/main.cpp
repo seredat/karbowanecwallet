@@ -13,7 +13,6 @@
 #include <QSplashScreen>
 #include <QStyleFactory>
 #include <QSettings>
-#include <QTextCodec>
 
 #include "CommandLineParser.h"
 #include "CurrencyAdapter.h"
@@ -45,7 +44,8 @@ inline void newLogString(const QString& _string) {
 }
 
 int main(int argc, char* argv[]) {
-
+  QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+  QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
   QApplication app(argc, argv);
   app.setApplicationName(CurrencyAdapter::instance().getCurrencyName() + "wallet");
   app.setApplicationVersion(Settings::instance().getVersion());
@@ -174,7 +174,11 @@ int main(int argc, char* argv[]) {
   d->checkForUpdate();
 
   MainWindow::instance().show();
-  WalletAdapter::instance().open("");
+  QString lastWallet = Settings::instance().getWalletFile();
+  if (!lastWallet.isEmpty()) {
+    WalletAdapter::instance().setWalletFile(lastWallet);
+    WalletAdapter::instance().open("");
+  }
 
   QTimer::singleShot(1000, paymentServer, SLOT(uiReady()));
   QObject::connect(paymentServer, &PaymentServer::receivedURI, &MainWindow::instance(), &MainWindow::handlePaymentRequest, Qt::QueuedConnection);

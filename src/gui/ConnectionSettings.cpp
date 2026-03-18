@@ -3,7 +3,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <iostream>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QHeaderView>
 #include "ui_connectionsettingsdialog.h"
 #include "ConnectionSettings.h"
@@ -92,9 +92,12 @@ void ConnectionSettingsDialog::initConnectionSettings() {
   m_ui->m_localDaemonPort->setValue(localDaemonPort);
 
   updateNodeSelect();
+
+  quint16 connections = Settings::instance().getConnectionsCount();
+  m_ui->m_connectionsCount->setValue(connections);
 }
 
-QString ConnectionSettingsDialog::setConnectionMode() const {
+QString ConnectionSettingsDialog::getConnectionMode() const {
   QString connectionMode;
   if (m_ui->radioButton_1->isChecked()) {
     connectionMode = "auto";
@@ -108,14 +111,18 @@ QString ConnectionSettingsDialog::setConnectionMode() const {
   return connectionMode;
 }
 
-NodeSetting ConnectionSettingsDialog::setRemoteNode() const {
+NodeSetting ConnectionSettingsDialog::getRemoteNode() const {
   return m_nodeModel->getDataByIndex(m_ui->remoteNodesComboBox->currentIndex());
 }
 
-quint16 ConnectionSettingsDialog::setLocalDaemonPort() const {
-  quint16 localDaemonPort;
-  localDaemonPort = m_ui->m_localDaemonPort->value();
+quint16 ConnectionSettingsDialog::getLocalDaemonPort() const {
+  quint16 localDaemonPort = m_ui->m_localDaemonPort->value();
   return localDaemonPort;
+}
+
+quint16 ConnectionSettingsDialog::getConnectionsCount() const {
+  quint16 count = m_ui->m_connectionsCount->value();
+  return count;
 }
 
 void ConnectionSettingsDialog::addNodeClicked() {
@@ -126,9 +133,13 @@ void ConnectionSettingsDialog::addNodeClicked() {
     nodeSetting.port = dlg.getPort();
     nodeSetting.path = dlg.getPath();
     nodeSetting.ssl = dlg.getEnableSSL();
-    if (QRegExp("^([a-z|A-Z|0-9]|[a-z|A-Z|0-9]-[a-z|A-Z|0-9]|[a-z|A-Z|0-9]\\.)+$").exactMatch(nodeSetting.host) &&
-        (nodeSetting.port > 0 && nodeSetting.port < 65535) &&
-        QRegExp("^(/([\\w|-]+/)+|/)$").exactMatch(nodeSetting.path)) {
+    QRegularExpression hostRegex("^([a-zA-Z0-9]|[a-zA-Z0-9]-[a-zA-Z0-9]|[a-zA-Z0-9]\\.)+$");
+    QRegularExpressionMatch host_match = hostRegex.match(nodeSetting.host);
+    bool hostMatch = host_match.hasMatch();
+    QRegularExpression pathRegex("^(/([\\w|-]+/)+|/)$");
+    QRegularExpressionMatch path_match = pathRegex.match(nodeSetting.path);
+    bool pathMatch = path_match.hasMatch();
+    if (hostMatch && (nodeSetting.port > 0 && nodeSetting.port < 65535) && pathMatch) {
       m_nodeModel->addNode(nodeSetting);
     }
   }

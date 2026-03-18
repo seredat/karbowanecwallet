@@ -31,6 +31,7 @@ public:
   void setAddress(const QString& _address);
   Q_SLOT void parsePaymentRequest(QString _request);
   Q_SLOT void sendOutputs(QList<CryptoNote::TransactionOutputInformation> _selectedOutputs);
+  Q_SLOT void openUriClicked();
 
 private:
   QScopedPointer<Ui::SendFrame> m_ui;
@@ -68,7 +69,6 @@ private:
   Q_SLOT void amountValueChanged();
   Q_SLOT void sendClicked();
   Q_SLOT void sendAllClicked();
-  Q_SLOT void openUriClicked();
   Q_SLOT void generatePaymentIdClicked();
   Q_SLOT void advancedClicked(bool _show);
   Q_SLOT void dontRelayToggled(bool _dont);

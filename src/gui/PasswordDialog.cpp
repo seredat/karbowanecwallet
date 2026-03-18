@@ -1,4 +1,5 @@
 // Copyright (c) 2011-2015 The Cryptonote developers
+// Copyright (c) 2016-2025 The Karbowanec developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -20,6 +21,8 @@ PasswordDialog::PasswordDialog(bool _error, QWidget* _parent) : QDialog(_parent)
   }
 
   adjustSize();
+
+  m_ui->m_passwordEdit->setFocus();
 }
 
 PasswordDialog::~PasswordDialog() {

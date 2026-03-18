@@ -148,4 +148,7 @@
    </hints>
   </connection>
  </connections>
+ <slots>
+  <slot>saveQRcodeToFile()</slot>
+ </slots>
 </ui>

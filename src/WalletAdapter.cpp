@@ -1,6 +1,6 @@
 // Copyright (c) 2011-2016 The Cryptonote developers
 // Copyright (c) 2015-2016 XDN developers
-// Copyright (c) 2016-2021 The Karbo developers
+// Copyright (c) 2016-2026 The Karbo developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -13,26 +13,32 @@
 #include <QVector>
 #include <QDebug>
 
+#include <boost/filesystem.hpp>
+
 #include "WalletAdapter.h"
 
-#include <crypto/crypto.h>
-#include <Common/Base58.h>
-#include <Common/Util.h>
-#include <Wallet/WalletErrors.h>
-#include <Wallet/LegacyKeysImporter.h>
+#include "CryptoNoteConfig.h"
+#include "crypto/crypto.h"
+#include "Common/Base58.h"
+#include "Common/Util.h"
+#include "Wallet/WalletErrors.h"
+#include "Wallet/LegacyKeysImporter.h"
 #include "CryptoNoteCore/CryptoNoteBasic.h"
-#include <ITransfersContainer.h>
+#include "ITransfersContainer.h"
 #include "NodeAdapter.h"
 #include "Settings.h"
 #include "Mnemonics/electrum-words.h"
 #include "gui/VerifyMnemonicSeedDialog.h"
 #include "CurrencyAdapter.h"
+#include "LoggerAdapter.h"
 
 extern "C"
 {
 #include "crypto/keccak.h"
 #include "crypto/crypto-ops.h"
 }
+
+#undef ERROR
 
 namespace WalletGui {
 
@@ -49,7 +55,9 @@ WalletAdapter& WalletAdapter::instance() {
 
 WalletAdapter::WalletAdapter() : QObject(), m_wallet(nullptr), m_mutex(), m_isBackupInProgress(false),
   m_syncSpeed(0), m_syncPeriod(0), m_isSynchronized(false), m_newTransactionsNotificationTimer(),
-  m_lastWalletTransactionId(std::numeric_limits<quint64>::max()) {
+  m_lastWalletTransactionId(std::numeric_limits<quint64>::max()),
+  m_logger(LoggerAdapter::instance().getLoggerManager(), "WalletAdapter")
+{
   connect(this, &WalletAdapter::walletInitCompletedSignal, this, &WalletAdapter::onWalletInitCompleted, Qt::QueuedConnection);
   connect(this, &WalletAdapter::walletSendTransactionCompletedSignal, this, &WalletAdapter::onWalletSendTransactionCompleted, Qt::QueuedConnection);
   connect(this, &WalletAdapter::updateBlockStatusTextSignal, this, &WalletAdapter::updateBlockStatusText, Qt::QueuedConnection);
@@ -67,6 +75,24 @@ WalletAdapter::WalletAdapter() : QObject(), m_wallet(nullptr), m_mutex(), m_isBa
   }, Qt::QueuedConnection);
 
   m_newTransactionsNotificationTimer.setInterval(500);
+
+  // init wallet rpc config
+  bool no = false;
+  std::string dummy = "";
+  std::string wrpcBindIp = Settings::instance().getWalletRpcBindIp().toStdString();
+  uint16_t wrpcBindPort = static_cast<uint16_t>(Settings::instance().getWalletRpcBindPort());
+  uint16_t wrpcBindSslPort = CryptoNote::WALLET_RPC_DEFAULT_SSL_PORT;
+  std::string wrpcUser = Settings::instance().getWalletRpcUser().toStdString();
+  std::string wrpcPassword = Settings::instance().getWalletRpcPassword().toStdString();
+
+  m_wrpcOptions.insert(std::make_pair("rpc-bind-ip", boost::program_options::variable_value(wrpcBindIp, false)));
+  m_wrpcOptions.insert(std::make_pair("rpc-bind-port", boost::program_options::variable_value(wrpcBindPort, false)));
+  m_wrpcOptions.insert(std::make_pair("rpc-bind-ssl-port", boost::program_options::variable_value(wrpcBindSslPort, false)));
+  m_wrpcOptions.insert(std::make_pair("rpc-bind-ssl-enable", boost::program_options::variable_value(no, false)));
+  m_wrpcOptions.insert(std::make_pair("rpc-chain-file", boost::program_options::variable_value(dummy, false)));
+  m_wrpcOptions.insert(std::make_pair("rpc-key-file", boost::program_options::variable_value(dummy, false)));
+  m_wrpcOptions.insert(std::make_pair("rpc-user", boost::program_options::variable_value(wrpcUser, false)));
+  m_wrpcOptions.insert(std::make_pair("rpc-password", boost::program_options::variable_value(wrpcPassword, false)));
 }
 
 WalletAdapter::~WalletAdapter() {
@@ -184,7 +210,7 @@ void WalletAdapter::createNonDeterministic() {
   m_wallet->addObserver(this);
   Settings::instance().setEncrypted(false);
   try {
-    m_wallet->initAndGenerate("");
+    m_wallet->initAndGenerateNonDeterministic("");
   } catch (std::system_error&) {
     delete m_wallet;
     m_wallet = nullptr;
@@ -251,6 +277,9 @@ void WalletAdapter::close() {
   m_lastWalletTransactionId = std::numeric_limits<quint64>::max();
   Q_EMIT walletCloseCompletedSignal();
   QCoreApplication::processEvents();
+
+  stopWalletRpc();
+
   delete m_wallet;
   m_wallet = nullptr;
   unlock();
@@ -458,40 +487,6 @@ QString WalletAdapter::prepareRawTransaction(const std::vector<CryptoNote::Walle
   return QString();
 }
 
-quint64 WalletAdapter::estimateFusion(quint64 _threshold) {
-  Q_CHECK_PTR(m_wallet);
-  try {
-    return m_wallet->estimateFusion(_threshold);
-  } catch (std::system_error&) {
-  }
-  return 0;
-}
-
-std::list<CryptoNote::TransactionOutputInformation> WalletAdapter::getFusionTransfersToSend(quint64 _threshold, size_t _min_input_count, size_t _max_input_count) {
-  Q_CHECK_PTR(m_wallet);
-  try {
-    return m_wallet->selectFusionTransfersToSend(_threshold, _min_input_count, _max_input_count);
-  } catch (std::system_error&) {
-  }
-  return {};
-}
-
-void WalletAdapter::sendFusionTransaction(const std::list<CryptoNote::TransactionOutputInformation>& _fusion_inputs, quint64 _fee, const QString& _extra, quint64 _mixin) {
-  Q_CHECK_PTR(m_wallet);
-  try {
-    lock();
-    Q_EMIT walletStateChangedSignal(tr("Optimizing wallet"));
-    m_wallet->sendFusionTransaction(_fusion_inputs, _fee, _extra.toStdString(), _mixin, 0);
-  } catch (std::system_error&) {
-    unlock();
-  }
-}
-
-bool WalletAdapter::isFusionTransaction(const CryptoNote::WalletLegacyTransaction& walletTx) const {
-  Q_CHECK_PTR(m_wallet);
-  return m_wallet->isFusionTransaction(walletTx);
-}
-
 bool WalletAdapter::changePassword(const QString& _oldPassword, const QString& _newPassword) {
   Q_CHECK_PTR(m_wallet);
   try {
@@ -533,6 +528,66 @@ void WalletAdapter::initCompleted(std::error_code _error) {
   Q_EMIT walletInitCompletedSignal(_error.value(), QString::fromStdString(_error.message()));
 }
 
+void WalletAdapter::runWalletRpc() {
+  m_logger(Logging::INFO) << "Initialize wallet RPC server";
+
+  // Use a dedicated dispatcher owned by the GUI thread so that the QTimer-driven
+  // yield() calls are always on the same thread that created the dispatcher.
+  // Using the InprocessNode's dispatcher here would be wrong: that dispatcher is
+  // created on m_nodeInitializerThread, and calling yield() on it from the GUI
+  // thread causes the hang observed with InprocessNode.
+  m_rpcDispatcher = std::make_unique<System::Dispatcher>();
+
+  const std::string walletFilename = Settings::instance().getWalletFile().toStdString();
+  m_wallet_rpc = new Tools::wallet_rpc_server(*m_rpcDispatcher,
+                                              LoggerAdapter::instance().getLoggerManager(),
+                                              *m_wallet,
+                                              *NodeAdapter::instance().getNode(),
+                                              CurrencyAdapter::instance().getCurrency(),
+                                              walletFilename);
+  if (!m_wallet_rpc->init(m_wrpcOptions))
+    m_logger(Logging::ERROR) << "Failed to initialize wallet RPC server";
+  bool enable_ssl;
+  std::string bind_address, bind_address_ssl, ssl_info;
+  m_wallet_rpc->getServerConf(bind_address, bind_address_ssl, enable_ssl);
+  if (enable_ssl) ssl_info += std::string(", SSL on address ") + bind_address_ssl;
+  m_logger(Logging::INFO) << "Starting wallet RPC server on address " << bind_address << ssl_info;
+
+  m_wallet_rpc->run();
+
+  m_dispatcherTimer = new QTimer(this);
+  connect(m_dispatcherTimer, &QTimer::timeout, [this]() {
+      m_rpcDispatcher->yield();  // Drive the RPC server's event loop
+  });
+  m_dispatcherTimer->start(1);  // Run every 1ms
+}
+
+void WalletAdapter::stopWalletRpc() {
+  if (!m_wallet_rpc) {
+    return;
+  }
+
+  m_logger(Logging::INFO) << "Stopping wallet RPC server";
+
+  // Stop the timer first
+  if (m_dispatcherTimer) {
+      m_dispatcherTimer->stop();
+      delete m_dispatcherTimer;
+      m_dispatcherTimer = nullptr;
+  }
+
+  // Stop the RPC server
+  if (m_wallet_rpc) {
+      m_wallet_rpc->stop();
+      delete m_wallet_rpc;
+      m_wallet_rpc = nullptr;
+  }
+
+  m_rpcDispatcher.reset();
+
+  m_logger(Logging::INFO) << "Wallet RPC server stopped";
+}
+
 void WalletAdapter::onWalletInitCompleted(int _error, const QString& _errorText) {
   switch(_error) {
   case 0: {
@@ -545,6 +600,10 @@ void WalletAdapter::onWalletInitCompleted(int _error, const QString& _errorText)
     QTimer::singleShot(5000, this, SLOT(updateBlockStatusText()));
     if (!QFile::exists(Settings::instance().getWalletFile())) {
       save(true, true);
+    }
+
+    if (Settings::instance().runWalletRpc()) {
+      runWalletRpc();
     }
 
     break;
@@ -617,7 +676,7 @@ void WalletAdapter::synchronizationProgressUpdated(uint32_t _current, uint32_t _
   m_perfData.push_back(std::move(perfData));
   QString perfMess = "";
   if (m_syncPeriod > 0) {
-    QDateTime leftTime = QDateTime::fromTime_t(m_syncPeriod).toUTC();
+    QDateTime leftTime = QDateTime::fromSecsSinceEpoch(m_syncPeriod).toUTC();
     perfMess += "(";
     perfMess += QString(tr("%n blocks per second", "", m_syncSpeed));
     if (m_syncPeriod < syncPeriodMax) {
@@ -733,7 +792,11 @@ void WalletAdapter::lock() {
 }
 
 void WalletAdapter::unlock() {
-  m_mutex.unlock();
+  if (m_mutex.try_lock()) {
+    m_mutex.unlock();
+  } else {
+    m_mutex.unlock();
+  }
 }
 
 bool WalletAdapter::openFile(const QString& _file, bool _readOnly) {

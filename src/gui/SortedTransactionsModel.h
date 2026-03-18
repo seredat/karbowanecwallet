@@ -16,9 +16,9 @@ class SortedTransactionsModel : public QSortFilterProxyModel {
 
 public:
     /** Earliest date that can be represented (far in the past) */
-    static const QDateTime MIN_DATE; // = QDateTime::fromTime_t(0);
+    static const QDateTime MIN_DATE; // = QDateTime::fromSecsSinceEpoch(0);
     /** Last date that can be represented (far in the future) */
-    static const QDateTime MAX_DATE; // = QDateTime::fromTime_t(0xFFFFFFFF);
+    static const QDateTime MAX_DATE; // = QDateTime::fromSecsSinceEpoch(0xFFFFFFFF);
 
   static SortedTransactionsModel& instance();
   void setDateRange(const QDateTime &from, const QDateTime &to);

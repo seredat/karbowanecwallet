@@ -1,6 +1,6 @@
 // Copyright (c) 2011-2016 The Cryptonote developers
 // Copyright (c) 2015-2016 XDN developers
-// Copyright (c) 2016-2021 Karbo developers
+// Copyright (c) 2016-2022 Karbo developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -46,8 +46,7 @@ public:
   QModelIndex parent(const QModelIndex& _index) const Q_DECL_OVERRIDE;
 
 private:
-  QVector<CryptoNote::TransactionOutputInformation> m_unspentOutputs;
-  QVector<CryptoNote::TransactionSpentOutputInformation> m_spentOutputs;
+  QVector<CryptoNote::TransactionSpentOutputInformation> m_outputs;
 
   static bool transactionSpentOutputInformationLessThan(const CryptoNote::TransactionSpentOutputInformation &left,
                                                  const CryptoNote::TransactionSpentOutputInformation &right)
@@ -59,6 +58,7 @@ private:
   ~OutputsModel();
 
   QVariant getDisplayRole(const QModelIndex& _index) const;
+  QVariant getEditRole(const QModelIndex& _index) const;
   QVariant getDecorationRole(const QModelIndex& _index) const;
   QVariant getAlignmentRole(const QModelIndex& _index) const;
   QVariant getUserRole(const QModelIndex& _index, int _role, CryptoNote::TransactionSpentOutputInformation _output) const;

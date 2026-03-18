@@ -1,4 +1,5 @@
 // Copyright (c) 2011-2015 The Cryptonote developers
+// Copyright (c) 2016-2022, The Karbo developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -22,13 +23,20 @@ public:
   bool hasHelpOption() const;
   bool hasVersionOption() const;
   bool hasTestnetOption() const;
+  bool hasWithoutCheckpointsOption() const;
   bool hasMinimizedOption() const;
   bool hasAllowLocalIpOption() const;
   bool hasHideMyPortOption() const;
+  bool hasPortableOption() const;
+  bool hasAllowReorgOption() const;
+  bool hasRpcOption() const;
+  bool hasRestrictedRpcOption() const;
   QString getErrorText() const;
   QString getHelpText() const;
   QString getP2pBindIp() const;
   quint16 getP2pBindPort() const;
+  QString getRpcBindIp() const;
+  quint16 getRpcBindPort() const;
   quint16 getP2pExternalPort() const;
   QStringList getPeers() const;
   QStringList getPiorityNodes() const;
@@ -42,8 +50,13 @@ private:
   QCommandLineOption m_helpOption;
   QCommandLineOption m_versionOption;
   QCommandLineOption m_testnetOption;
+  QCommandLineOption m_withoutCheckpointsOption;
   QCommandLineOption m_p2pBindIpOption;
   QCommandLineOption m_p2pBindPortOption;
+  QCommandLineOption m_rpcBindIpOption;
+  QCommandLineOption m_rpcBindPortOption;
+  QCommandLineOption m_rpcOption;
+  QCommandLineOption m_restrictedRpcOption;
   QCommandLineOption m_p2pExternalOption;
   QCommandLineOption m_allowLocalIpOption;
   QCommandLineOption m_addPeerOption;
@@ -51,8 +64,10 @@ private:
   QCommandLineOption m_addExclusiveNodeOption;
   QCommandLineOption m_seedNodeOption;
   QCommandLineOption m_hideMyPortOption;
+  QCommandLineOption m_portableOption;
   QCommandLineOption m_dataDirOption;
   QCommandLineOption m_rollBackOption;
+  QCommandLineOption m_allowReorgOption;
   QCommandLineOption m_minimized;
 };
 

@@ -232,6 +232,8 @@
   <slot>addClicked()</slot>
   <slot>deleteClicked()</slot>
   <slot>copyClicked()</slot>
+  <slot>editClicked()</slot>
+  <slot>copyPaymentIdClicked()</slot>
   <slot>addressDoubleClicked(QModelIndex)</slot>
  </slots>
 </ui>

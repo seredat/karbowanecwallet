@@ -1,8 +1,10 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.8)
 
 # Required for finding Threads on ARM
 enable_language(C)
 enable_language(CXX)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include(CryptoNoteWallet.cmake)
 include(external/ext.cmake)
@@ -49,12 +51,11 @@ include_directories(${CMAKE_BINARY_DIR}
     src
     cryptonote/external
     cryptonote/include
-    cryptonote/src)
+    cryptonote/src
+    external/libqrencode
+    external/qcustomplot)
 
-find_package(Qt5Gui REQUIRED)
-find_package(Qt5Widgets REQUIRED)
-find_package(Qt5Network REQUIRED)
-find_package(Qt5LinguistTools REQUIRED)
+find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui Network PrintSupport LinguistTools)
 
 # We have to look for Homebrew OpenSSL a bit differently
 # Borrowed from https://github.com/tarantool/tarantool/commit/6eab201af1843f53a833c8928dc58fceffa08147
@@ -97,12 +98,13 @@ endif ()
 set(Boost_NO_BOOST_CMAKE ON)
 set(Boost_USE_STATIC_LIBS ON)
 if(WIN32)
+  add_definitions(-D WIN32_LEAN_AND_MEAN)
   set(Boost_USE_STATIC_RUNTIME OFF)
 else(WIN32)
   set(Boost_USE_STATIC_RUNTIME ON)
 endif(WIN32)
 
-find_package(Boost REQUIRED COMPONENTS date_time filesystem program_options regex serialization system thread chrono)
+find_package(Boost REQUIRED COMPONENTS coroutine context system filesystem thread date_time chrono regex serialization program_options atomic)
 if ((${Boost_MAJOR_VERSION} EQUAL 1) AND (${Boost_MINOR_VERSION} EQUAL 54))
 	message(SEND_ERROR "Boost version 1.54 is unsupported, more details are available here http://goo.gl/RrCFmA")
 endif ()
@@ -191,7 +193,9 @@ set(CRYPTONOTE_SOURCES
   cryptonote/src/crypto/slow-hash.c
   cryptonote/src/crypto/slow-hash.cpp
   cryptonote/src/crypto/tree-hash.c
+  cryptonote/src/crypto/yespower.c
   cryptonote/src/CryptoNoteCore/BlockchainIndices.cpp
+  cryptonote/src/CryptoNoteCore/LMDBBlockchainDB.cpp
   cryptonote/src/CryptoNoteCore/BlockchainMessages.cpp
   cryptonote/src/CryptoNoteCore/BlockIndex.cpp
   cryptonote/src/CryptoNoteCore/CoreConfig.cpp
@@ -213,11 +217,36 @@ set(CRYPTONOTE_SOURCES
   cryptonote/src/CryptoNoteCore/TransactionPool.cpp
   cryptonote/src/CryptoNoteCore/TransactionPrefixImpl.cpp
   cryptonote/src/CryptoNoteCore/TransactionUtils.cpp
+  cryptonote/src/CryptoNoteProtocol/CryptoNoteProtocolHandler.cpp
   cryptonote/src/InProcessNode/InProcessNode.cpp
   cryptonote/src/InProcessNode/InProcessNodeErrors.cpp
+  cryptonote/src/HTTP/HttpServer.cpp
+  cryptonote/src/HTTP/HttpClient.cpp
+  cryptonote/src/HTTP/HttpConnection.cpp
+  cryptonote/src/HTTP/HttpParser.cpp
+  cryptonote/src/HTTP/HttpParserErrorCodes.cpp
+  cryptonote/src/HTTP/HttpRequest.cpp
+  cryptonote/src/HTTP/HttpResponse.cpp
+  cryptonote/src/Logging/ILogger.cpp
+  cryptonote/src/Logging/LoggerGroup.cpp
+  cryptonote/src/Logging/CommonLogger.cpp
+  cryptonote/src/Logging/LoggerManager.cpp
+  cryptonote/src/Logging/FileLogger.cpp
+  cryptonote/src/Logging/StreamLogger.cpp
+  cryptonote/src/Logging/ConsoleLogger.cpp
+  cryptonote/src/Logging/LoggerMessage.cpp
+  cryptonote/src/Logging/LoggerRef.cpp
   cryptonote/src/NodeRpcProxy/NodeErrors.cpp
   cryptonote/src/NodeRpcProxy/NodeRpcProxy.cpp
+  cryptonote/src/P2p/LevinProtocol.cpp
   cryptonote/src/P2p/NetNodeConfig.cpp
+  cryptonote/src/P2p/NetNode.cpp
+  cryptonote/src/P2p/NetNodeConfig.cpp
+  cryptonote/src/P2p/PeerListManager.cpp
+  cryptonote/src/P2p/P2pConnectionContext.cpp
+  cryptonote/src/Rpc/JsonRpc.cpp
+  cryptonote/src/Rpc/RpcServer.cpp
+  cryptonote/src/Rpc/RpcServerConfig.cpp
   cryptonote/src/Serialization/BinaryInputStreamSerializer.cpp
   cryptonote/src/Serialization/BinaryOutputStreamSerializer.cpp
   cryptonote/src/Serialization/JsonInputValueSerializer.cpp
@@ -226,6 +255,18 @@ set(CRYPTONOTE_SOURCES
   cryptonote/src/Serialization/KVBinaryOutputStreamSerializer.cpp
   cryptonote/src/Serialization/BlockchainExplorerDataSerialization.cpp
   cryptonote/src/Serialization/SerializationOverloads.cpp
+  cryptonote/src/System/ContextGroup.cpp
+  cryptonote/src/System/Dispatcher.cpp
+  cryptonote/src/System/Event.cpp
+  cryptonote/src/System/EventLock.cpp
+  cryptonote/src/System/InterruptedException.cpp
+  cryptonote/src/System/Ipv4Address.cpp
+  cryptonote/src/System/SocketStream.cpp
+  cryptonote/src/System/TcpStream.cpp
+  cryptonote/src/System/SslTcpStreambuf.cpp
+  cryptonote/src/System/TcpConnection.cpp
+  cryptonote/src/System/TcpListener.cpp
+  cryptonote/src/System/TcpConnector.cpp
   cryptonote/src/Transfers/BlockchainSynchronizer.cpp
   cryptonote/src/Transfers/SynchronizationState.cpp
   cryptonote/src/Transfers/TransfersConsumer.cpp
@@ -233,8 +274,10 @@ set(CRYPTONOTE_SOURCES
   cryptonote/src/Transfers/TransfersSubscription.cpp
   cryptonote/src/Transfers/TransfersSynchronizer.cpp
   cryptonote/src/Wallet/LegacyKeysImporter.cpp
+  cryptonote/src/Wallet/TransactionBuilder.cpp
   cryptonote/src/Wallet/WalletAsyncContextCounter.cpp
   cryptonote/src/Wallet/WalletErrors.cpp
+  cryptonote/src/Wallet/WalletRpcServer.cpp
   cryptonote/src/Wallet/WalletSerializationV1.cpp
   cryptonote/src/Wallet/WalletSerializationV2.cpp
   cryptonote/src/Wallet/WalletUtils.cpp
@@ -246,33 +289,6 @@ set(CRYPTONOTE_SOURCES
   cryptonote/src/WalletLegacy/WalletTransactionSender.cpp
   cryptonote/src/WalletLegacy/WalletUnconfirmedTransactions.cpp
   cryptonote/src/WalletLegacy/WalletUserTransactionsCache.cpp
-  cryptonote/src/System/ContextGroup.cpp
-  cryptonote/src/System/Event.cpp
-  cryptonote/src/System/EventLock.cpp
-  cryptonote/src/System/InterruptedException.cpp
-  cryptonote/src/System/Ipv4Address.cpp
-  cryptonote/src/System/SocketStream.cpp
-  cryptonote/src/System/TcpStream.cpp
-  cryptonote/src/HTTP/HttpRequest.cpp
-  cryptonote/src/HTTP/HttpParser.cpp
-  cryptonote/src/HTTP/HttpParserErrorCodes.cpp
-  cryptonote/src/HTTP/HttpResponse.cpp
-  cryptonote/src/Rpc/HttpClient.cpp
-  cryptonote/src/Rpc/JsonRpc.cpp
-  cryptonote/src/P2p/NetNode.cpp
-  cryptonote/src/P2p/LevinProtocol.cpp
-  cryptonote/src/P2p/NetNodeConfig.cpp
-  cryptonote/src/P2p/PeerListManager.cpp
-  cryptonote/src/CryptoNoteProtocol/CryptoNoteProtocolHandler.cpp
-  cryptonote/src/Logging/ILogger.cpp
-  cryptonote/src/Logging/LoggerGroup.cpp
-  cryptonote/src/Logging/CommonLogger.cpp
-  cryptonote/src/Logging/LoggerManager.cpp
-  cryptonote/src/Logging/FileLogger.cpp
-  cryptonote/src/Logging/StreamLogger.cpp
-  cryptonote/src/Logging/ConsoleLogger.cpp
-  cryptonote/src/Logging/LoggerMessage.cpp
-  cryptonote/src/Logging/LoggerRef.cpp
   cryptonote/src/BlockchainExplorer/BlockchainExplorer.cpp
   cryptonote/src/BlockchainExplorer/BlockchainExplorerDataBuilder.cpp
   cryptonote/src/BlockchainExplorer/BlockchainExplorerErrors.cpp
@@ -282,6 +298,7 @@ file(GLOB_RECURSE SOURCES src/*.cpp)
 file(GLOB_RECURSE HEADERS src/*.h)
 file(GLOB_RECURSE FORMS src/gui/ui/*.ui)
 file(GLOB_RECURSE Mnemonics cryptonote/src/Mnemonics/*)
+file(GLOB_RECURSE QCustomPlot external/qcustomplot/*)
 file(GLOB TRANSLATION_FILES src/languages/*.ts)
 
 set(QRC
@@ -289,16 +306,16 @@ set(QRC
 	src/qdarkstyle/style.qrc)
 set_source_files_properties(${TRANSLATION_FILES} PROPERTIES OUTPUT_LOCATION "${CMAKE_BINARY_DIR}/languages")
 
-qt5_wrap_ui(UIS ${FORMS})
-qt5_add_resources(RCC ${QRC})
+qt_wrap_ui(UIS ${FORMS})
+qt_add_resources(RCC ${QRC})
 #qt5_create_translation(TRANSLATION_MESSAGES ${FORMS} ${TRANSLATION_FILES})
-qt5_add_translation(TRANSLATION_QM ${TRANSLATION_FILES})
+qt_add_translation(TRANSLATION_QM ${TRANSLATION_FILES})
 
 add_custom_target(translations DEPENDS ${TRANSLATION_QM})
 #add_custom_target(translations_update DEPENDS ${TRANSLATION_MESSAGES})
 
 if (WIN32)
-  file(GLOB _TRANSLATION_FILES_DEFAULT ${_qt5Core_install_prefix}/translations/*.qm)
+  file(GLOB _TRANSLATION_FILES_DEFAULT ${_qt6Core_install_prefix}/translations/*.qm)
   list(FILTER _TRANSLATION_FILES_DEFAULT INCLUDE REGEX "\\/[a-z][a-z]_[a-z][a-z].qm$")
   add_custom_target(translations_delault)
   foreach(_qm_file_src ${_TRANSLATION_FILES_DEFAULT})
@@ -313,13 +330,12 @@ if (WIN32)
   if (NOT MSVC)
 	message(FATAL_ERROR "Only MSVC is supported on this platform")
   endif ()
-  add_definitions(/D_CRT_SECURE_NO_WARNINGS /D_WIN32_WINNT=0x0600 /DSTATICLIB)
+  add_definitions(/D_CRT_SECURE_NO_WARNINGS /D_WIN32_WINNT=0x0601 /DSTATICLIB)
   include_directories(cryptonote/src/platform/msc)
   set( CMAKE_CXX_FLAGS "-bigobj -EHsc")
   set(PLATFORM_DIR Windows)
   set(BUILD_PLATFORM WIN32)
   set(BUILD_RESOURCES src/cryptonotewallet.rc)
-  set(QTMAIN Qt5::WinMain)
 
 elseif (UNIX)
   set(CRYPTONOTE_SOURCES ${CRYPTONOTE_SOURCES} cryptonote/external/miniupnpc/minissdpc.c)
@@ -334,14 +350,21 @@ elseif (UNIX)
     set(MACOSX_BUNDLE_SHORT_VERSION_STRING "${VERSION_VERSION}.${VERSION_MINOR}.${VERSION_PATCH}")
     set(MACOSX_BUNDLE_BUNDLE_VERSION "$${VERSION_VERSION}.${VERSION_MINOR}.${VERSION_PATCH}")
 
-    find_package(Qt5PrintSupport REQUIRED)
+    find_package(Qt6PrintSupport REQUIRED)
 
     include_directories(/usr/include/malloc)
 
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -maes -std=c++11 -stdlib=libc++")
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -maes -D_DARWIN_C_SOURCE")
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -framework Cocoa -framework OpenGL -framework CoreFoundation -framework Carbon -framework IOKit -L/usr/lib")
-
+    # Force CMake to skip AGL if it's being erroneously detected
+    set(OPENGL_agl_LIBRARY "" CACHE STRING "" FORCE)
+    
+    # Ensure we are using the modern Cocoa-based OpenGL
+    find_library(OPENGL_LIBRARY OpenGL)
+    find_library(COCOA_LIBRARY Cocoa)
+    find_library(IOKIT_LIBRARY IOKit)
+    
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -stdlib=libc++")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -D_DARWIN_C_SOURCE")
+    
     set(MACOSX_BUNDLE_ICON_FILE karbowanec.icns)
     set(APPLICATION_ICON src/images/karbowanec.icns)
     set_source_files_properties(${APPLICATION_ICON} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
@@ -349,7 +372,7 @@ elseif (UNIX)
     set(BUILD_PLATFORM MACOSX_BUNDLE)
     set(BUILD_RESOURCES ${APPLICATION_ICON})
 	
-    GET_TARGET_PROPERTY(QT_LIB_DIR "${Qt5Widgets_LIBRARIES}" LOCATION)
+    GET_TARGET_PROPERTY(QT_LIB_DIR "${Qt6Widgets_LIBRARIES}" LOCATION)
     GET_FILENAME_COMPONENT(QT_LIB_DIR "${QT_LIB_DIR}" PATH)
   else()
     include(TestCXXAcceptsFlag)
@@ -482,27 +505,83 @@ include_directories(cryptonote/src/Platform/Posix)
 file(GLOB PLATFORM_SOURCES cryptonote/src/Platform/${PLATFORM_DIR}/System/*)
 set(CRYPTONOTE_SOURCES ${CRYPTONOTE_SOURCES} ${PLATFORM_SOURCES})
 
+if (MSVC)
+  # Build lmdb externally using the Visual Studio generator — this matches how the karbowanec
+  # standalone project (which is the same source) builds lmdb.lib successfully with MSVC.
+  set(_lmdb_src_dir "${CMAKE_SOURCE_DIR}/cryptonote/external/liblmdb")
+  set(_lmdb_build_dir "${CMAKE_BINARY_DIR}/lmdb_external")
+  if(CMAKE_BUILD_TYPE)
+    set(_lmdb_config "${CMAKE_BUILD_TYPE}")
+  else()
+    set(_lmdb_config "Release")
+  endif()
+
+  message(STATUS "Configuring lmdb externally (${_lmdb_config}) in ${_lmdb_build_dir}")
+  execute_process(
+    COMMAND "${CMAKE_COMMAND}"
+      -G "Visual Studio 17 2022"
+      -A x64
+      -S "${_lmdb_src_dir}"
+      -B "${_lmdb_build_dir}"
+    RESULT_VARIABLE _lmdb_configure_result
+    OUTPUT_QUIET
+    ERROR_VARIABLE _lmdb_configure_error
+  )
+  if(NOT _lmdb_configure_result EQUAL 0)
+    message(FATAL_ERROR "lmdb configure failed:\n${_lmdb_configure_error}")
+  endif()
+
+  message(STATUS "Building lmdb externally...")
+  execute_process(
+    COMMAND "${CMAKE_COMMAND}" --build "${_lmdb_build_dir}" --config "${_lmdb_config}"
+    RESULT_VARIABLE _lmdb_build_result
+    OUTPUT_QUIET
+    ERROR_VARIABLE _lmdb_build_error
+  )
+  if(NOT _lmdb_build_result EQUAL 0)
+    message(FATAL_ERROR "lmdb build failed:\n${_lmdb_build_error}")
+  endif()
+
+  add_library(lmdb STATIC IMPORTED GLOBAL)
+  set_target_properties(lmdb PROPERTIES
+    IMPORTED_LOCATION "${_lmdb_build_dir}/${_lmdb_config}/lmdb.lib"
+    INTERFACE_INCLUDE_DIRECTORIES "${_lmdb_src_dir}"
+  )
+else()
+  set(LMDB_SOURCES
+    cryptonote/external/liblmdb/mdb.c
+    cryptonote/external/liblmdb/midl.c)
+  add_library(lmdb STATIC ${LMDB_SOURCES})
+  target_include_directories(lmdb PUBLIC cryptonote/external/liblmdb)
+  set_property(TARGET lmdb APPEND PROPERTY COMPILE_FLAGS "-fPIC")
+endif()
+include_directories(cryptonote/external/liblmdb)
+
 add_library(${CRYPTONOTE_LIB} STATIC ${CRYPTONOTE_SOURCES})
 add_library(Mnemonics ${Mnemonics})
+add_library(QCustomPlot ${QCustomPlot})
 set_target_properties(${CRYPTONOTE_LIB} PROPERTIES COMPILE_DEFINITIONS _GNU_SOURCE)
 
 if (APPLE OR ${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
-target_link_libraries(${CRYPTONOTE_LIB} ${Boost_LIBRARIES} -lresolv)
+target_link_libraries(${CRYPTONOTE_LIB} ${Boost_LIBRARIES} lmdb -lresolv)
 else ()
-target_link_libraries(${CRYPTONOTE_LIB} ${Boost_LIBRARIES})
+target_link_libraries(${CRYPTONOTE_LIB} ${Boost_LIBRARIES} lmdb)
 endif ()
 set_target_properties(Mnemonics PROPERTIES COMPILE_DEFINITIONS _GNU_SOURCE)
 target_link_libraries(Mnemonics ${Boost_LIBRARIES})
+set_target_properties(QCustomPlot PROPERTIES COMPILE_DEFINITIONS _GNU_SOURCE)
+target_link_libraries(QCustomPlot Qt6::Core Qt6::PrintSupport)
 
 add_executable(${PROJECT_NAME} ${BUILD_PLATFORM} ${BUILD_RESOURCES} ${SOURCES} ${HEADERS} ${UIS} ${RCC})
 set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_DEFINITIONS _GNU_SOURCE)
-target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES} ${QTMAIN} ${CRYPTONOTE_LIB} ${QRENCODE_LIB} Mnemonics)
+target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES} ${QTMAIN} ${CRYPTONOTE_LIB} ${QRENCODE_LIB} Mnemonics QCustomPlot)
 add_dependencies(${PROJECT_NAME} translations)
 if (WIN32)
   add_dependencies(${PROJECT_NAME} translations_delault)
 endif ()
 
 if (OPENSSL_FOUND)
+  add_definitions(-DCPPHTTPLIB_OPENSSL_SUPPORT)
   target_link_libraries(${PROJECT_NAME} ${OPENSSL_LIBRARIES})
   if (MSVC)
     target_link_libraries(${PROJECT_NAME} Rpcrt4 ws2_32 advapi32 crypt32 gdi32 user32)
@@ -513,20 +592,43 @@ if (APPLE)
   set_target_properties(${PROJECT_NAME} PROPERTIES
   MACOSX_BUNDLE TRUE
   MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_BINARY_DIR}/Info.plist)
-  
-  target_link_libraries(${PROJECT_NAME} Qt5::PrintSupport) 
+  target_link_libraries(${PROJECT_NAME}
+    "-framework Cocoa"
+    "-framework OpenGL"
+    "-framework CoreFoundation"
+    "-framework IOKit"
+    "-framework QuartzCore"
+)
+  target_link_libraries(${PROJECT_NAME} Qt6::PrintSupport)
 elseif (UNIX)
   target_link_libraries(${PROJECT_NAME} -lpthread)
 elseif (WIN32)
   target_link_libraries(${PROJECT_NAME} Imm32 Iphlpapi Winmm)
 endif (APPLE)
 
-qt5_use_modules(${PROJECT_NAME} Widgets Gui Network)
+#qt5_use_modules(${PROJECT_NAME} Core Widgets Gui Network PrintSupport)
+target_link_libraries(${PROJECT_NAME} Qt6::Core Qt6::Widgets Qt6::Gui Qt6::Network Qt6::PrintSupport)
 
 # Installation
 
 set(CPACK_PACKAGE_NAME ${WALLET_NAME})
 set(CPACK_PACKAGE_VERSION ${WALLET_VERSION})
+# Parse the version into components
+string(REGEX MATCH "([0-9]+)\\.([0-9]+)\\.([0-9]+)" VERSION_MATCHED ${CPACK_PACKAGE_VERSION})
+if(VERSION_MATCHED)
+    string(REGEX REPLACE "([0-9]+)\\.([0-9]+)\\.([0-9]+)" "\\1" CPACK_PACKAGE_VERSION_MAJOR ${CPACK_PACKAGE_VERSION})
+    string(REGEX REPLACE "([0-9]+)\\.([0-9]+)\\.([0-9]+)" "\\2" CPACK_PACKAGE_VERSION_MINOR ${CPACK_PACKAGE_VERSION})
+    string(REGEX REPLACE "([0-9]+)\\.([0-9]+)\\.([0-9]+)" "\\3" CPACK_PACKAGE_VERSION_PATCH ${CPACK_PACKAGE_VERSION})
+else()
+    # Fallback in case of a missing or invalid version
+    set(CPACK_PACKAGE_VERSION_MAJOR "1")
+    set(CPACK_PACKAGE_VERSION_MINOR "8")
+    set(CPACK_PACKAGE_VERSION_PATCH "8")
+endif()
+
+# Print version for debugging
+message(STATUS "CPACK PACKAGE VERSION: ${CPACK_PACKAGE_VERSION}")
+message(STATUS "MAJOR: ${CPACK_PACKAGE_VERSION_MAJOR}, MINOR: ${CPACK_PACKAGE_VERSION_MINOR}, PATCH: ${CPACK_PACKAGE_VERSION_PATCH}")
 set(CPACK_PACKAGE_VENDOR "Karbowanec-project")
 set(CPACK_PACKAGE_CONTACT "https://karbo.org")
 set(CPACK_STRIP_FILES ON)
@@ -551,7 +653,7 @@ elseif (UNIX)
         set(CPACK_RPM_PACKAGE_RELEASE ${WALLET_VERSION})
         set(CPACK_RPM_PACKAGE_LICENSE "MIT")
         set(CPACK_RPM_PACKAGE_GROUP Office)
-        set(CPACK_RPM_PACKAGE_REQUIRES "qt5-qtbase >= 5.3.2, qt5-qtbase-gui >= 5.3.2")
+        set(CPACK_RPM_PACKAGE_REQUIRES "qt6-base >= 6.0.0, qt6-base-gui >= 6.0.0")
         set(CPACK_RPM_PACKAGE_SUMMARY "Karbowanec KRB wallet")
         set(CPACK_RPM_PACKAGE_DESCRIPTION "Karbowanec KRB wallet
  Karbowanec is Ukrainian decentrilized, privacy oriented peer-to-peer
@@ -559,6 +661,7 @@ elseif (UNIX)
  and everyone can take part.")
     else ()
 		set(CPACK_GENERATOR DEB)
+		set(CPACK_DEBIAN_PACKAGE_DEPENDS "libqt6svg6, other-dependencies")
 	endif ()
 	
 	set(CPACK_SYSTEM_NAME 64-bit)
@@ -579,9 +682,7 @@ elseif (WIN32)
  Karbowanec is Ukrainian decentralized, privacy oriented peer-to-peer
  cryptocurrency. It is open-source, nobody owns or controls Karbowanec
  and everyone can take part.")
-    set (CPACK_PACKAGE_VERSION_MAJOR "1")
-    set (CPACK_PACKAGE_VERSION_MINOR "4")
-    set (CPACK_PACKAGE_VERSION_PATCH "1")
+
     set (CPACK_PACKAGE_INSTALL_DIRECTORY "Karbowanec")
 
     # Define components and their display names
