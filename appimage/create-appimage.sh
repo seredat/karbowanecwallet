@@ -26,7 +26,7 @@ mkdir -p $APPDIR/usr/share/karbo/languages
 cp ../build/release/$APP $APPDIR/usr/bin/
 
 # Copy desktop file
-cp ../src/karbowanecwallet.desktop $APPDIR/usr/share/applications/
+cp karbowanecwallet.desktop.in $APPDIR/usr/share/applications/karbowanecwallet.desktop
 
 # Copy icon
 cp ../src/images/karbowanez.png \
