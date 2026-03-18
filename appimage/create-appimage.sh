@@ -12,4 +12,4 @@ mkdir -p usr/lib
 mkdir -p usr/share/karbo/languages
 cp ../src/images/karbowanez.png usr/share/icons/karbowanec.png
 cp ../build/release/languages/*.qm usr/share/karbo/languages/
-./linuxdeploy-x86_64.AppImage --executable ../build/release/KarbowanecWallet --desktop-file karbowanecwallet.desktop --appdir . --output appimage --plugin qt
+./linuxdeploy-x86_64.AppImage --executable ../build/release/KarbowanecWallet --desktop-file ../src/karbowanecwallet.desktop --appdir . --output appimage --plugin qt
