@@ -21,6 +21,7 @@ public:
 
     void switchLanguage(const QString& lang);
     QString getCurrentLang() const { return m_keyLang; }
+    QString getLangPath() const { return m_langPath; }
 
 signals:
     void languageChanged();
