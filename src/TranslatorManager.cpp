@@ -88,15 +88,13 @@ void TranslatorManager::loadLanguageInternal(const QString& lang)
 
     for (const QString& file : resources)
     {
-        QString locale = file;
-        locale.truncate(locale.lastIndexOf('.'));
+        QString locale = file.section('_', -1).section('.', 0, 0);
 
         if (locale == lang)
         {
             QTranslator* translator = new QTranslator;
 
-            if (translator->load(file, m_langPath) ||
-                translator->load(":/translations/" + file)) // fallback
+            if (translator->load(file, m_langPath))
             {
                 qApp->installTranslator(translator);
                 m_keyLang = locale;
@@ -132,19 +130,16 @@ void TranslatorManager::loadLanguageInternal(const QString& lang)
 
     for (const QString& file : resourcesQt)
     {
-        QString locale = file;
-        locale.truncate(locale.lastIndexOf('.'));
+        QString locale = file.section('_', -1).section('.', 0, 0);
 
-        QString shortLang = locale.right(2);
-
-        if (shortLang == lang)
+        if (locale == lang)
         {
             QTranslator* translator = new QTranslator;
 
             if (translator->load(file, langPathSys))
             {
                 qApp->installTranslator(translator);
-                m_translators.insert(locale, translator);
+                m_translators.insert(file, translator);
             } else {
                 delete translator;
             }
