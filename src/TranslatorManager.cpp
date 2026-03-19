@@ -37,7 +37,7 @@ TranslatorManager::TranslatorManager()
     QString localPath    = basePath + "/languages";
     QString systemPath   = "/usr/share/karbo/languages";
 
-    if (QisAppImage) {
+    if (isAppImage) {
         m_langPath = QDir(appImagePath).absolutePath();
         m_langPath = appDir + "/usr/share/karbo/languages";
         qDebug() << "AppImage detected! Using internal path:" << m_langPath;
