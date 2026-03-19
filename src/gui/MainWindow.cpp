@@ -587,39 +587,39 @@ void MainWindow::createLanguageMenu(void)
 {
   QActionGroup* langGroup = new QActionGroup(m_ui->menuLanguage);
   langGroup->setExclusive(true);
-  connect(langGroup, SIGNAL (triggered(QAction *)), this, SLOT (slotLanguageChanged(QAction *)));
+  connect(langGroup, SIGNAL(triggered(QAction*)), this, SLOT(slotLanguageChanged(QAction*)));
+
   QString defaultLocale = Settings::instance().getLanguage();
   if (defaultLocale.isEmpty()){
-    defaultLocale = QLocale::system().name();
-    defaultLocale.truncate(defaultLocale.lastIndexOf('_'));
+    defaultLocale = QLocale::system().name().section('_', 0, 0);
   }
-#if defined(_MSC_VER)
-  m_langPath = QApplication::applicationDirPath();
-  m_langPath.append("/languages");
-#elif defined(Q_OS_MAC)
-  m_langPath = QApplication::applicationDirPath();
-  m_langPath = m_langPath + "/../Resources/languages/";
-#elif defined(__FreeBSD__)
-  m_langPath = "/usr/local/share/karbo/karbowallet/languages";
-#else
-  m_langPath = "/opt/karbo/languages";
-#endif
+
+  // Get the path that we already detected in TranslatorManager
+  m_langPath = TranslatorManager::instance()->getLangPath();
+  // -----------------------
+
   QDir dir(m_langPath);
-  QStringList fileNames = dir.entryList(QStringList("??.qm"));
+  
+  // Use *.qm to ensure 'ua.qm' is caught even if the filter is picky
+  QStringList fileNames = dir.entryList(QStringList("*.qm"), QDir::Files);
+
   for (int i = 0; i < fileNames.size(); ++i) {
-    QString locale;
-    locale = fileNames[i];
-    locale.truncate(locale.lastIndexOf('.'));
+    QString file = fileNames[i];
+    QString locale = QFileInfo(file).baseName(); // Gets "ua" from "ua.qm"
+    
+    // Convert "ua" or "uk" to a readable name like "Українська"
     QString lang = QLocale(locale).nativeLanguageName();
+    
+    // Fallback if QLocale doesn't recognize "ua"
+    if (lang.isEmpty()) lang = locale; 
+
     QAction *action = new QAction(lang, this);
     action->setCheckable(true);
     action->setData(locale);
     m_ui->menuLanguage->addAction(action);
     langGroup->addAction(action);
 
-    // set default translators and language checked
-    if (defaultLocale == locale)
-    {
+    if (defaultLocale == locale) {
       action->setChecked(true);
     }
   }
