@@ -132,6 +132,7 @@ void MainWindow::connectToSignals() {
 void MainWindow::setMainWindowTitle() {
   setWindowTitle(QString(tr("Karbo Wallet %1")).arg(Settings::instance().getVersion()));
 }
+
 void MainWindow::initUi() {
   setMainWindowTitle();
 #ifdef Q_OS_WIN32
@@ -308,7 +309,7 @@ void MainWindow::changeEvent(QEvent* _event) {
   // this event is send if a translator is loaded
   case QEvent::LanguageChange:
   {
-    m_ui->retranslateUi(this);
+    //m_ui->retranslateUi(this);
     setMainWindowTitle();
     break;
   }
