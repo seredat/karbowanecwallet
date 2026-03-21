@@ -44,7 +44,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../../resources.qrc">
-    <normaloff>:/images/cryptonote</normaloff>:/images/cryptonote</iconset>
+    <normaloff>:/images/karbowanez</normaloff>:/images/karbowanez</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="sizePolicy">
