@@ -217,7 +217,6 @@ set(CRYPTONOTE_SOURCES
   cryptonote/src/InProcessNode/InProcessNodeErrors.cpp
   cryptonote/src/HTTP/HttpServer.cpp
   cryptonote/src/HTTP/HttpClient.cpp
-  cryptonote/src/HTTP/HttpConnection.cpp
   cryptonote/src/HTTP/HttpParser.cpp
   cryptonote/src/HTTP/HttpParserErrorCodes.cpp
   cryptonote/src/HTTP/HttpRequest.cpp
