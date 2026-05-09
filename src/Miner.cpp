@@ -104,14 +104,15 @@ namespace WalletGui
       }
     }
 
+    m_starter_nonce = Random::randomValue<uint32_t>();
     m_diffic = di;
     ++m_template_no;
-    m_starter_nonce = Random::randomValue<uint32_t>();
     return true;
   }
 
   //-----------------------------------------------------------------------------------------------------
   void Miner::reset_nonce_sequence() {
+    std::lock_guard<decltype(m_template_lock)> lk(m_template_lock);
     m_starter_nonce = Random::randomValue<uint32_t>();
     ++m_template_no;
   }
@@ -416,13 +417,13 @@ namespace WalletGui
   bool Miner::worker_thread(uint32_t th_local_index, std::shared_ptr<std::atomic<bool>> _thread_stop)
   {
     m_logger(Logging::DEBUGGING) << "Miner thread was started ["<< th_local_index << "]";
-    uint32_t nonce = m_starter_nonce + th_local_index;
+    uint32_t nonce = m_starter_nonce.load() + th_local_index;
     difficulty_type local_diff = 0;
     uint32_t local_template_ver = 0;
     Crypto::cn_context context;
     Block b;
 
-    while(!m_stop_mining && !_thread_stop->load())
+    while(!m_stop_mining.load() && !_thread_stop->load())
     {
       if(m_pausers_count) //anti split workaround
       {
@@ -430,14 +431,13 @@ namespace WalletGui
         continue;
       }
 
-      if(local_template_ver != m_template_no) {
+      const uint32_t observed_template_ver = m_template_no.load();
+      if(local_template_ver != observed_template_ver) {
         std::unique_lock<std::mutex> lk(m_template_lock);
         b = m_template;
         local_diff = m_diffic;
-        lk.unlock();
-
-        local_template_ver = m_template_no;
-        nonce = m_starter_nonce + th_local_index;
+        local_template_ver = m_template_no.load();
+        nonce = m_starter_nonce.load() + th_local_index;
       }
 
       if(!local_template_ver) //no any set_block_template call
@@ -489,7 +489,7 @@ namespace WalletGui
       // step 2: get long hash
       Crypto::Hash pow;
 
-      if (!m_stop_mining) {
+      if (!m_stop_mining.load()) {
         if (!NodeAdapter::instance().getBlockLongHash(context, b, pow)) {
           m_logger(Logging::ERROR) << "getBlockLongHash failed.";
           const QString errorMessage = tr("getBlockLongHash failed");
@@ -499,7 +499,7 @@ namespace WalletGui
         }
       }
 
-      if (!m_stop_mining && check_hash(pow, local_diff))
+      if (!m_stop_mining.load() && check_hash(pow, local_diff))
       {
         // we lucky!
 
@@ -534,7 +534,7 @@ namespace WalletGui
         }
       }
 
-      nonce += m_threads_total;
+      nonce += m_threads_total.load();
       ++m_hashes;
     }
     m_logger(Logging::DEBUGGING) << "Miner thread stopped ["<< th_local_index << "]";

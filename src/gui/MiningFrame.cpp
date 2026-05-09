@@ -46,12 +46,11 @@ bool isDarkColor(const QColor& color) {
   return color.lightness() < 128;
 }
 
-QColor averageLineColor(const QColor& backgroundColor) {
-  return isDarkColor(backgroundColor) ? QColor(245, 186, 92) : QColor(150, 88, 24);
-}
-
-QColor peakLineColor(const QColor& backgroundColor) {
-  return isDarkColor(backgroundColor) ? QColor(220, 145, 162) : QColor(150, 64, 86);
+QPen eventMarkerPen(const QColor& backgroundColor, bool highlight) {
+  const QColor markerColor = highlight ?
+      (isDarkColor(backgroundColor) ? QColor(255, 203, 112) : QColor(181, 107, 0)) :
+      (isDarkColor(backgroundColor) ? QColor(132, 157, 184) : QColor(84, 102, 122));
+  return QPen(withAlpha(markerColor, highlight ? 205 : 130), highlight ? 1.6 : 1.0, Qt::SolidLine);
 }
 
 QString formatMagnitude(double value) {
@@ -223,20 +222,20 @@ void MiningFrame::applyChartPalette() {
   const QColor subTickColor = chartPalette.color(QPalette::Midlight);
   const QColor backgroundColor = chartPalette.color(QPalette::Window);
   const QColor accentColor = chartPalette.color(QPalette::Highlight);
-  const QColor averageColor = averageLineColor(backgroundColor);
-  const QColor peakColor = peakLineColor(backgroundColor);
   const QColor gridColor = withAlpha(textColor, isDarkColor(backgroundColor) ? 38 : 28);
 
   m_ui->m_hashRateChart->graph()->setPen(QPen(accentColor));
   m_ui->m_hashRateChart->graph()->setBrush(QBrush(withAlpha(accentColor, 48)));
-  m_ui->m_hashRateChart->graph(1)->setVisible(true);
-  m_ui->m_hashRateChart->graph(1)->setPen(QPen(withAlpha(averageColor, 190), 1.35, Qt::SolidLine));
+  m_ui->m_hashRateChart->graph(1)->setVisible(false);
+  m_ui->m_hashRateChart->graph(1)->setPen(QPen(Qt::NoPen));
   m_ui->m_hashRateChart->graph(1)->setBrush(Qt::NoBrush);
   if (m_peakHashRateLine != nullptr) {
-    m_peakHashRateLine->setPen(QPen(withAlpha(peakColor, 165), 1.15, Qt::SolidLine));
+    m_peakHashRateLine->setVisible(false);
   }
   for (int markerIndex = 0; markerIndex < m_hashRateEventMarkers.size(); ++markerIndex) {
-    m_hashRateEventMarkers.at(markerIndex)->setVisible(false);
+    const bool markerHighlight = markerIndex < m_hashRateEventMarkerHighlights.size() && m_hashRateEventMarkerHighlights.at(markerIndex);
+    m_hashRateEventMarkers.at(markerIndex)->setPen(eventMarkerPen(backgroundColor, markerHighlight));
+    m_hashRateEventMarkers.at(markerIndex)->setVisible(true);
   }
 
   m_ui->m_difficultyChart->graph()->setPen(QPen(accentColor, 1.0));
@@ -364,7 +363,23 @@ void MiningFrame::plotDifficulty() {
 }
 
 void MiningFrame::addHashRateEventMarker(bool _highlight) {
-  Q_UNUSED(_highlight);
+  if (m_hX.isEmpty()) {
+    return;
+  }
+
+  const double x = QDateTime::currentDateTime().toSecsSinceEpoch();
+  const QColor backgroundColor = palette().color(QPalette::Window);
+  QCPItemLine* marker = new QCPItemLine(m_ui->m_hashRateChart);
+  marker->start->setCoords(x, 0);
+  marker->end->setCoords(x, std::max<double>(10, m_maxHr * 1.15));
+  marker->setPen(eventMarkerPen(backgroundColor, _highlight));
+  m_hashRateEventMarkers.append(marker);
+  m_hashRateEventMarkerHighlights.append(_highlight);
+
+  while (m_hashRateEventMarkers.size() > 40) {
+    m_ui->m_hashRateChart->removeItem(m_hashRateEventMarkers.takeFirst());
+    m_hashRateEventMarkerHighlights.takeFirst();
+  }
 }
 
 void MiningFrame::appendMiningEvent(const QString& _kind, const QString& _message) {
@@ -536,7 +551,7 @@ void MiningFrame::plot()
   if (m_peakHashRateLine != nullptr && m_sessionPeakHashRate > 0) {
     m_peakHashRateLine->point1->setCoords(0, m_sessionPeakHashRate);
     m_peakHashRateLine->point2->setCoords(1, m_sessionPeakHashRate);
-    m_peakHashRateLine->setVisible(true);
+    m_peakHashRateLine->setVisible(false);
   }
   for (QCPItemLine* marker : m_hashRateEventMarkers) {
     marker->end->setCoords(marker->start->key(), yRangeMax);
@@ -629,6 +644,16 @@ void MiningFrame::walletClosed() {
 
 bool MiningFrame::isSoloRunning() const {
   return m_solo_mining;
+}
+
+void MiningFrame::stopMiningForShutdown() {
+  m_wallet_closed = true;
+
+  if (m_solo_mining) {
+    stopSolo();
+  } else if (m_miner->is_mining()) {
+    m_miner->stop();
+  }
 }
 
 void MiningFrame::startSolo() {

@@ -279,6 +279,7 @@ void MainWindow::quit() {
     ExitWidget* exitWidget = new ExitWidget(nullptr);
     exitWidget->show();
     m_isAboutToQuit = true;
+    m_ui->m_miningFrame->stopMiningForShutdown();
     if(m_trayIcon) // Hide tray icon, as deleting will let it linger until quit (on Ubuntu)
        m_trayIcon->hide();
     close();

@@ -37,6 +37,7 @@ public:
   void plot();
 
   bool isSoloRunning() const;
+  void stopMiningForShutdown();
 
 protected:
   void changeEvent(QEvent* _event) override;
