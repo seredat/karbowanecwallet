@@ -101,28 +101,6 @@
            <property name="verticalSpacing">
             <number>4</number>
            </property>
-           <item row="3" column="0" colspan="9">
-            <widget class="QLabel" name="m_blockFoundBanner">
-             <property name="visible">
-              <bool>false</bool>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QLabel#m_blockFoundBanner {
-  background: palette(highlight);
-  color: palette(highlighted-text);
-  border-radius: 4px;
-  padding: 6px 8px;
-  font-weight: bold;
-}</string>
-             </property>
-             <property name="text">
-              <string>Block found!</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignmentFlag::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
            <item row="1" column="0">
             <widget class="QLabel" name="label_4">
              <property name="text">

@@ -46,6 +46,14 @@ bool isDarkColor(const QColor& color) {
   return color.lightness() < 128;
 }
 
+QColor blendColors(const QColor& backgroundColor, const QColor& foregroundColor, double foregroundRatio) {
+  const double backgroundRatio = 1.0 - foregroundRatio;
+  return QColor(
+      static_cast<int>(backgroundColor.red() * backgroundRatio + foregroundColor.red() * foregroundRatio),
+      static_cast<int>(backgroundColor.green() * backgroundRatio + foregroundColor.green() * foregroundRatio),
+      static_cast<int>(backgroundColor.blue() * backgroundRatio + foregroundColor.blue() * foregroundRatio));
+}
+
 QPen eventMarkerPen(const QColor& backgroundColor, bool highlight) {
   const QColor markerColor = highlight ?
       (isDarkColor(backgroundColor) ? QColor(255, 203, 112) : QColor(181, 107, 0)) :
@@ -391,15 +399,26 @@ void MiningFrame::appendMiningEvent(const QString& _kind, const QString& _messag
   const QString time = QTime::currentTime().toString(QStringLiteral("hh:mm:ss"));
   const QString kind = _kind.trimmed().toUpper();
   const QString color = eventColor(kind);
+  QString paddedKind = kind.leftJustified(5).toHtmlEscaped();
+  paddedKind.replace(QLatin1Char(' '), QStringLiteral("&nbsp;"));
+  QString rowStyle = QStringLiteral("margin:2px 0; white-space:nowrap;");
+  if (kind == QStringLiteral("BLOCK")) {
+    const QColor baseColor = m_ui->m_eventLog->palette().color(QPalette::Base);
+    const QColor highlightColor = blendColors(baseColor, QColor(color), isDarkColor(baseColor) ? 0.22 : 0.12);
+    rowStyle += QStringLiteral(" background-color:%1; padding-left:4px;")
+        .arg(highlightColor.name(QColor::HexRgb));
+  }
+
   m_event_log.append(QStringLiteral(
-      "<div style=\"margin:2px 0; white-space:nowrap;\">"
-      "<span style=\"color:#7a7f85;\">%1</span>&nbsp;&nbsp;"
-      "<span style=\"color:%2; font-weight:700;\">%3</span>&nbsp;&nbsp;"
-      "<span>%4</span>"
+      "<div style=\"%1\">"
+      "<span style=\"color:#7a7f85;\">%2</span>&nbsp;&nbsp;"
+      "<span style=\"color:%3; font-weight:700;\">%4</span>&nbsp;&nbsp;"
+      "<span>%5</span>"
       "</div>")
+      .arg(rowStyle)
       .arg(time.toHtmlEscaped())
       .arg(color)
-      .arg(kind.toHtmlEscaped())
+      .arg(paddedKind)
       .arg(trimmedMessage.toHtmlEscaped()));
   while (m_event_log.size() > 160) {
     m_event_log.removeFirst();
@@ -413,12 +432,8 @@ void MiningFrame::appendMiningEvent(const QString& _kind, const QString& _messag
 }
 
 void MiningFrame::showBlockFound(quint64 _height) {
-  m_ui->m_blockFoundBanner->setText(tr("Block found at height %1").arg(_height));
-  m_ui->m_blockFoundBanner->show();
+  Q_UNUSED(_height);
   m_ui->m_miningLogTabs->setCurrentWidget(m_ui->m_eventLogTab);
-  QTimer::singleShot(12000, this, [this]() {
-    m_ui->m_blockFoundBanner->hide();
-  });
 }
 
 void MiningFrame::resetSessionStats() {
@@ -432,7 +447,6 @@ void MiningFrame::resetSessionStats() {
   m_hY.clear();
   m_averageHashRateY.clear();
   m_maxHr = 10;
-  m_ui->m_blockFoundBanner->hide();
   m_ui->m_hashRateChart->graph(0)->data()->clear();
   m_ui->m_hashRateChart->graph(1)->data()->clear();
   if (m_peakHashRateLine != nullptr) {
