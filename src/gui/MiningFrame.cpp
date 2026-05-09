@@ -46,6 +46,14 @@ bool isDarkColor(const QColor& color) {
   return color.lightness() < 128;
 }
 
+QColor averageLineColor(const QColor& backgroundColor) {
+  return isDarkColor(backgroundColor) ? QColor(245, 186, 92) : QColor(150, 88, 24);
+}
+
+QColor peakLineColor(const QColor& backgroundColor) {
+  return isDarkColor(backgroundColor) ? QColor(220, 145, 162) : QColor(150, 64, 86);
+}
+
 QString formatMagnitude(double value) {
   const QStringList suffixes = {QString(), QStringLiteral("K"), QStringLiteral("M"), QStringLiteral("B"), QStringLiteral("T"), QStringLiteral("P")};
   double scaledValue = value;
@@ -215,15 +223,17 @@ void MiningFrame::applyChartPalette() {
   const QColor subTickColor = chartPalette.color(QPalette::Midlight);
   const QColor backgroundColor = chartPalette.color(QPalette::Window);
   const QColor accentColor = chartPalette.color(QPalette::Highlight);
+  const QColor averageColor = averageLineColor(backgroundColor);
+  const QColor peakColor = peakLineColor(backgroundColor);
   const QColor gridColor = withAlpha(textColor, isDarkColor(backgroundColor) ? 38 : 28);
 
   m_ui->m_hashRateChart->graph()->setPen(QPen(accentColor));
   m_ui->m_hashRateChart->graph()->setBrush(QBrush(withAlpha(accentColor, 48)));
-  m_ui->m_hashRateChart->graph(1)->setVisible(false);
-  m_ui->m_hashRateChart->graph(1)->setPen(QPen(Qt::NoPen));
+  m_ui->m_hashRateChart->graph(1)->setVisible(true);
+  m_ui->m_hashRateChart->graph(1)->setPen(QPen(withAlpha(averageColor, 190), 1.35, Qt::SolidLine));
   m_ui->m_hashRateChart->graph(1)->setBrush(Qt::NoBrush);
   if (m_peakHashRateLine != nullptr) {
-    m_peakHashRateLine->setVisible(false);
+    m_peakHashRateLine->setPen(QPen(withAlpha(peakColor, 165), 1.15, Qt::SolidLine));
   }
   for (int markerIndex = 0; markerIndex < m_hashRateEventMarkers.size(); ++markerIndex) {
     m_hashRateEventMarkers.at(markerIndex)->setVisible(false);
@@ -467,8 +477,8 @@ void MiningFrame::setMiningStatusBadge(const QString& _text, const QString& _bac
       "QLabel#m_soloLabel {"
       "  background: %1;"
       "  color: %2;"
-      "  border-radius: 10px;"
-      "  padding: 1px 6px;"
+      "  border-radius: 8px;"
+      "  padding: 0px 4px;"
       "  font-weight: bold;"
       "}")
       .arg(_backgroundColor, _textColor));
@@ -525,7 +535,7 @@ void MiningFrame::plot()
   if (m_peakHashRateLine != nullptr && m_sessionPeakHashRate > 0) {
     m_peakHashRateLine->point1->setCoords(0, m_sessionPeakHashRate);
     m_peakHashRateLine->point2->setCoords(1, m_sessionPeakHashRate);
-    m_peakHashRateLine->setVisible(false);
+    m_peakHashRateLine->setVisible(true);
   }
   for (QCPItemLine* marker : m_hashRateEventMarkers) {
     marker->end->setCoords(marker->start->key(), yRangeMax);
