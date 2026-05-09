@@ -5,6 +5,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <algorithm>
+#include <QCoreApplication>
 #include <QDebug>
 #include <QThread>
 #include <QTime>
@@ -21,6 +22,7 @@
 #include "Settings.h"
 #include "Logging/LoggerManager.h"
 #include "LoggerAdapter.h"
+#include "LogFileWatcher.h"
 
 #ifdef _WIN32
 #include <windows.h>
@@ -129,7 +131,7 @@ QString eventColor(const QString& kind) {
     return QStringLiteral("#2f7d6d");
   }
   if (kind == QStringLiteral("BLOCK")) {
-    return QStringLiteral("#b52d20");
+    return QStringLiteral("#d7ff3f");
   }
   if (kind == QStringLiteral("ERROR")) {
     return QStringLiteral("#b00020");
@@ -142,9 +144,10 @@ QString eventColor(const QString& kind) {
 
 MiningFrame::MiningFrame(QWidget* _parent) :
     QFrame(_parent), m_ui(new Ui::MiningFrame),
-    m_miner(new Miner(this, LoggerAdapter::instance().getLoggerManager())),
     m_soloHashRateTimerId(-1),
-    m_minerRoutineTimerId(-1) {
+    m_minerRoutineTimerId(-1),
+    m_miner(new Miner(this, LoggerAdapter::instance().getLoggerManager())),
+    m_coreLogWatcher(new LogFileWatcher(Settings::instance().getDataDir().absoluteFilePath(QCoreApplication::applicationName() + ".log"), this)) {
   m_ui->setupUi(this);
   setMiningStatusBadge(tr("Stopped"), QStringLiteral("rgba(191, 92, 92, 70)"), QStringLiteral("#7f3030"));
   initCpuCoreList();
@@ -209,6 +212,7 @@ MiningFrame::MiningFrame(QWidget* _parent) :
   connect(&*m_miner, &Miner::minerTemplateUpdatedSignal, this, &MiningFrame::onMinerTemplateUpdated, Qt::QueuedConnection);
   connect(&*m_miner, &Miner::blockFoundSignal, this, &MiningFrame::onBlockFound, Qt::QueuedConnection);
   connect(&*m_miner, &Miner::miningErrorSignal, this, &MiningFrame::onMinerError, Qt::QueuedConnection);
+  connect(m_coreLogWatcher, &LogFileWatcher::newLogStringSignal, this, &MiningFrame::updateCoreLog, Qt::QueuedConnection);
 }
 
 MiningFrame::~MiningFrame() {
@@ -405,8 +409,8 @@ void MiningFrame::appendMiningEvent(const QString& _kind, const QString& _messag
   QString rowStyle = QStringLiteral("margin:2px 0; white-space:nowrap;");
   if (kind == QStringLiteral("BLOCK")) {
     const QColor baseColor = m_ui->m_eventLog->palette().color(QPalette::Base);
-    const QColor highlightColor = blendColors(baseColor, QColor(color), isDarkColor(baseColor) ? 0.22 : 0.12);
-    rowStyle += QStringLiteral(" background-color:%1; padding-left:4px;")
+    const QColor highlightColor = blendColors(baseColor, QColor(color), isDarkColor(baseColor) ? 0.28 : 0.16);
+    rowStyle += QStringLiteral(" background-color:%1; padding-left:4px; border-radius:3px;")
         .arg(highlightColor.name(QColor::HexRgb));
   }
 
@@ -437,9 +441,31 @@ void MiningFrame::showBlockFound(quint64 _height) {
   m_ui->m_miningLogTabs->setCurrentWidget(m_ui->m_eventLogTab);
 }
 
+void MiningFrame::appendRawLogLine(const QString& _line) {
+  const QString message = _line.trimmed();
+  if (message.isEmpty()) {
+    return;
+  }
+
+  m_miner_log += message + QStringLiteral("\n");
+
+  const int maxRawLogChars = 240000;
+  if (m_miner_log.size() > maxRawLogChars) {
+    const int trimLength = m_miner_log.size() - maxRawLogChars;
+    const int nextLine = m_miner_log.indexOf(QLatin1Char('\n'), trimLength);
+    m_miner_log.remove(0, nextLine >= 0 ? nextLine + 1 : trimLength);
+  }
+
+  m_ui->m_minerLog->setPlainText(m_miner_log);
+
+  QScrollBar* scrollBar = m_ui->m_minerLog->verticalScrollBar();
+  scrollBar->setValue(scrollBar->maximum());
+}
+
 void MiningFrame::resetSessionStats() {
   m_sessionStartedAt = QDateTime::currentDateTime();
   m_sessionTotalHashes = 0;
+  m_roundHashes = 0;
   m_sessionPeakHashRate = 0;
   m_lastAnnouncedPeakHashRate = 0;
   m_lastHashRate = 0;
@@ -484,7 +510,7 @@ void MiningFrame::updateSessionStats() {
     m_ui->m_estimatedBlockTimeValue->setText(QStringLiteral("-"));
   }
 
-  const double luck = m_currentDifficulty > 0 ? (m_sessionTotalHashes / m_currentDifficulty) * 100 : 0;
+  const double luck = m_currentDifficulty > 0 ? (m_roundHashes / m_currentDifficulty) * 100 : 0;
   const int luckPrecision = luck < 10 ? 1 : 0;
   m_ui->m_luckValue->setText(QStringLiteral("%1%").arg(QString::number(luck, 'f', luckPrecision)));
 }
@@ -583,6 +609,7 @@ void MiningFrame::timerEvent(QTimerEvent* _event) {
     double hashRate = m_miner->get_speed();
     m_lastHashRate = hashRate;
     m_sessionTotalHashes += hashRate * (HASHRATE_TIMER_INTERVAL / 1000.0);
+    m_roundHashes += hashRate * (HASHRATE_TIMER_INTERVAL / 1000.0);
     const double previousPeakHashRate = m_sessionPeakHashRate;
     m_sessionPeakHashRate = std::max(m_sessionPeakHashRate, hashRate);
     if (hashRate > 0 && hashRate > previousPeakHashRate &&
@@ -792,13 +819,11 @@ void MiningFrame::updatePendingBalance(quint64 _balance) {
 }
 
 void MiningFrame::updateMinerLog(const QString& _message) {
-  QString message = _message + "\n";
-  m_miner_log += message;
+  appendRawLogLine(_message);
+}
 
-  m_ui->m_minerLog->setPlainText(m_miner_log);
-
-  QScrollBar *sb = m_ui->m_minerLog->verticalScrollBar();
-  sb->setValue(sb->maximum());
+void MiningFrame::updateCoreLog(const QString& _message) {
+  appendRawLogLine(_message);
 }
 
 void MiningFrame::onMinerStarted(quint32 _threads, quint64 _difficulty) {
@@ -866,6 +891,7 @@ void MiningFrame::onBlockFound(const QString& _hash, quint64 _height, quint64 _d
       .arg(_height)
       .arg(formatMagnitude(_difficulty))
       .arg(shortHash));
+  m_roundHashes = 0;
   showBlockFound(_height);
   addHashRateEventMarker(true);
   updateSessionStats();

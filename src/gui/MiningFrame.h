@@ -26,6 +26,8 @@ class Miner;
 
 namespace WalletGui {
 
+class LogFileWatcher;
+
 class MiningFrame : public QFrame {
   Q_OBJECT
 
@@ -52,6 +54,7 @@ private:
   QList<QCPItemLine*> m_hashRateEventMarkers;
   QList<bool> m_hashRateEventMarkerHighlights;
   std::unique_ptr<Miner> m_miner;
+  LogFileWatcher* m_coreLogWatcher = nullptr;
   QString m_miner_log;
   QStringList m_event_log;
   QTimer m_threadResizeTimer;
@@ -67,6 +70,7 @@ private:
   bool m_mining_was_stopped = false;
   QDateTime m_sessionStartedAt;
   double m_sessionTotalHashes = 0;
+  double m_roundHashes = 0;
   double m_sessionPeakHashRate = 0;
   double m_lastAnnouncedPeakHashRate = 0;
   double m_lastHashRate = 0;
@@ -81,6 +85,7 @@ private:
   void addHashRateEventMarker(bool _highlight);
   void appendMiningEvent(const QString& _kind, const QString& _message);
   void showBlockFound(quint64 _height);
+  void appendRawLogLine(const QString& _line);
   void resetSessionStats();
   void updateSessionStats();
   void updateCpuIntensity();
@@ -102,6 +107,7 @@ private:
   Q_SLOT void updateBalance(quint64 _balance);
   Q_SLOT void updatePendingBalance(quint64 _balance);
   Q_SLOT void updateMinerLog(const QString& _message);
+  Q_SLOT void updateCoreLog(const QString& _message);
   Q_SLOT void onMinerStarted(quint32 _threads, quint64 _difficulty);
   Q_SLOT void onMinerStopped(quint32 _threads);
   Q_SLOT void onMinerThreadsChanged(quint32 _threads);
