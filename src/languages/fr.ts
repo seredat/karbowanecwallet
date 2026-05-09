@@ -3036,22 +3036,22 @@ Are you sure?</source>
 Êtes-vous sûr?</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="973"/>
+        <location filename="../gui/MainWindow.cpp" line="974"/>
         <source>Wallet error</source>
         <translation>Erreur de portefeuille</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="976"/>
+        <location filename="../gui/MainWindow.cpp" line="977"/>
         <source>Wallet</source>
         <translation>Portefeuille</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1047"/>
+        <location filename="../gui/MainWindow.cpp" line="1048"/>
         <source>Encrypted</source>
         <translation>Chiffré</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1047"/>
+        <location filename="../gui/MainWindow.cpp" line="1048"/>
         <source>Not encrypted</source>
         <translation>Non crypté</translation>
     </message>
@@ -3060,17 +3060,17 @@ Are you sure?</source>
         <translation type="vanished">%1 peers</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1064"/>
+        <location filename="../gui/MainWindow.cpp" line="1065"/>
         <source>Synchronization in progress</source>
         <translation>Synchronisation en cours</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1085"/>
+        <location filename="../gui/MainWindow.cpp" line="1086"/>
         <source>Not synchronized</source>
         <translation>Non synchronisé</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1085"/>
+        <location filename="../gui/MainWindow.cpp" line="1086"/>
         <source>Synchronized</source>
         <translation>Synchronisé</translation>
     </message>
@@ -3116,7 +3116,7 @@ Are you sure?</source>
         <translation type="vanished">Connecté via un noeud distant</translation>
     </message>
     <message numerus="yes">
-        <location filename="../gui/MainWindow.cpp" line="1056"/>
+        <location filename="../gui/MainWindow.cpp" line="1057"/>
         <source>%n active connection(s)</source>
         <translation>
             <numerusform>%n connexion active</numerusform>
@@ -3211,14 +3211,14 @@ Are you sure?</source>
         <translation>Langue changée en %1</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1121"/>
+        <location filename="../gui/MainWindow.cpp" line="1122"/>
         <source>%1 - Karbo Wallet %2</source>
         <translation>%1 - Karbo Portefeuille %2</translation>
     </message>
     <message>
         <location filename="../gui/MainWindow.cpp" line="136"/>
-        <location filename="../gui/MainWindow.cpp" line="1171"/>
-        <location filename="../gui/MainWindow.cpp" line="1199"/>
+        <location filename="../gui/MainWindow.cpp" line="1172"/>
+        <location filename="../gui/MainWindow.cpp" line="1200"/>
         <source>Karbo Wallet %1</source>
         <translation>Karbo Portefeuille %1</translation>
     </message>
@@ -3233,12 +3233,12 @@ Are you sure?</source>
         <translation>Le fichier portefeuille récent est manquant. Probablement il a été enlevé.</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1031"/>
+        <location filename="../gui/MainWindow.cpp" line="1032"/>
         <source>Incorrect password</source>
         <translation>Mot de passe incorrect</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1031"/>
+        <location filename="../gui/MainWindow.cpp" line="1032"/>
         <source>Wrong password.</source>
         <translation>Mauvais mot de passe.</translation>
     </message>
@@ -3390,27 +3390,27 @@ Are you sure?</source>
         <translation>Nouveau pic de session %1</translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="679"/>
+        <location filename="../gui/MiningFrame.cpp" line="689"/>
         <source>Failed</source>
         <translation>Échec</translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="683"/>
+        <location filename="../gui/MiningFrame.cpp" line="693"/>
         <source>Mining failed to start</source>
         <translation>Le minage n’a pas pu démarrer</translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="687"/>
+        <location filename="../gui/MiningFrame.cpp" line="697"/>
         <source>Starting...</source>
         <translation>Départ...</translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="758"/>
+        <location filename="../gui/MiningFrame.cpp" line="768"/>
         <source>New block %1, refreshing template</source>
         <translation>Nouveau bloc %1, actualisation du modèle</translation>
     </message>
     <message numerus="yes">
-        <location filename="../gui/MiningFrame.cpp" line="796"/>
+        <location filename="../gui/MiningFrame.cpp" line="806"/>
         <source>Mining started with %n thread(s) at difficulty %1</source>
         <translation>
             <numerusform>Minage démarré avec %n thread(s) à la difficulté %1</numerusform>
@@ -3418,7 +3418,7 @@ Are you sure?</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../gui/MiningFrame.cpp" line="800"/>
+        <location filename="../gui/MiningFrame.cpp" line="810"/>
         <source>Mining stopped, %n thread(s) finished</source>
         <translation>
             <numerusform>Minage arrêté, %n thread(s) terminé(s)</numerusform>
@@ -3426,7 +3426,7 @@ Are you sure?</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../gui/MiningFrame.cpp" line="837"/>
+        <location filename="../gui/MiningFrame.cpp" line="847"/>
         <source>CPU threads changed to %n</source>
         <translation>
             <numerusform>Threads CPU changés à %n</numerusform>
@@ -3434,19 +3434,19 @@ Are you sure?</source>
         </translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="854"/>
+        <location filename="../gui/MiningFrame.cpp" line="864"/>
         <source>Found block %1 at difficulty %2 (%3)</source>
         <translation>Bloc %1 trouvé à la difficulté %2 (%3)</translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="864"/>
+        <location filename="../gui/MiningFrame.cpp" line="874"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
         <location filename="../gui/MiningFrame.cpp" line="148"/>
-        <location filename="../gui/MiningFrame.cpp" line="704"/>
-        <location filename="../gui/MiningFrame.cpp" line="816"/>
+        <location filename="../gui/MiningFrame.cpp" line="714"/>
+        <location filename="../gui/MiningFrame.cpp" line="826"/>
         <source>Stopped</source>
         <translation>Arrêté</translation>
     </message>
@@ -3464,7 +3464,7 @@ Are you sure?</source>
     </message>
     <message>
         <location filename="../gui/MiningFrame.cpp" line="593"/>
-        <location filename="../gui/MiningFrame.cpp" line="795"/>
+        <location filename="../gui/MiningFrame.cpp" line="805"/>
         <source>Mining</source>
         <translation>Mining</translation>
     </message>

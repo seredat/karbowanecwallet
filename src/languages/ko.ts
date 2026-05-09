@@ -3002,14 +3002,14 @@ A small fee will be charged.</translation>
         <translation>언어가 %1(으)로 변경되었습니다. 지갑을 다시 시작하면 변경 사항이 적용됩니다.</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1121"/>
+        <location filename="../gui/MainWindow.cpp" line="1122"/>
         <source>%1 - Karbo Wallet %2</source>
         <translation>%1 - Karbo 지갑 %2</translation>
     </message>
     <message>
         <location filename="../gui/MainWindow.cpp" line="136"/>
-        <location filename="../gui/MainWindow.cpp" line="1171"/>
-        <location filename="../gui/MainWindow.cpp" line="1199"/>
+        <location filename="../gui/MainWindow.cpp" line="1172"/>
+        <location filename="../gui/MainWindow.cpp" line="1200"/>
         <source>Karbo Wallet %1</source>
         <translation>Karbo 지갑 %1</translation>
     </message>
@@ -3069,54 +3069,54 @@ Are you sure?</source>
         <translation>지갑이 블록체인에서 재설정 및 복구되었습니다. 계속 진행하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="973"/>
+        <location filename="../gui/MainWindow.cpp" line="974"/>
         <source>Wallet error</source>
         <translation>지갑 오류</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="976"/>
+        <location filename="../gui/MainWindow.cpp" line="977"/>
         <source>Wallet</source>
         <translation>지갑</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1031"/>
+        <location filename="../gui/MainWindow.cpp" line="1032"/>
         <source>Incorrect password</source>
         <translation>잘못된 비밀번호</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1031"/>
+        <location filename="../gui/MainWindow.cpp" line="1032"/>
         <source>Wrong password.</source>
         <translation>잘못된 비밀번호.</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1047"/>
+        <location filename="../gui/MainWindow.cpp" line="1048"/>
         <source>Encrypted</source>
         <translation>암호화됨</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1047"/>
+        <location filename="../gui/MainWindow.cpp" line="1048"/>
         <source>Not encrypted</source>
         <translation>암호화되지 않음</translation>
     </message>
     <message numerus="yes">
-        <location filename="../gui/MainWindow.cpp" line="1056"/>
+        <location filename="../gui/MainWindow.cpp" line="1057"/>
         <source>%n active connection(s)</source>
         <translation>
             <numerusform>%n개의 활성화된 연결</numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1064"/>
+        <location filename="../gui/MainWindow.cpp" line="1065"/>
         <source>Synchronization in progress</source>
         <translation>진행 중인 동기화</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1085"/>
+        <location filename="../gui/MainWindow.cpp" line="1086"/>
         <source>Not synchronized</source>
         <translation>동기화되지 않음</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1085"/>
+        <location filename="../gui/MainWindow.cpp" line="1086"/>
         <source>Synchronized</source>
         <translation>동기화됨</translation>
     </message>
@@ -3245,53 +3245,53 @@ Are you sure?</source>
     </message>
     <message>
         <location filename="../gui/MiningFrame.cpp" line="593"/>
-        <location filename="../gui/MiningFrame.cpp" line="795"/>
+        <location filename="../gui/MiningFrame.cpp" line="805"/>
         <source>Mining</source>
         <translation>마이닝</translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="679"/>
+        <location filename="../gui/MiningFrame.cpp" line="689"/>
         <source>Failed</source>
         <translation>실패</translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="683"/>
+        <location filename="../gui/MiningFrame.cpp" line="693"/>
         <source>Mining failed to start</source>
         <translation>마이닝 시작 실패</translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="758"/>
+        <location filename="../gui/MiningFrame.cpp" line="768"/>
         <source>New block %1, refreshing template</source>
         <translation>새 블록 %1, 템플릿 새로 고침 중</translation>
     </message>
     <message numerus="yes">
-        <location filename="../gui/MiningFrame.cpp" line="796"/>
+        <location filename="../gui/MiningFrame.cpp" line="806"/>
         <source>Mining started with %n thread(s) at difficulty %1</source>
         <translation>
             <numerusform>난이도 %1에서 %n개 스레드로 마이닝 시작</numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../gui/MiningFrame.cpp" line="800"/>
+        <location filename="../gui/MiningFrame.cpp" line="810"/>
         <source>Mining stopped, %n thread(s) finished</source>
         <translation>
             <numerusform>마이닝 중지, %n개 스레드 종료</numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../gui/MiningFrame.cpp" line="837"/>
+        <location filename="../gui/MiningFrame.cpp" line="847"/>
         <source>CPU threads changed to %n</source>
         <translation>
             <numerusform>CPU 스레드가 %n개로 변경되었습니다</numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="854"/>
+        <location filename="../gui/MiningFrame.cpp" line="864"/>
         <source>Found block %1 at difficulty %2 (%3)</source>
         <translation>난이도 %2에서 블록 %1 발견 (%3)</translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="864"/>
+        <location filename="../gui/MiningFrame.cpp" line="874"/>
         <source>Error</source>
         <translation>오류</translation>
     </message>
@@ -3300,14 +3300,14 @@ Are you sure?</source>
         <translation type="vanished">%1</translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="687"/>
+        <location filename="../gui/MiningFrame.cpp" line="697"/>
         <source>Starting...</source>
         <translation>시작 중...</translation>
     </message>
     <message>
         <location filename="../gui/MiningFrame.cpp" line="148"/>
-        <location filename="../gui/MiningFrame.cpp" line="704"/>
-        <location filename="../gui/MiningFrame.cpp" line="816"/>
+        <location filename="../gui/MiningFrame.cpp" line="714"/>
+        <location filename="../gui/MiningFrame.cpp" line="826"/>
         <source>Stopped</source>
         <translation>중지됨</translation>
     </message>

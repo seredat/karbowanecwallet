@@ -143,7 +143,8 @@ QString eventColor(const QString& kind) {
 MiningFrame::MiningFrame(QWidget* _parent) :
     QFrame(_parent), m_ui(new Ui::MiningFrame),
     m_miner(new Miner(this, LoggerAdapter::instance().getLoggerManager())),
-    m_soloHashRateTimerId(-1) {
+    m_soloHashRateTimerId(-1),
+    m_minerRoutineTimerId(-1) {
   m_ui->setupUi(this);
   setMiningStatusBadge(tr("Stopped"), QStringLiteral("rgba(191, 92, 92, 70)"), QStringLiteral("#7f3030"));
   initCpuCoreList();
@@ -662,12 +663,22 @@ bool MiningFrame::isSoloRunning() const {
 
 void MiningFrame::stopMiningForShutdown() {
   m_wallet_closed = true;
+  m_threadResizeTimer.stop();
+  m_pendingMiningThreads = 0;
 
-  if (m_solo_mining) {
-    stopSolo();
-  } else if (m_miner->is_mining()) {
-    m_miner->stop();
+  if (m_soloHashRateTimerId != -1) {
+    killTimer(m_soloHashRateTimerId);
+    m_soloHashRateTimerId = -1;
   }
+
+  if (m_minerRoutineTimerId != -1) {
+    killTimer(m_minerRoutineTimerId);
+    m_minerRoutineTimerId = -1;
+  }
+
+  m_miner->stop();
+  m_solo_mining = false;
+  m_mining_was_stopped = true;
 }
 
 void MiningFrame::startSolo() {

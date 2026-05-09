@@ -3008,7 +3008,7 @@ A small fee will be charged.</translation>
         <translation>Language changed to %1. The change will take effect after restarting the wallet.</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1121"/>
+        <location filename="../gui/MainWindow.cpp" line="1122"/>
         <source>%1 - Karbo Wallet %2</source>
         <translation>محفظة 2% Karbo %1</translation>
     </message>
@@ -3068,37 +3068,37 @@ Are you sure?</source>
         <translation>سيتم إعادة تعيين محفظتك، واستعادتها من البلوكتشين. هل أنت متأكد من ذلك؟</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="973"/>
+        <location filename="../gui/MainWindow.cpp" line="974"/>
         <source>Wallet error</source>
         <translation>خطأ في المحفظة</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="976"/>
+        <location filename="../gui/MainWindow.cpp" line="977"/>
         <source>Wallet</source>
         <translation>المحفظة</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1031"/>
+        <location filename="../gui/MainWindow.cpp" line="1032"/>
         <source>Incorrect password</source>
         <translation>كلمة سر خاطئة</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1031"/>
+        <location filename="../gui/MainWindow.cpp" line="1032"/>
         <source>Wrong password.</source>
         <translation>كلمة مرور خاطئة.</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1047"/>
+        <location filename="../gui/MainWindow.cpp" line="1048"/>
         <source>Encrypted</source>
         <translation>مشفر</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1047"/>
+        <location filename="../gui/MainWindow.cpp" line="1048"/>
         <source>Not encrypted</source>
         <translation>غير مشفر</translation>
     </message>
     <message numerus="yes">
-        <location filename="../gui/MainWindow.cpp" line="1056"/>
+        <location filename="../gui/MainWindow.cpp" line="1057"/>
         <source>%n active connection(s)</source>
         <translation>
             <numerusform>%n اتصال نشط</numerusform>
@@ -3110,24 +3110,24 @@ Are you sure?</source>
         </translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1064"/>
+        <location filename="../gui/MainWindow.cpp" line="1065"/>
         <source>Synchronization in progress</source>
         <translation>التزامن جارٍ</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1085"/>
+        <location filename="../gui/MainWindow.cpp" line="1086"/>
         <source>Not synchronized</source>
         <translation>غير متزامن</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1085"/>
+        <location filename="../gui/MainWindow.cpp" line="1086"/>
         <source>Synchronized</source>
         <translation>متزامن</translation>
     </message>
     <message>
         <location filename="../gui/MainWindow.cpp" line="136"/>
-        <location filename="../gui/MainWindow.cpp" line="1171"/>
-        <location filename="../gui/MainWindow.cpp" line="1199"/>
+        <location filename="../gui/MainWindow.cpp" line="1172"/>
+        <location filename="../gui/MainWindow.cpp" line="1200"/>
         <source>Karbo Wallet %1</source>
         <translation>محفظة 1% Karbo </translation>
     </message>
@@ -3290,27 +3290,27 @@ Are you sure?</source>
     </message>
     <message>
         <location filename="../gui/MiningFrame.cpp" line="593"/>
-        <location filename="../gui/MiningFrame.cpp" line="795"/>
+        <location filename="../gui/MiningFrame.cpp" line="805"/>
         <source>Mining</source>
         <translation>تعدين</translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="679"/>
+        <location filename="../gui/MiningFrame.cpp" line="689"/>
         <source>Failed</source>
         <translation>فشل</translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="683"/>
+        <location filename="../gui/MiningFrame.cpp" line="693"/>
         <source>Mining failed to start</source>
         <translation>فشل بدء التعدين</translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="758"/>
+        <location filename="../gui/MiningFrame.cpp" line="768"/>
         <source>New block %1, refreshing template</source>
         <translation>كتلة جديدة %1، جارٍ تحديث القالب</translation>
     </message>
     <message numerus="yes">
-        <location filename="../gui/MiningFrame.cpp" line="796"/>
+        <location filename="../gui/MiningFrame.cpp" line="806"/>
         <source>Mining started with %n thread(s) at difficulty %1</source>
         <translation>
             <numerusform>بدأ التعدين باستخدام %n خيط عند صعوبة %1</numerusform>
@@ -3322,7 +3322,7 @@ Are you sure?</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../gui/MiningFrame.cpp" line="800"/>
+        <location filename="../gui/MiningFrame.cpp" line="810"/>
         <source>Mining stopped, %n thread(s) finished</source>
         <translation>
             <numerusform>توقف التعدين، انتهى %n خيط</numerusform>
@@ -3334,7 +3334,7 @@ Are you sure?</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../gui/MiningFrame.cpp" line="837"/>
+        <location filename="../gui/MiningFrame.cpp" line="847"/>
         <source>CPU threads changed to %n</source>
         <translation>
             <numerusform>تم تغيير خيوط CPU إلى %n</numerusform>
@@ -3346,12 +3346,12 @@ Are you sure?</source>
         </translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="854"/>
+        <location filename="../gui/MiningFrame.cpp" line="864"/>
         <source>Found block %1 at difficulty %2 (%3)</source>
         <translation>تم العثور على الكتلة %1 عند صعوبة %2 (%3)</translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="864"/>
+        <location filename="../gui/MiningFrame.cpp" line="874"/>
         <source>Error</source>
         <translation>خطأ</translation>
     </message>
@@ -3360,14 +3360,14 @@ Are you sure?</source>
         <translation type="vanished">1%</translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="687"/>
+        <location filename="../gui/MiningFrame.cpp" line="697"/>
         <source>Starting...</source>
         <translation>جار البدء...</translation>
     </message>
     <message>
         <location filename="../gui/MiningFrame.cpp" line="148"/>
-        <location filename="../gui/MiningFrame.cpp" line="704"/>
-        <location filename="../gui/MiningFrame.cpp" line="816"/>
+        <location filename="../gui/MiningFrame.cpp" line="714"/>
+        <location filename="../gui/MiningFrame.cpp" line="826"/>
         <source>Stopped</source>
         <translation>متوقف</translation>
     </message>

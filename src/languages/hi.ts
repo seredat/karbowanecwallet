@@ -2935,7 +2935,7 @@ A small fee will be charged.</translation>
         <translation>Language changed to %1. The change will take effect after restarting the wallet.</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1121"/>
+        <location filename="../gui/MainWindow.cpp" line="1122"/>
         <source>%1 - Karbo Wallet %2</source>
         <translation>%1 - कार्बो वॉलेट %2</translation>
     </message>
@@ -2995,37 +2995,37 @@ Are you sure?</source>
         <translation>आपका वॉलेट ब्लॉकचेन से रीसेट और रिस्टोर किया जाएगा। क्या आपको चाहते हैं?</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="973"/>
+        <location filename="../gui/MainWindow.cpp" line="974"/>
         <source>Wallet error</source>
         <translation>वॉलेट त्रुटि</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="976"/>
+        <location filename="../gui/MainWindow.cpp" line="977"/>
         <source>Wallet</source>
         <translation>वॉलेट</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1031"/>
+        <location filename="../gui/MainWindow.cpp" line="1032"/>
         <source>Incorrect password</source>
         <translation>गलत पासवर्ड</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1031"/>
+        <location filename="../gui/MainWindow.cpp" line="1032"/>
         <source>Wrong password.</source>
         <translation>गलत पासवर्ड।</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1047"/>
+        <location filename="../gui/MainWindow.cpp" line="1048"/>
         <source>Encrypted</source>
         <translation>एन्क्रिप्टेड</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1047"/>
+        <location filename="../gui/MainWindow.cpp" line="1048"/>
         <source>Not encrypted</source>
         <translation>एन्क्रिप्ट नहीं किया गया</translation>
     </message>
     <message numerus="yes">
-        <location filename="../gui/MainWindow.cpp" line="1056"/>
+        <location filename="../gui/MainWindow.cpp" line="1057"/>
         <source>%n active connection(s)</source>
         <translation>
             <numerusform>%n सक्रिय कनेक्शन</numerusform>
@@ -3033,24 +3033,24 @@ Are you sure?</source>
         </translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1064"/>
+        <location filename="../gui/MainWindow.cpp" line="1065"/>
         <source>Synchronization in progress</source>
         <translation>प्रगति पर सिंक्रनाइज़ेशन</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1085"/>
+        <location filename="../gui/MainWindow.cpp" line="1086"/>
         <source>Not synchronized</source>
         <translation>सिंक्रोनाइज नहीं है</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="1085"/>
+        <location filename="../gui/MainWindow.cpp" line="1086"/>
         <source>Synchronized</source>
         <translation>सिंक्रनाइज़ है</translation>
     </message>
     <message>
         <location filename="../gui/MainWindow.cpp" line="136"/>
-        <location filename="../gui/MainWindow.cpp" line="1171"/>
-        <location filename="../gui/MainWindow.cpp" line="1199"/>
+        <location filename="../gui/MainWindow.cpp" line="1172"/>
+        <location filename="../gui/MainWindow.cpp" line="1200"/>
         <source>Karbo Wallet %1</source>
         <translation>कार्बो वॉलेट %1</translation>
     </message>
@@ -3196,27 +3196,27 @@ Are you sure?</source>
     </message>
     <message>
         <location filename="../gui/MiningFrame.cpp" line="593"/>
-        <location filename="../gui/MiningFrame.cpp" line="795"/>
+        <location filename="../gui/MiningFrame.cpp" line="805"/>
         <source>Mining</source>
         <translation>माइनिंग</translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="679"/>
+        <location filename="../gui/MiningFrame.cpp" line="689"/>
         <source>Failed</source>
         <translation>विफल</translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="683"/>
+        <location filename="../gui/MiningFrame.cpp" line="693"/>
         <source>Mining failed to start</source>
         <translation>माइनिंग शुरू करने में विफल</translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="758"/>
+        <location filename="../gui/MiningFrame.cpp" line="768"/>
         <source>New block %1, refreshing template</source>
         <translation>नया ब्लॉक %1, टेम्पलेट रीफ्रेश हो रहा है</translation>
     </message>
     <message numerus="yes">
-        <location filename="../gui/MiningFrame.cpp" line="796"/>
+        <location filename="../gui/MiningFrame.cpp" line="806"/>
         <source>Mining started with %n thread(s) at difficulty %1</source>
         <translation>
             <numerusform>माइनिंग %n थ्रेड के साथ कठिनाई %1 पर शुरू हुई</numerusform>
@@ -3224,7 +3224,7 @@ Are you sure?</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../gui/MiningFrame.cpp" line="800"/>
+        <location filename="../gui/MiningFrame.cpp" line="810"/>
         <source>Mining stopped, %n thread(s) finished</source>
         <translation>
             <numerusform>माइनिंग रुकी, %n थ्रेड समाप्त</numerusform>
@@ -3232,7 +3232,7 @@ Are you sure?</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../gui/MiningFrame.cpp" line="837"/>
+        <location filename="../gui/MiningFrame.cpp" line="847"/>
         <source>CPU threads changed to %n</source>
         <translation>
             <numerusform>CPU थ्रेड %n में बदले</numerusform>
@@ -3240,12 +3240,12 @@ Are you sure?</source>
         </translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="854"/>
+        <location filename="../gui/MiningFrame.cpp" line="864"/>
         <source>Found block %1 at difficulty %2 (%3)</source>
         <translation>कठिनाई %2 पर ब्लॉक %1 मिला (%3)</translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="864"/>
+        <location filename="../gui/MiningFrame.cpp" line="874"/>
         <source>Error</source>
         <translation>त्रुटि</translation>
     </message>
@@ -3254,14 +3254,14 @@ Are you sure?</source>
         <translation type="vanished">%1</translation>
     </message>
     <message>
-        <location filename="../gui/MiningFrame.cpp" line="687"/>
+        <location filename="../gui/MiningFrame.cpp" line="697"/>
         <source>Starting...</source>
         <translation>शुरू हो रहा है...</translation>
     </message>
     <message>
         <location filename="../gui/MiningFrame.cpp" line="148"/>
-        <location filename="../gui/MiningFrame.cpp" line="704"/>
-        <location filename="../gui/MiningFrame.cpp" line="816"/>
+        <location filename="../gui/MiningFrame.cpp" line="714"/>
+        <location filename="../gui/MiningFrame.cpp" line="826"/>
         <source>Stopped</source>
         <translation>रोका हुआ</translation>
     </message>

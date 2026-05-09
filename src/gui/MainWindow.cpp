@@ -416,7 +416,7 @@ void MainWindow::createWallet() {
 
     if (!filePath.isEmpty()) {
       if (WalletAdapter::instance().isOpen()) {
-        WalletAdapter::instance().close();
+        closeWallet();
       }
 
       WalletAdapter::instance().setWalletFile(filePath);
@@ -445,7 +445,7 @@ void MainWindow::createNonDeterministicWallet() {
 
     if (!filePath.isEmpty()) {
       if (WalletAdapter::instance().isOpen()) {
-        WalletAdapter::instance().close();
+        closeWallet();
       }
 
       WalletAdapter::instance().setWalletFile(filePath);
@@ -478,7 +478,7 @@ void MainWindow::openWallet() {
     }
 
     if (WalletAdapter::instance().isOpen()) {
-      WalletAdapter::instance().close();
+      closeWallet();
     }
 
     WalletAdapter::instance().setWalletFile(filePath);
@@ -492,7 +492,7 @@ void MainWindow::openRecent(){
     QString filePath = action->data().toString();
     if (!filePath.isEmpty() && QFile::exists(filePath)) {
       if (WalletAdapter::instance().isOpen()) {
-          WalletAdapter::instance().close();
+          closeWallet();
       }
       WalletAdapter::instance().setWalletFile(filePath);
       WalletAdapter::instance().open("");
@@ -517,7 +517,7 @@ void MainWindow::importKey() {
     CryptoNote::AccountKeys keys = dlg.getAccountKeys();
 
     if (WalletAdapter::instance().isOpen()) {
-      WalletAdapter::instance().close();
+      closeWallet();
     }
     WalletAdapter::instance().setWalletFile(filePath);
 
@@ -545,7 +545,7 @@ void MainWindow::importKeys() {
     CryptoNote::AccountKeys keys = dlg.getAccountKeys();
 
     if (WalletAdapter::instance().isOpen()) {
-        WalletAdapter::instance().close();
+        closeWallet();
     }
     WalletAdapter::instance().setWalletFile(filePath);
 
@@ -574,7 +574,7 @@ void MainWindow::importTrackingKey() {
     CryptoNote::AccountKeys keys = dlg.getAccountKeys();
 
     if (WalletAdapter::instance().isOpen()) {
-      WalletAdapter::instance().close();
+      closeWallet();
     }
     Settings::instance().setTrackingMode(true);
     WalletAdapter::instance().setWalletFile(filePath);
@@ -613,7 +613,7 @@ void MainWindow::restoreFromMnemonicSeed() {
     CryptoNote::AccountKeys keys = dlg.getAccountKeys();
 
     if (WalletAdapter::instance().isOpen()) {
-      WalletAdapter::instance().close();
+      closeWallet();
     }
     WalletAdapter::instance().setWalletFile(filePath);
 
@@ -890,6 +890,7 @@ void MainWindow::encryptWallet() {
 
 void MainWindow::closeWallet() {
   if (WalletAdapter::instance().isOpen()) {
+    m_ui->m_miningFrame->stopMiningForShutdown();
     WalletAdapter::instance().close();
   }
 }

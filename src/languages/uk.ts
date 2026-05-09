@@ -1085,7 +1085,7 @@ Please wait...</source>
     <message>
         <location filename="../gui/ui/miningframe.ui" line="320"/>
         <source>Average</source>
-        <translation>Середнє</translation>
+        <translation type="unfinished">В середньому</translation>
     </message>
     <message>
         <location filename="../gui/ui/miningframe.ui" line="327"/>
@@ -1117,7 +1117,7 @@ Please wait...</source>
     <message>
         <location filename="../gui/ui/miningframe.ui" line="376"/>
         <source>Est. block</source>
-        <translation>Оцін. блок</translation>
+        <translation type="unfinished">Прогноз</translation>
     </message>
     <message>
         <location filename="../gui/ui/miningframe.ui" line="383"/>
@@ -1182,7 +1182,7 @@ Please wait...</source>
     <message>
         <location filename="../gui/ui/miningframe.ui" line="790"/>
         <source>Raw log</source>
-        <translation>Сирий журнал</translation>
+        <translation>Журнал</translation>
     </message>
     <message>
         <source>Select pool</source>
