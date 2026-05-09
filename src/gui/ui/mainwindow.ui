@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>860</width>
-    <height>660</height>
+    <width>900</width>
+    <height>760</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,8 +18,8 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>860</width>
-    <height>660</height>
+    <width>900</width>
+    <height>760</height>
    </size>
   </property>
   <property name="maximumSize">
@@ -30,8 +30,8 @@
   </property>
   <property name="baseSize">
    <size>
-    <width>860</width>
-    <height>660</height>
+    <width>900</width>
+    <height>760</height>
    </size>
   </property>
   <property name="font">
@@ -135,6 +135,12 @@
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>540</height>
+       </size>
+      </property>
       <property name="frameShape">
        <enum>QFrame::Shape::NoFrame</enum>
       </property>
@@ -213,7 +219,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>860</width>
+     <width>900</width>
      <height>22</height>
     </rect>
    </property>

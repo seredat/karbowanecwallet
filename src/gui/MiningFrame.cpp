@@ -46,23 +46,15 @@ bool isDarkColor(const QColor& color) {
   return color.lightness() < 128;
 }
 
-QColor hashRateLineColor(const QColor& backgroundColor) {
-  return isDarkColor(backgroundColor) ? QColor(85, 205, 255) : QColor(0, 92, 185);
-}
-
 QColor averageLineColor(const QColor& backgroundColor) {
   return isDarkColor(backgroundColor) ? QColor(255, 205, 105) : QColor(165, 88, 0);
-}
-
-QColor difficultyLineColor(const QColor& backgroundColor) {
-  return isDarkColor(backgroundColor) ? QColor(115, 235, 190) : QColor(0, 130, 92);
 }
 
 QPen eventMarkerPen(const QColor& backgroundColor, bool highlight) {
   const QColor markerColor = highlight ?
       (isDarkColor(backgroundColor) ? QColor(255, 105, 105) : QColor(190, 35, 35)) :
       (isDarkColor(backgroundColor) ? QColor(190, 205, 225) : QColor(60, 75, 92));
-  return QPen(withAlpha(markerColor, highlight ? 220 : 170), highlight ? 2.2 : 1.4, Qt::DashLine);
+  return QPen(withAlpha(markerColor, highlight ? 190 : 135), highlight ? 1.6 : 1.0, Qt::DashLine);
 }
 
 QString formatMagnitude(double value) {
@@ -232,24 +224,23 @@ void MiningFrame::applyChartPalette() {
   const QColor axisColor = chartPalette.color(QPalette::Mid);
   const QColor subTickColor = chartPalette.color(QPalette::Midlight);
   const QColor backgroundColor = chartPalette.color(QPalette::Window);
-  const QColor mainLineColor = hashRateLineColor(backgroundColor);
+  const QColor accentColor = chartPalette.color(QPalette::Highlight);
   const QColor meanLineColor = averageLineColor(backgroundColor);
-  const QColor diffLineColor = difficultyLineColor(backgroundColor);
   const QColor gridColor = withAlpha(textColor, isDarkColor(backgroundColor) ? 45 : 38);
 
-  m_ui->m_hashRateChart->graph()->setPen(QPen(mainLineColor, 2.2));
-  m_ui->m_hashRateChart->graph()->setBrush(QBrush(withAlpha(mainLineColor, isDarkColor(backgroundColor) ? 55 : 42)));
-  m_ui->m_hashRateChart->graph(1)->setPen(QPen(meanLineColor, 1.8, Qt::DashLine));
+  m_ui->m_hashRateChart->graph()->setPen(QPen(accentColor));
+  m_ui->m_hashRateChart->graph()->setBrush(QBrush(withAlpha(accentColor, 48)));
+  m_ui->m_hashRateChart->graph(1)->setPen(QPen(withAlpha(meanLineColor, 185), 1.1, Qt::DashLine));
   m_ui->m_hashRateChart->graph(1)->setBrush(Qt::NoBrush);
   if (m_peakHashRateLine != nullptr) {
-    m_peakHashRateLine->setPen(QPen(withAlpha(meanLineColor, 210), 1.4, Qt::DashLine));
+    m_peakHashRateLine->setPen(QPen(withAlpha(textColor, 150), 1.0, Qt::DashLine));
   }
   for (int markerIndex = 0; markerIndex < m_hashRateEventMarkers.size(); ++markerIndex) {
     const bool markerHighlight = markerIndex < m_hashRateEventMarkerHighlights.size() && m_hashRateEventMarkerHighlights.at(markerIndex);
     m_hashRateEventMarkers.at(markerIndex)->setPen(eventMarkerPen(backgroundColor, markerHighlight));
   }
 
-  m_ui->m_difficultyChart->graph()->setPen(QPen(diffLineColor, 2.0));
+  m_ui->m_difficultyChart->graph()->setPen(QPen(accentColor, 1.0));
   m_ui->m_difficultyChart->graph()->setBrush(Qt::NoBrush);
 
   m_ui->m_hashRateChart->xAxis->setLabelColor(textColor);
@@ -382,7 +373,7 @@ void MiningFrame::addHashRateEventMarker(bool _highlight) {
   const QColor backgroundColor = palette().color(QPalette::Window);
   QCPItemLine* marker = new QCPItemLine(m_ui->m_hashRateChart);
   marker->start->setCoords(x, 0);
-  marker->end->setCoords(x, m_maxHr);
+  marker->end->setCoords(x, std::max<double>(10, m_maxHr * 1.15));
   marker->setPen(eventMarkerPen(backgroundColor, _highlight));
   m_hashRateEventMarkers.append(marker);
   m_hashRateEventMarkerHighlights.append(_highlight);
@@ -544,16 +535,17 @@ void MiningFrame::plot()
   m_maxHr = std::max<double>(m_maxHr, m_hY.at(m_hY.size()-1));
   m_ui->m_hashRateChart->graph(0)->setData(m_hX, m_hY);
   m_ui->m_hashRateChart->graph(1)->setData(m_hX, m_averageHashRateY);
+  const double yRangeMax = std::max<double>(10, m_maxHr * 1.15);
   if (m_peakHashRateLine != nullptr && m_sessionPeakHashRate > 0) {
     m_peakHashRateLine->point1->setCoords(0, m_sessionPeakHashRate);
     m_peakHashRateLine->point2->setCoords(1, m_sessionPeakHashRate);
     m_peakHashRateLine->setVisible(true);
   }
   for (QCPItemLine* marker : m_hashRateEventMarkers) {
-    marker->end->setCoords(marker->start->key(), m_maxHr);
+    marker->end->setCoords(marker->start->key(), yRangeMax);
   }
   m_ui->m_hashRateChart->xAxis->setRange(m_hX.at(0), m_hX.at(m_hX.size()-1));
-  m_ui->m_hashRateChart->yAxis->setRange(0, m_maxHr);
+  m_ui->m_hashRateChart->yAxis->setRange(0, yRangeMax);
   m_ui->m_hashRateChart->replot();
   m_ui->m_hashRateChart->update();
 }

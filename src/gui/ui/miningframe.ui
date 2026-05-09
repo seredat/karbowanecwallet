@@ -10,6 +10,12 @@
     <height>534</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>0</width>
+    <height>540</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>Frame</string>
   </property>
@@ -26,12 +32,18 @@
       <number>6</number>
      </property>
      <item>
-     <widget class="QGroupBox" name="groupBox">
+      <widget class="QGroupBox" name="groupBox">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>4</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>210</height>
+        </size>
        </property>
        <property name="styleSheet">
         <string notr="true">QGroupBox {
@@ -92,7 +104,7 @@
           <property name="minimumSize">
            <size>
             <width>0</width>
-            <height>44</height>
+            <height>38</height>
            </size>
           </property>
           <property name="digitCount">
@@ -240,7 +252,7 @@
        <property name="minimumSize">
         <size>
          <width>310</width>
-         <height>0</height>
+         <height>210</height>
         </size>
        </property>
        <property name="styleSheet">
