@@ -129,6 +129,9 @@ QString eventColor(const QString& kind) {
   if (kind == QStringLiteral("PEAK")) {
     return QStringLiteral("#b86b00");
   }
+  if (kind == QStringLiteral("CPU")) {
+    return QStringLiteral("#2f7d6d");
+  }
   if (kind == QStringLiteral("BLOCK")) {
     return QStringLiteral("#b52d20");
   }
@@ -191,6 +194,8 @@ MiningFrame::MiningFrame(QWidget* _parent) :
   connect(m_ui->m_cpuBalancedPreset, &QPushButton::clicked, this, [this]() { applyCpuPreset(0.5); });
   connect(m_ui->m_cpuMaxPreset, &QPushButton::clicked, this, [this]() { applyCpuPreset(1); });
   connect(m_ui->m_cpuCoresSpin, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [this](int) { updateCpuIntensity(); });
+  m_threadResizeTimer.setSingleShot(true);
+  connect(&m_threadResizeTimer, &QTimer::timeout, this, &MiningFrame::applyPendingMiningThreads);
 
   connect(&WalletAdapter::instance(), &WalletAdapter::walletCloseCompletedSignal, this, &MiningFrame::walletClosed, Qt::QueuedConnection);
   connect(&WalletAdapter::instance(), &WalletAdapter::walletInitCompletedSignal, this, &MiningFrame::walletOpened, Qt::QueuedConnection);
@@ -202,6 +207,7 @@ MiningFrame::MiningFrame(QWidget* _parent) :
   connect(&*m_miner, &Miner::minerMessageSignal, this, &MiningFrame::updateMinerLog, Qt::QueuedConnection);
   connect(&*m_miner, &Miner::minerStartedSignal, this, &MiningFrame::onMinerStarted, Qt::QueuedConnection);
   connect(&*m_miner, &Miner::minerStoppedSignal, this, &MiningFrame::onMinerStopped, Qt::QueuedConnection);
+  connect(&*m_miner, &Miner::minerThreadsChangedSignal, this, &MiningFrame::onMinerThreadsChanged, Qt::QueuedConnection);
   connect(&*m_miner, &Miner::minerTemplateUpdatedSignal, this, &MiningFrame::onMinerTemplateUpdated, Qt::QueuedConnection);
   connect(&*m_miner, &Miner::blockFoundSignal, this, &MiningFrame::onBlockFound, Qt::QueuedConnection);
   connect(&*m_miner, &Miner::miningErrorSignal, this, &MiningFrame::onMinerError, Qt::QueuedConnection);
@@ -491,6 +497,29 @@ void MiningFrame::applyCpuPreset(double _fraction) {
   m_ui->m_cpuCoresSpin->setValue(std::min(cores, maxCores));
 }
 
+void MiningFrame::scheduleMiningThreadsChange(int _threads) {
+  m_pendingMiningThreads = _threads;
+  m_threadResizeTimer.start(m_solo_mining ? 900 : 500);
+}
+
+void MiningFrame::applyPendingMiningThreads() {
+  if (m_pendingMiningThreads <= 0) {
+    return;
+  }
+
+  const int threads = m_pendingMiningThreads;
+  m_pendingMiningThreads = 0;
+  Settings::instance().setMiningThreads(threads);
+
+  if (!m_solo_mining || !m_miner->is_mining()) {
+    return;
+  }
+
+  if (!m_miner->set_thread_count(static_cast<size_t>(threads))) {
+    appendMiningEvent(QStringLiteral("ERROR"), tr("Failed to change mining thread count"));
+  }
+}
+
 void MiningFrame::addPoint(double x, double y)
 {
   m_hX.append(x);
@@ -633,11 +662,6 @@ void MiningFrame::startSolo() {
   m_ui->m_startSolo->setChecked(true);
   m_ui->m_startSolo->setEnabled(false);
   m_ui->m_stopSolo->setEnabled(true);
-  m_ui->m_cpuCoresSpin->setEnabled(false);
-  m_ui->m_cpuDial->setEnabled(false);
-  m_ui->m_cpuEcoPreset->setEnabled(false);
-  m_ui->m_cpuBalancedPreset->setEnabled(false);
-  m_ui->m_cpuMaxPreset->setEnabled(false);
   m_solo_mining = true;
 }
 
@@ -780,6 +804,10 @@ void MiningFrame::onMinerStopped(quint32 _threads) {
   m_mining_was_stopped = true;
 }
 
+void MiningFrame::onMinerThreadsChanged(quint32 _threads) {
+  appendMiningEvent(QStringLiteral("CPU"), tr("CPU threads changed to %n", nullptr, _threads));
+}
+
 void MiningFrame::onMinerTemplateUpdated(quint64 _height, quint64 _difficulty) {
   Q_UNUSED(_height);
   updateDifficulty(_difficulty);
@@ -809,9 +837,7 @@ void MiningFrame::onMinerError(const QString& _message) {
 
 void MiningFrame::coreDealTurned(int _cores) {
   updateCpuIntensity();
-  QTimer::singleShot(600, [this, _cores]() {
-    Settings::instance().setMiningThreads(_cores);
-  } );
+  scheduleMiningThreadsChange(_cores);
 }
 
 void MiningFrame::poolChanged() {

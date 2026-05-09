@@ -24,6 +24,7 @@
 
 #include <atomic>
 #include <list>
+#include <memory>
 #include <mutex>
 #include <thread>
 
@@ -49,6 +50,7 @@ namespace WalletGui {
     bool request_block_template();
     bool on_block_chain_update();
     bool start(size_t threads_count);
+    bool set_thread_count(size_t threads_count);
     double get_speed();
     void send_stop_signal();
     bool stop();
@@ -60,7 +62,18 @@ namespace WalletGui {
     void merge_hr();
 
   private:
-    bool worker_thread(uint32_t th_local_index);
+    bool worker_thread(uint32_t th_local_index, std::shared_ptr<std::atomic<bool>> _thread_stop);
+    void reset_nonce_sequence();
+
+    struct MiningThread {
+      MiningThread(uint32_t _index, std::shared_ptr<std::atomic<bool>> _stop_signal, std::thread&& _thread) :
+          index(_index), stop_signal(std::move(_stop_signal)), thread(std::move(_thread)) {
+      }
+
+      uint32_t index;
+      std::shared_ptr<std::atomic<bool>> stop_signal;
+      std::thread thread;
+    };
 
     struct miner_config
     {
@@ -81,7 +94,7 @@ namespace WalletGui {
     std::atomic<int32_t> m_pausers_count;
     std::mutex m_miners_count_lock;
 
-    std::list<std::thread> m_threads;
+    std::list<MiningThread> m_threads;
     std::mutex m_threads_lock;
     AccountKeys m_account;
     OnceInInterval m_update_block_template_interval;
@@ -104,6 +117,7 @@ namespace WalletGui {
     void minerMessageSignal(const QString& _message);
     void minerStartedSignal(quint32 _threads, quint64 _difficulty);
     void minerStoppedSignal(quint32 _threads);
+    void minerThreadsChangedSignal(quint32 _threads);
     void minerTemplateUpdatedSignal(quint64 _height, quint64 _difficulty);
     void blockFoundSignal(const QString& _hash, quint64 _height, quint64 _difficulty, const QString& _pow);
     void miningErrorSignal(const QString& _message);

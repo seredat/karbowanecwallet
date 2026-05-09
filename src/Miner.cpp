@@ -20,6 +20,7 @@
 
 #include <chrono>
 #include <future>
+#include <iterator>
 #include <numeric>
 #include <sstream>
 #include <thread>
@@ -107,6 +108,12 @@ namespace WalletGui
     ++m_template_no;
     m_starter_nonce = Random::randomValue<uint32_t>();
     return true;
+  }
+
+  //-----------------------------------------------------------------------------------------------------
+  void Miner::reset_nonce_sequence() {
+    m_starter_nonce = Random::randomValue<uint32_t>();
+    ++m_template_no;
   }
   //-----------------------------------------------------------------------------------------------------
   bool Miner::on_block_chain_update() {
@@ -228,7 +235,7 @@ namespace WalletGui
     }
 
     m_threads_total = static_cast<uint32_t>(threads_count);
-    m_starter_nonce = Random::randomValue<uint32_t>();
+    reset_nonce_sequence();
     m_hashes = 0;
     m_current_hash_rate = 0;
     m_hash_rate = 0;
@@ -248,7 +255,8 @@ namespace WalletGui
     m_pausers_count = 0; // in case mining wasn't resumed after pause
 
     for (uint32_t i = 0; i != threads_count; i++) {
-      m_threads.push_back(std::thread(std::bind(&Miner::worker_thread, this, i)));
+      std::shared_ptr<std::atomic<bool>> stopSignal(new std::atomic<bool>(false));
+      m_threads.emplace_back(i, stopSignal, std::thread(std::bind(&Miner::worker_thread, this, i, stopSignal)));
     }
 
     QDateTime date = QDateTime::currentDateTime();
@@ -261,6 +269,57 @@ namespace WalletGui
             .arg(m_diffic)
         );
     Q_EMIT minerStartedSignal(static_cast<quint32>(threads_count), static_cast<quint64>(m_diffic));
+    return true;
+  }
+
+  //-----------------------------------------------------------------------------------------------------
+  bool Miner::set_thread_count(size_t threads_count) {
+    if (threads_count == 0) {
+      threads_count = 1;
+    }
+
+    if (!is_mining()) {
+      m_threads_total = static_cast<uint32_t>(threads_count);
+      return true;
+    }
+
+    std::list<MiningThread> threadsToJoin;
+    uint32_t oldThreadsCount = 0;
+
+    {
+      std::lock_guard<std::mutex> lk(m_threads_lock);
+      oldThreadsCount = static_cast<uint32_t>(m_threads.size());
+      if (threads_count == oldThreadsCount) {
+        return true;
+      }
+
+      m_threads_total = static_cast<uint32_t>(threads_count);
+
+      if (threads_count > oldThreadsCount) {
+        for (uint32_t i = oldThreadsCount; i != threads_count; ++i) {
+          std::shared_ptr<std::atomic<bool>> stopSignal(new std::atomic<bool>(false));
+          m_threads.emplace_back(i, stopSignal, std::thread(std::bind(&Miner::worker_thread, this, i, stopSignal)));
+        }
+      } else {
+        while (m_threads.size() > threads_count) {
+          auto threadIt = std::prev(m_threads.end());
+          threadIt->stop_signal->store(true);
+          threadsToJoin.splice(threadsToJoin.end(), m_threads, threadIt);
+        }
+      }
+    }
+
+    reset_nonce_sequence();
+
+    for (auto& miningThread : threadsToJoin) {
+      if (miningThread.thread.joinable()) {
+        miningThread.thread.join();
+      }
+    }
+
+    m_logger(Logging::INFO) << "Mining thread count changed from " << oldThreadsCount << " to " << threads_count;
+    Q_EMIT minerMessageSignal(tr("Mining thread count changed to %n thread(s)", nullptr, static_cast<int>(threads_count)));
+    Q_EMIT minerThreadsChangedSignal(static_cast<quint32>(threads_count));
     return true;
   }
   
@@ -284,7 +343,7 @@ namespace WalletGui
   {
     const bool wasMining = !m_stop_mining.exchange(true);
     int threadsCount = 0;
-    std::list<std::thread> threadsToJoin;
+    std::list<MiningThread> threadsToJoin;
 
     {
       std::lock_guard<std::mutex> lk(m_threads_lock);
@@ -293,14 +352,14 @@ namespace WalletGui
     }
 
     const std::thread::id currentThreadId = std::this_thread::get_id();
-    for (auto& th : threadsToJoin) {
-      if (!th.joinable()) {
+    for (auto& miningThread : threadsToJoin) {
+      if (!miningThread.thread.joinable()) {
         continue;
       }
-      if (th.get_id() == currentThreadId) {
-        th.detach();
+      if (miningThread.thread.get_id() == currentThreadId) {
+        miningThread.thread.detach();
       } else {
-        th.join();
+        miningThread.thread.join();
       }
     }
 
@@ -354,7 +413,7 @@ namespace WalletGui
       //Q_EMIT minerMessageSignal(QString("MINING RESUMED"));
   }
   //-----------------------------------------------------------------------------------------------------
-  bool Miner::worker_thread(uint32_t th_local_index)
+  bool Miner::worker_thread(uint32_t th_local_index, std::shared_ptr<std::atomic<bool>> _thread_stop)
   {
     m_logger(Logging::DEBUGGING) << "Miner thread was started ["<< th_local_index << "]";
     uint32_t nonce = m_starter_nonce + th_local_index;
@@ -363,7 +422,7 @@ namespace WalletGui
     Crypto::cn_context context;
     Block b;
 
-    while(!m_stop_mining)
+    while(!m_stop_mining && !_thread_stop->load())
     {
       if(m_pausers_count) //anti split workaround
       {

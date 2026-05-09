@@ -10,6 +10,7 @@
 #include <QFrame>
 #include <QList>
 #include <QStringList>
+#include <QTimer>
 #include "qcustomplot.h"
 #include "Miner.h"
 #include <Logging/LoggerMessage.h>
@@ -52,6 +53,8 @@ private:
   std::unique_ptr<Miner> m_miner;
   QString m_miner_log;
   QStringList m_event_log;
+  QTimer m_threadResizeTimer;
+  int m_pendingMiningThreads = 0;
 
   void initCpuCoreList();
   void startSolo();
@@ -81,6 +84,8 @@ private:
   void updateSessionStats();
   void updateCpuIntensity();
   void applyCpuPreset(double _fraction);
+  void scheduleMiningThreadsChange(int _threads);
+  void applyPendingMiningThreads();
   void walletOpened();
   void walletClosed();
   quint32 getHashRate() const;
@@ -97,6 +102,7 @@ private:
   Q_SLOT void updateMinerLog(const QString& _message);
   Q_SLOT void onMinerStarted(quint32 _threads, quint64 _difficulty);
   Q_SLOT void onMinerStopped(quint32 _threads);
+  Q_SLOT void onMinerThreadsChanged(quint32 _threads);
   Q_SLOT void onMinerTemplateUpdated(quint64 _height, quint64 _difficulty);
   Q_SLOT void onBlockFound(const QString& _hash, quint64 _height, quint64 _difficulty, const QString& _pow);
   Q_SLOT void onMinerError(const QString& _message);
