@@ -477,8 +477,9 @@ void MiningFrame::setMiningStatusBadge(const QString& _text, const QString& _bac
       "QLabel#m_soloLabel {"
       "  background: %1;"
       "  color: %2;"
+      "  border: 1px solid %2;"
       "  border-radius: 8px;"
-      "  padding: 0px 4px;"
+      "  padding: 2px 4px;"
       "  font-weight: bold;"
       "}")
       .arg(_backgroundColor, _textColor));
