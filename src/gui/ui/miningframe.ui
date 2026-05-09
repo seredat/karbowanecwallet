@@ -26,10 +26,10 @@
       <number>6</number>
      </property>
      <item>
-      <widget class="QGroupBox" name="groupBox">
+     <widget class="QGroupBox" name="groupBox">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>1</horstretch>
+         <horstretch>4</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
@@ -37,63 +37,24 @@
         <string notr="true">QGroupBox {
   border: 1px solid palette(mid);
   border-radius: 4px;
-  margin-top: 1.2em;
-  padding-top: 0.5em;
-}
-QGroupBox::title {
-  subcontrol-origin: margin;
-  subcontrol-position: top left;
-  padding: 2px 8px;
-  font-weight: bold;
+  margin-top: 0px;
 }</string>
        </property>
        <property name="title">
-        <string>State</string>
+        <string/>
        </property>
        <layout class="QGridLayout" name="gridLayout">
-        <item row="3" column="2">
-         <widget class="QPushButton" name="m_stopSolo">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="text">
-           <string>Stop mining</string>
-          </property>
-          <property name="checkable">
-           <bool>true</bool>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
-          <attribute name="buttonGroup">
-           <string notr="true">m_soloButtonGroup</string>
-          </attribute>
-         </widget>
-        </item>
+        <property name="horizontalSpacing">
+         <number>10</number>
+        </property>
+        <property name="verticalSpacing">
+         <number>8</number>
+        </property>
         <item row="1" column="0">
          <widget class="QLabel" name="label_4">
           <property name="text">
            <string>Mining status:</string>
           </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QPushButton" name="m_startSolo">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="text">
-           <string>Start mining</string>
-          </property>
-          <property name="checkable">
-           <bool>true</bool>
-          </property>
-          <property name="default">
-           <bool>true</bool>
-          </property>
-          <attribute name="buttonGroup">
-           <string notr="true">m_soloButtonGroup</string>
-          </attribute>
          </widget>
         </item>
         <item row="2" column="0">
@@ -103,10 +64,13 @@ QGroupBox::title {
           </property>
          </widget>
         </item>
-        <item row="1" column="2">
+        <item row="1" column="1" colspan="2">
          <widget class="QLabel" name="m_soloLabel">
           <property name="text">
            <string>Stopped</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignmentFlag::AlignVCenter</set>
           </property>
          </widget>
         </item>
@@ -117,17 +81,148 @@ QGroupBox::title {
           </property>
          </widget>
         </item>
-        <item row="2" column="2">
+        <item row="2" column="1" colspan="2">
          <widget class="QLCDNumber" name="m_hashratelcdNumber">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>44</height>
+           </size>
+          </property>
+          <property name="digitCount">
+           <number>8</number>
+          </property>
           <property name="segmentStyle">
            <enum>QLCDNumber::SegmentStyle::Flat</enum>
           </property>
          </widget>
         </item>
-        <item row="0" column="2">
+        <item row="0" column="1">
          <widget class="QLabel" name="m_difficulty">
           <property name="text">
            <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QCustomPlot" name="m_difficultyChart" native="true">
+          <property name="toolTip">
+           <string>Difficulty history</string>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>1</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>190</width>
+            <height>34</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>42</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0" colspan="3">
+         <layout class="QHBoxLayout" name="m_miningButtonsLayout">
+          <property name="spacing">
+           <number>8</number>
+          </property>
+          <item>
+           <widget class="QPushButton" name="m_startSolo">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>1</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>34</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Start mining</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="default">
+             <bool>true</bool>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">m_soloButtonGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="m_stopSolo">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>1</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>34</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Stop mining</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">m_soloButtonGroup</string>
+            </attribute>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="4" column="0" colspan="3">
+         <widget class="QLabel" name="m_blockFoundBanner">
+          <property name="visible">
+           <bool>false</bool>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QLabel#m_blockFoundBanner {
+  background: palette(highlight);
+  color: palette(highlighted-text);
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-weight: bold;
+}</string>
+          </property>
+          <property name="text">
+           <string>Block found!</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignmentFlag::AlignCenter</set>
           </property>
          </widget>
         </item>
@@ -138,97 +233,339 @@ QGroupBox::title {
       <widget class="QGroupBox" name="groupBox_3">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>1</horstretch>
+         <horstretch>2</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>310</width>
+         <height>0</height>
+        </size>
        </property>
        <property name="styleSheet">
         <string notr="true">QGroupBox {
   border: 1px solid palette(mid);
   border-radius: 4px;
-  margin-top: 1.2em;
-  padding-top: 0.5em;
-}
-QGroupBox::title {
-  subcontrol-origin: margin;
-  subcontrol-position: top left;
-  padding: 2px 8px;
-  font-weight: bold;
+  margin-top: 0px;
 }</string>
        </property>
        <property name="title">
-        <string>Settings</string>
+        <string/>
        </property>
-       <layout class="QHBoxLayout" name="horizontalLayout">
+       <layout class="QVBoxLayout" name="m_settingsLayout">
+        <property name="leftMargin">
+         <number>8</number>
+        </property>
+        <property name="topMargin">
+         <number>8</number>
+        </property>
+        <property name="rightMargin">
+         <number>8</number>
+        </property>
+        <property name="bottomMargin">
+         <number>8</number>
+        </property>
+        <property name="spacing">
+         <number>8</number>
+        </property>
         <item>
-         <widget class="QLabel" name="label_2">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
+         <layout class="QHBoxLayout" name="m_cpuControlLayout">
+          <property name="spacing">
+           <number>10</number>
           </property>
-          <property name="text">
-           <string>CPU cores</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignmentFlag::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout_5">
           <item>
-           <widget class="QDial" name="m_cpuDial">
-            <property name="mouseTracking">
+           <widget class="QLabel" name="label_2">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>CPU cores</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignmentFlag::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_5">
+            <item>
+             <widget class="QDial" name="m_cpuDial">
+              <property name="mouseTracking">
+               <bool>true</bool>
+              </property>
+              <property name="tabletTracking">
              <bool>true</bool>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>92</width>
+                <height>92</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>112</width>
+                <height>112</height>
+               </size>
+              </property>
+              <property name="maximum">
+               <number>99</number>
+              </property>
+              <property name="pageStep">
+               <number>1</number>
+              </property>
+              <property name="value">
+               <number>1</number>
+              </property>
+              <property name="notchTarget">
+               <double>4.000000000000000</double>
+              </property>
+              <property name="notchesVisible">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="m_cpuCoresSpin">
+            <property name="minimumSize">
+             <size>
+              <width>58</width>
+              <height>30</height>
+             </size>
             </property>
-            <property name="tabletTracking">
-             <bool>true</bool>
-            </property>
-            <property name="maximum">
-             <number>99</number>
-            </property>
-            <property name="pageStep">
-             <number>1</number>
-            </property>
-            <property name="value">
-             <number>1</number>
-            </property>
-            <property name="notchTarget">
-             <double>4.000000000000000</double>
-            </property>
-            <property name="notchesVisible">
-             <bool>true</bool>
+            <property name="alignment">
+             <set>Qt::AlignmentFlag::AlignCenter</set>
             </property>
            </widget>
           </item>
          </layout>
         </item>
         <item>
-         <widget class="QSpinBox" name="m_cpuCoresSpin">
-          <property name="alignment">
-           <set>Qt::AlignmentFlag::AlignCenter</set>
+         <layout class="QHBoxLayout" name="m_cpuPresetLayout">
+          <property name="spacing">
+           <number>8</number>
           </property>
-         </widget>
+          <item>
+           <widget class="QPushButton" name="m_cpuEcoPreset">
+            <property name="minimumSize">
+             <size>
+              <width>70</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Use about a quarter of available CPU cores</string>
+            </property>
+            <property name="text">
+             <string>Eco</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="m_cpuBalancedPreset">
+            <property name="minimumSize">
+             <size>
+              <width>90</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Use about half of available CPU cores</string>
+            </property>
+            <property name="text">
+             <string>Balanced</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="m_cpuMaxPreset">
+            <property name="minimumSize">
+             <size>
+              <width>70</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Use all available CPU cores</string>
+            </property>
+            <property name="text">
+             <string>Max</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item>
-         <spacer name="horizontalSpacer">
-          <property name="orientation">
-           <enum>Qt::Orientation::Horizontal</enum>
+         <layout class="QHBoxLayout" name="m_cpuIntensityLayout">
+          <property name="spacing">
+           <number>8</number>
           </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
+          <item>
+           <widget class="QLabel" name="m_cpuIntensityLabel">
+            <property name="text">
+             <string>Intensity</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QProgressBar" name="m_cpuIntensityBar">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="maximum">
+             <number>100</number>
+            </property>
+            <property name="value">
+             <number>0</number>
+            </property>
+            <property name="textVisible">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
        </layout>
       </widget>
      </item>
-    </layout>
+   </layout>
+  </item>
+   <item>
+    <widget class="QFrame" name="m_sessionStatsFrame">
+     <property name="styleSheet">
+      <string notr="true">QFrame#m_sessionStatsFrame {
+  border: 1px solid palette(mid);
+  border-radius: 4px;
+}</string>
+     </property>
+     <layout class="QGridLayout" name="m_sessionStatsLayout">
+      <property name="leftMargin">
+       <number>8</number>
+      </property>
+      <property name="topMargin">
+       <number>6</number>
+      </property>
+      <property name="rightMargin">
+       <number>8</number>
+      </property>
+      <property name="bottomMargin">
+       <number>6</number>
+      </property>
+      <property name="horizontalSpacing">
+       <number>10</number>
+      </property>
+      <property name="verticalSpacing">
+       <number>4</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QLabel" name="m_sessionTimeTitle">
+        <property name="text">
+         <string>Session</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="m_sessionTimeValue">
+        <property name="text">
+         <string>00:00:00</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="m_averageHashRateTitle">
+        <property name="text">
+         <string>Average</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QLabel" name="m_averageHashRateValue">
+        <property name="text">
+         <string>0 H/s</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="4">
+       <widget class="QLabel" name="m_peakHashRateTitle">
+        <property name="text">
+         <string>Peak</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="5">
+       <widget class="QLabel" name="m_peakHashRateValue">
+        <property name="text">
+         <string>0 H/s</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="6">
+       <widget class="QLabel" name="m_blocksFoundTitle">
+        <property name="text">
+         <string>Blocks</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="7">
+       <widget class="QLabel" name="m_blocksFoundValue">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="m_totalHashesTitle">
+        <property name="text">
+         <string>Total hashes</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLabel" name="m_totalHashesValue">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLabel" name="m_estimatedBlockTimeTitle">
+        <property name="text">
+         <string>Est. block</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QLabel" name="m_estimatedBlockTimeValue">
+        <property name="text">
+         <string>-</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="4">
+       <widget class="QLabel" name="m_luckTitle">
+        <property name="text">
+         <string>Luck</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="5">
+       <widget class="QLabel" name="m_luckValue">
+        <property name="text">
+         <string>0%</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
    </item>
    <item>
     <widget class="QFrame" name="m_chartFrame">
@@ -280,13 +617,78 @@ QGroupBox::title {
     </widget>
    </item>
    <item>
-    <widget class="QPlainTextEdit" name="m_minerLog">
-     <property name="readOnly">
-      <bool>true</bool>
+    <widget class="QTabWidget" name="m_miningLogTabs">
+     <property name="currentIndex">
+      <number>0</number>
      </property>
-     <property name="plainText">
-      <string notr="true"/>
-     </property>
+     <widget class="QWidget" name="m_eventLogTab">
+      <attribute name="title">
+       <string>Events</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="m_eventLogLayout">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QTextEdit" name="m_eventLog">
+         <property name="styleSheet">
+          <string notr="true">QTextEdit#m_eventLog {
+  border: none;
+  padding: 2px;
+}</string>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+         <property name="acceptRichText">
+          <bool>true</bool>
+         </property>
+         <property name="html">
+          <string notr="true">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="m_rawLogTab">
+      <attribute name="title">
+       <string>Raw log</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="m_rawLogLayout">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QPlainTextEdit" name="m_minerLog">
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+         <property name="plainText">
+          <string notr="true"/>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
   </layout>

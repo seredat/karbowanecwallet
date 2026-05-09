@@ -20,6 +20,7 @@
 
 #include <QObject>
 #include <QReadWriteLock>
+#include <QString>
 
 #include <atomic>
 #include <list>
@@ -101,6 +102,11 @@ namespace WalletGui {
 
   Q_SIGNALS:
     void minerMessageSignal(const QString& _message);
+    void minerStartedSignal(quint32 _threads, quint64 _difficulty);
+    void minerStoppedSignal(quint32 _threads);
+    void minerTemplateUpdatedSignal(quint64 _height, quint64 _difficulty);
+    void blockFoundSignal(const QString& _hash, quint64 _height, quint64 _difficulty, const QString& _pow);
+    void miningErrorSignal(const QString& _message);
 
   };
 }

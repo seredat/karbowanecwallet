@@ -6,7 +6,10 @@
 
 #pragma once
 
+#include <QDateTime>
 #include <QFrame>
+#include <QList>
+#include <QStringList>
 #include "qcustomplot.h"
 #include "Miner.h"
 #include <Logging/LoggerMessage.h>
@@ -42,9 +45,13 @@ private:
   QScopedPointer<Ui::MiningFrame> m_ui;
   int m_soloHashRateTimerId;
   int m_minerRoutineTimerId;
-  QVector<double> m_hX, m_hY;
+  QVector<double> m_hX, m_hY, m_averageHashRateY;
+  QVector<double> m_difficultyX, m_difficultyY;
+  QList<QCPItemLine*> m_hashRateEventMarkers;
+  QList<bool> m_hashRateEventMarkerHighlights;
   std::unique_ptr<Miner> m_miner;
   QString m_miner_log;
+  QStringList m_event_log;
 
   void initCpuCoreList();
   void startSolo();
@@ -54,21 +61,45 @@ private:
   bool m_solo_mining = false;
   bool m_sychronized = false;
   bool m_mining_was_stopped = false;
+  QDateTime m_sessionStartedAt;
+  double m_sessionTotalHashes = 0;
+  double m_sessionPeakHashRate = 0;
+  double m_lastAnnouncedPeakHashRate = 0;
+  double m_lastHashRate = 0;
+  double m_currentDifficulty = 0;
+  quint64 m_sessionBlocksFound = 0;
 
   void applyChartPalette();
+  void initDifficultyChart();
+  void initHashRateChartItems();
+  void updateDifficulty(quint64 _difficulty);
+  void plotDifficulty();
+  void addHashRateEventMarker(bool _highlight);
+  void appendMiningEvent(const QString& _kind, const QString& _message);
+  void showBlockFound(quint64 _height);
+  void resetSessionStats();
+  void updateSessionStats();
+  void updateCpuIntensity();
+  void applyCpuPreset(double _fraction);
   void walletOpened();
   void walletClosed();
   quint32 getHashRate() const;
   double m_maxHr = 10;
+  QCPItemStraightLine* m_peakHashRateLine = nullptr;
 
   Q_SLOT void startStopSoloClicked(QAbstractButton* _button);
   Q_SLOT void enableSolo();
   Q_SLOT void setMiningThreads();
-  Q_SLOT void onBlockHeightUpdated();
+  Q_SLOT void onBlockHeightUpdated(quint64 _height);
   Q_SLOT void onSynchronizationCompleted();
   Q_SLOT void updateBalance(quint64 _balance);
   Q_SLOT void updatePendingBalance(quint64 _balance);
   Q_SLOT void updateMinerLog(const QString& _message);
+  Q_SLOT void onMinerStarted(quint32 _threads, quint64 _difficulty);
+  Q_SLOT void onMinerStopped(quint32 _threads);
+  Q_SLOT void onMinerTemplateUpdated(quint64 _height, quint64 _difficulty);
+  Q_SLOT void onBlockFound(const QString& _hash, quint64 _height, quint64 _difficulty, const QString& _pow);
+  Q_SLOT void onMinerError(const QString& _message);
   Q_SLOT void coreDealTurned(int _cores);
   Q_SLOT void poolChanged();
 };
