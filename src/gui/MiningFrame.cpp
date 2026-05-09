@@ -224,8 +224,8 @@ void MiningFrame::applyChartPalette() {
   const QColor accentColor = chartPalette.color(QPalette::Highlight);
   const QColor gridColor = withAlpha(textColor, isDarkColor(backgroundColor) ? 38 : 28);
 
-  m_ui->m_hashRateChart->graph()->setPen(QPen(accentColor));
-  m_ui->m_hashRateChart->graph()->setBrush(QBrush(withAlpha(accentColor, 48)));
+  m_ui->m_hashRateChart->graph(0)->setPen(QPen(accentColor));
+  m_ui->m_hashRateChart->graph(0)->setBrush(QBrush(withAlpha(accentColor, 48)));
   m_ui->m_hashRateChart->graph(1)->setVisible(false);
   m_ui->m_hashRateChart->graph(1)->setPen(QPen(Qt::NoPen));
   m_ui->m_hashRateChart->graph(1)->setBrush(Qt::NoBrush);
