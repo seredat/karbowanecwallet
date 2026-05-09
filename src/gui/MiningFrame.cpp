@@ -46,17 +46,6 @@ bool isDarkColor(const QColor& color) {
   return color.lightness() < 128;
 }
 
-QColor averageLineColor(const QColor& backgroundColor) {
-  return isDarkColor(backgroundColor) ? QColor(255, 205, 105) : QColor(165, 88, 0);
-}
-
-QPen eventMarkerPen(const QColor& backgroundColor, bool highlight) {
-  const QColor markerColor = highlight ?
-      (isDarkColor(backgroundColor) ? QColor(255, 105, 105) : QColor(190, 35, 35)) :
-      (isDarkColor(backgroundColor) ? QColor(190, 205, 225) : QColor(60, 75, 92));
-  return QPen(withAlpha(markerColor, highlight ? 190 : 135), highlight ? 1.6 : 1.0, Qt::DashLine);
-}
-
 QString formatMagnitude(double value) {
   const QStringList suffixes = {QString(), QStringLiteral("K"), QStringLiteral("M"), QStringLiteral("B"), QStringLiteral("T"), QStringLiteral("P")};
   double scaledValue = value;
@@ -141,6 +130,7 @@ MiningFrame::MiningFrame(QWidget* _parent) :
     m_miner(new Miner(this, LoggerAdapter::instance().getLoggerManager())),
     m_soloHashRateTimerId(-1) {
   m_ui->setupUi(this);
+  setMiningStatusBadge(tr("Stopped"), QStringLiteral("rgba(191, 92, 92, 70)"), QStringLiteral("#7f3030"));
   initCpuCoreList();
 
   QFont fixedFont = QFontDatabase::systemFont(QFontDatabase::FixedFont);
@@ -225,19 +215,18 @@ void MiningFrame::applyChartPalette() {
   const QColor subTickColor = chartPalette.color(QPalette::Midlight);
   const QColor backgroundColor = chartPalette.color(QPalette::Window);
   const QColor accentColor = chartPalette.color(QPalette::Highlight);
-  const QColor meanLineColor = averageLineColor(backgroundColor);
-  const QColor gridColor = withAlpha(textColor, isDarkColor(backgroundColor) ? 45 : 38);
+  const QColor gridColor = withAlpha(textColor, isDarkColor(backgroundColor) ? 38 : 28);
 
   m_ui->m_hashRateChart->graph()->setPen(QPen(accentColor));
   m_ui->m_hashRateChart->graph()->setBrush(QBrush(withAlpha(accentColor, 48)));
-  m_ui->m_hashRateChart->graph(1)->setPen(QPen(withAlpha(meanLineColor, 185), 1.1, Qt::DashLine));
+  m_ui->m_hashRateChart->graph(1)->setVisible(false);
+  m_ui->m_hashRateChart->graph(1)->setPen(QPen(Qt::NoPen));
   m_ui->m_hashRateChart->graph(1)->setBrush(Qt::NoBrush);
   if (m_peakHashRateLine != nullptr) {
-    m_peakHashRateLine->setPen(QPen(withAlpha(textColor, 150), 1.0, Qt::DashLine));
+    m_peakHashRateLine->setVisible(false);
   }
   for (int markerIndex = 0; markerIndex < m_hashRateEventMarkers.size(); ++markerIndex) {
-    const bool markerHighlight = markerIndex < m_hashRateEventMarkerHighlights.size() && m_hashRateEventMarkerHighlights.at(markerIndex);
-    m_hashRateEventMarkers.at(markerIndex)->setPen(eventMarkerPen(backgroundColor, markerHighlight));
+    m_hashRateEventMarkers.at(markerIndex)->setVisible(false);
   }
 
   m_ui->m_difficultyChart->graph()->setPen(QPen(accentColor, 1.0));
@@ -253,10 +242,10 @@ void MiningFrame::applyChartPalette() {
 
   m_ui->m_hashRateChart->xAxis->setSubTickPen(QPen(subTickColor));
   m_ui->m_hashRateChart->yAxis->setSubTickPen(QPen(subTickColor));
-  m_ui->m_hashRateChart->xAxis->grid()->setPen(QPen(gridColor, 1, Qt::DotLine));
-  m_ui->m_hashRateChart->yAxis->grid()->setPen(QPen(gridColor, 1, Qt::DotLine));
-  m_ui->m_hashRateChart->xAxis->grid()->setSubGridPen(QPen(withAlpha(gridColor, 24), 1, Qt::DotLine));
-  m_ui->m_hashRateChart->yAxis->grid()->setSubGridPen(QPen(withAlpha(gridColor, 24), 1, Qt::DotLine));
+  m_ui->m_hashRateChart->xAxis->grid()->setPen(QPen(gridColor, 1, Qt::SolidLine));
+  m_ui->m_hashRateChart->yAxis->grid()->setPen(QPen(gridColor, 1, Qt::SolidLine));
+  m_ui->m_hashRateChart->xAxis->grid()->setSubGridVisible(false);
+  m_ui->m_hashRateChart->yAxis->grid()->setSubGridVisible(false);
 
   m_ui->m_hashRateChart->xAxis->setBasePen(QPen(axisColor));
   m_ui->m_hashRateChart->yAxis->setBasePen(QPen(axisColor));
@@ -365,23 +354,7 @@ void MiningFrame::plotDifficulty() {
 }
 
 void MiningFrame::addHashRateEventMarker(bool _highlight) {
-  if (m_hX.isEmpty()) {
-    return;
-  }
-
-  const double x = QDateTime::currentDateTime().toSecsSinceEpoch();
-  const QColor backgroundColor = palette().color(QPalette::Window);
-  QCPItemLine* marker = new QCPItemLine(m_ui->m_hashRateChart);
-  marker->start->setCoords(x, 0);
-  marker->end->setCoords(x, std::max<double>(10, m_maxHr * 1.15));
-  marker->setPen(eventMarkerPen(backgroundColor, _highlight));
-  m_hashRateEventMarkers.append(marker);
-  m_hashRateEventMarkerHighlights.append(_highlight);
-
-  while (m_hashRateEventMarkers.size() > 40) {
-    m_ui->m_hashRateChart->removeItem(m_hashRateEventMarkers.takeFirst());
-    m_hashRateEventMarkerHighlights.takeFirst();
-  }
+  Q_UNUSED(_highlight);
 }
 
 void MiningFrame::appendMiningEvent(const QString& _kind, const QString& _message) {
@@ -488,6 +461,19 @@ void MiningFrame::applyCpuPreset(double _fraction) {
   m_ui->m_cpuCoresSpin->setValue(std::min(cores, maxCores));
 }
 
+void MiningFrame::setMiningStatusBadge(const QString& _text, const QString& _backgroundColor, const QString& _textColor) {
+  m_ui->m_soloLabel->setText(_text);
+  m_ui->m_soloLabel->setStyleSheet(QStringLiteral(
+      "QLabel#m_soloLabel {"
+      "  background: %1;"
+      "  color: %2;"
+      "  border-radius: 10px;"
+      "  padding: 1px 6px;"
+      "  font-weight: bold;"
+      "}")
+      .arg(_backgroundColor, _textColor));
+}
+
 void MiningFrame::scheduleMiningThreadsChange(int _threads) {
   m_pendingMiningThreads = _threads;
   m_threadResizeTimer.start(m_solo_mining ? 900 : 500);
@@ -539,7 +525,7 @@ void MiningFrame::plot()
   if (m_peakHashRateLine != nullptr && m_sessionPeakHashRate > 0) {
     m_peakHashRateLine->point1->setCoords(0, m_sessionPeakHashRate);
     m_peakHashRateLine->point2->setCoords(1, m_sessionPeakHashRate);
-    m_peakHashRateLine->setVisible(true);
+    m_peakHashRateLine->setVisible(false);
   }
   for (QCPItemLine* marker : m_hashRateEventMarkers) {
     marker->end->setCoords(marker->start->key(), yRangeMax);
@@ -564,7 +550,7 @@ void MiningFrame::timerEvent(QTimerEvent* _event) {
       appendMiningEvent(QStringLiteral("PEAK"), tr("New session peak %1").arg(formatHashRate(hashRate)));
     }
 
-    m_ui->m_soloLabel->setText(tr("Mining"));
+    setMiningStatusBadge(tr("Mining"), QStringLiteral("rgba(91, 171, 118, 65)"), QStringLiteral("#246d3f"));
     m_ui->m_hashratelcdNumber->display(hashRate);
     addPoint(QDateTime::currentDateTime().toSecsSinceEpoch(), hashRate);
     updateSessionStats();
@@ -640,7 +626,7 @@ void MiningFrame::startSolo() {
 
   resetSessionStats();
   if (!m_miner->start(m_ui->m_cpuCoresSpin->value())) {
-    m_ui->m_soloLabel->setText(tr("Failed to start"));
+    setMiningStatusBadge(tr("Failed"), QStringLiteral("rgba(191, 92, 92, 70)"), QStringLiteral("#7f3030"));
     m_ui->m_startSolo->setChecked(false);
     m_ui->m_startSolo->setEnabled(true);
     m_ui->m_stopSolo->setEnabled(false);
@@ -648,7 +634,7 @@ void MiningFrame::startSolo() {
     return;
   }
 
-  m_ui->m_soloLabel->setText(tr("Starting..."));
+  setMiningStatusBadge(tr("Starting..."), QStringLiteral("rgba(219, 178, 83, 75)"), QStringLiteral("#7a5a16"));
   m_soloHashRateTimerId = startTimer(HASHRATE_TIMER_INTERVAL);
   m_minerRoutineTimerId = startTimer(MINER_ROUTINE_TIMER_INTERVAL);
   m_ui->m_startSolo->setChecked(true);
@@ -665,7 +651,7 @@ void MiningFrame::stopSolo() {
     m_minerRoutineTimerId = -1;
     m_miner->stop();
     addPoint(QDateTime::currentDateTime().toSecsSinceEpoch(), 0);
-    m_ui->m_soloLabel->setText(tr("Stopped"));
+    setMiningStatusBadge(tr("Stopped"), QStringLiteral("rgba(191, 92, 92, 70)"), QStringLiteral("#7f3030"));
     m_ui->m_hashratelcdNumber->display(0.0);
     m_lastHashRate = 0;
     updateSessionStats();
@@ -756,6 +742,7 @@ void MiningFrame::updateMinerLog(const QString& _message) {
 
 void MiningFrame::onMinerStarted(quint32 _threads, quint64 _difficulty) {
   updateDifficulty(_difficulty);
+  setMiningStatusBadge(tr("Mining"), QStringLiteral("rgba(91, 171, 118, 65)"), QStringLiteral("#246d3f"));
   appendMiningEvent(QStringLiteral("START"), tr("Mining started with %n thread(s) at difficulty %1", nullptr, _threads).arg(formatMagnitude(_difficulty)));
 }
 
@@ -776,7 +763,7 @@ void MiningFrame::onMinerStopped(quint32 _threads) {
   }
 
   addPoint(QDateTime::currentDateTime().toSecsSinceEpoch(), 0);
-  m_ui->m_soloLabel->setText(tr("Stopped"));
+  setMiningStatusBadge(tr("Stopped"), QStringLiteral("rgba(191, 92, 92, 70)"), QStringLiteral("#7f3030"));
   m_ui->m_hashratelcdNumber->display(0.0);
   m_lastHashRate = 0;
   updateSessionStats();
@@ -824,6 +811,7 @@ void MiningFrame::onBlockFound(const QString& _hash, quint64 _height, quint64 _d
 }
 
 void MiningFrame::onMinerError(const QString& _message) {
+  setMiningStatusBadge(tr("Error"), QStringLiteral("rgba(191, 92, 92, 70)"), QStringLiteral("#7f3030"));
   appendMiningEvent(QStringLiteral("ERROR"), _message);
 }
 

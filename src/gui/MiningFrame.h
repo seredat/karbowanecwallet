@@ -84,6 +84,7 @@ private:
   void updateSessionStats();
   void updateCpuIntensity();
   void applyCpuPreset(double _fraction);
+  void setMiningStatusBadge(const QString& _text, const QString& _backgroundColor, const QString& _textColor);
   void scheduleMiningThreadsChange(int _threads);
   void applyPendingMiningThreads();
   void walletOpened();
